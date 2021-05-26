@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CubeMaker : MonoBehaviour
+public class CubeMaker
 {
     public static GameObject CreateCube(string name, Vector3 position, Vector3 scale)
     {

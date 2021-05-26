@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CubeInstantiator : MonoBehaviour
+public class HoveringCubeInstantiator : MonoBehaviour
 {
     public Vector3 offsetFromDroppedCube;
-    public RuntimeAnimatorController cubeHoveringAnimator;
+    public RuntimeAnimatorController hoveringCubeAnimator;
 
     void Start()
     {
@@ -13,12 +13,16 @@ public class CubeInstantiator : MonoBehaviour
         GameEvents.DroppedAndCollidedEvent.AddListener(HandleDroppedAndCollidedEvent);
     }
 
+    // event handlers:
+
     private void HandleDroppedAndCollidedEvent(GameObject droppedCube)
     {
-        GameObject newHoveringCube = InstantiateHoveringCube(droppedCube);
-        AttachComponentsToHoveringCube(newHoveringCube);
-        UpdateHoveringCubeReference(newHoveringCube);
+        GameObject newHoveringCubeParent = InstantiateHoveringCube(droppedCube);
+        AttachComponentsToHoveringCube(newHoveringCubeParent);
+        UpdateHoveringCubeReference(newHoveringCubeParent);
     }
+
+    // helper methods:
 
     private GameObject InstantiateHoveringCube(GameObject droppedCube)
     {
@@ -30,17 +34,20 @@ public class CubeInstantiator : MonoBehaviour
         Vector3 newScale = droppedCube.transform.localScale;
 
         // create and return cube:
-        return CubeMaker.CreateCube("Hovering", newPos, newScale);
+        return HoveringCubeMaker.CreateHoveringCube("Hovering", newPos, newScale);
     }
 
-    private void AttachComponentsToHoveringCube(GameObject hoveringCube)
+    private void AttachComponentsToHoveringCube(GameObject hoveringCubeParent)
     {
+        // get child:
+        GameObject hoveringCubeChild = hoveringCubeParent.transform.GetChild(0).gameObject;
+
         // attach behavior script:
-        hoveringCube.AddComponent<DroppedCubeBehavior>();
+        hoveringCubeChild.AddComponent<DroppedCubeBehavior>();
 
         // attach animator:
-        Animator animator = hoveringCube.AddComponent<Animator>();
-        animator.runtimeAnimatorController = cubeHoveringAnimator;
+        Animator animator = hoveringCubeChild.AddComponent<Animator>();
+        animator.runtimeAnimatorController = hoveringCubeAnimator;
 
         // randomize animations:
         RandomizeAnimation(animator);
@@ -52,8 +59,8 @@ public class CubeInstantiator : MonoBehaviour
         animator.SetInteger("index", animIndex);
     }
 
-    private void UpdateHoveringCubeReference(GameObject hoveringCube)
+    private void UpdateHoveringCubeReference(GameObject hoveringCubeParent)
     {
-        GameEvents.UpdateHoveringCubeReferenceEvent.Invoke(hoveringCube);
+        GameEvents.UpdateHoveringCubeReferenceEvent.Invoke(hoveringCubeParent);
     }
 }

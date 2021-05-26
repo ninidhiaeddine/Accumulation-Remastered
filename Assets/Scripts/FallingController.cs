@@ -5,14 +5,10 @@ using UnityEngine;
 public class FallingController : MonoBehaviour
 {
     // helpers variables:
-    public GameObject hoveringCube;
-    private Animator hoverinCubeAnimator;
-
     private int droppedCounter = 0;
 
     private void Start()
     {
-        InitializeVariables();
         InitializeEventListeners();
     }
 
@@ -23,15 +19,9 @@ public class FallingController : MonoBehaviour
 
     // helper methods:
 
-    private void InitializeVariables()
-    {
-        this.hoverinCubeAnimator = this.hoveringCube.GetComponent<Animator>();
-    }
-
     private void InitializeEventListeners()
     {
         GameEvents.DroppedAndCollidedEvent.AddListener(HandleDroppedAndCollidedEvent);
-        GameEvents.UpdateHoveringCubeReferenceEvent.AddListener(HandleUpdateHoveringCubeReferenceEvent);
     }
 
     private void HandleInput()
@@ -42,17 +32,15 @@ public class FallingController : MonoBehaviour
 
     private void DropHoveringCube()
     {
-        // remove animator:
-        Destroy(hoverinCubeAnimator);
+        // get reference to the child:
+        GameObject hoveringCubeChild = HoveringCubeTracker.instance.Child;
 
-        // add rigidbody to simulate dropping physics:
-        hoveringCube.AddComponent<Rigidbody>();
-    }
+        // 1. remove animator:
+        Animator animator = hoveringCubeChild.GetComponent<Animator>();
+        Destroy(animator);
 
-    private void UpdateHoveringCube(GameObject newHoveringCube)
-    {
-        this.hoveringCube = newHoveringCube;
-        this.hoverinCubeAnimator = this.hoveringCube.GetComponent<Animator>();
+        // 2. add rigidbody to simulate dropping physics:
+        hoveringCubeChild.AddComponent<Rigidbody>();
     }
 
     private void RenameCube(GameObject cube, string name)
@@ -70,10 +58,5 @@ public class FallingController : MonoBehaviour
         // rename cube:
         string newName = $"Dropped{this.droppedCounter + 1}";
         RenameCube(droppedCube, newName);
-    }
-
-    private void HandleUpdateHoveringCubeReferenceEvent(GameObject newHoveringCube)
-    {
-        this.UpdateHoveringCube(newHoveringCube);
     }
 }

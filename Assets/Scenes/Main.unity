@@ -264,6 +264,7 @@ Transform:
   - {fileID: 147525454}
   - {fileID: 1942730661}
   - {fileID: 1879512907}
+  - {fileID: 1584687526}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -426,7 +427,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b09c28ed6e8ac34a8dc1ca16ead529f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoveringCube: {fileID: 1690757622}
 --- !u!1 &659558169
 GameObject:
   m_ObjectHideFlags: 0
@@ -663,6 +663,81 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &1584687525
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1584687526}
+  - component: {fileID: 1584687527}
+  m_Layer: 0
+  m_Name: HoveringCubeTracker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1584687526
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1584687525}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 62942632}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1584687527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1584687525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fa3941b723999d4d8ffe690de364696, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialHoveringCubeParent: {fileID: 1643263572}
+--- !u!1 &1643263572
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1643263573}
+  m_Layer: 0
+  m_Name: HoveringParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1643263573
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643263572}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1690757626}
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1690757622
 GameObject:
   m_ObjectHideFlags: 0
@@ -678,7 +753,7 @@ GameObject:
   - component: {fileID: 1690757627}
   - component: {fileID: 1690757628}
   m_Layer: 0
-  m_Name: Hovering
+  m_Name: HoveringChild
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -753,12 +828,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1690757622}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5, y: 1, z: 5}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_Father: {fileID: 1643263573}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1690757627
 Animator:
@@ -802,7 +877,7 @@ GameObject:
   - component: {fileID: 1879512907}
   - component: {fileID: 1879512908}
   m_Layer: 0
-  m_Name: CubeInstantiator
+  m_Name: HoveringCubeInstantiator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -834,8 +909,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12625133144c2e14ca9ee06800a24cc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offsetFromDroppedCube: {x: 0, y: 3, z: 0}
-  cubeHoveringAnimator: {fileID: 9100000, guid: dd9d4ed3079791546a2b280732e3b210, type: 2}
+  offsetFromDroppedCube: {x: 0, y: 5, z: 0}
+  hoveringCubeAnimator: {fileID: 9100000, guid: dd9d4ed3079791546a2b280732e3b210, type: 2}
 --- !u!1 &1942730660
 GameObject:
   m_ObjectHideFlags: 0
