@@ -7,7 +7,7 @@ public class DroppedCubeBehavior : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         // invoke event:
-        GameEvents.DroppedAndCollidedEvent.Invoke(this.gameObject);
+        GameEvents.DroppedAndCollidedEvent.Invoke(this.gameObject, collision.gameObject);
 
         // remove components:
         RemoveHoveringCubeComponents();

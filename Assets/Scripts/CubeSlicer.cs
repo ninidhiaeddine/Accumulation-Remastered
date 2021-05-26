@@ -102,6 +102,7 @@ public class CubeSlicer
     {
         // compute cube bounds:
         CubeBounds bounds = new CubeBounds(cube);
+        Debug.Log($"{bounds.XInterval} | {bounds.YInterval} | {bounds.ZInterval}");
 
         switch (axisToSliceAlong)
         {

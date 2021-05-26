@@ -7,31 +7,45 @@ public class HoveringCubeInstantiator : MonoBehaviour
     public Vector3 offsetFromDroppedCube;
     public RuntimeAnimatorController hoveringCubeAnimator;
 
+    [HideInInspector]
+    public int AnimationIndex { get; private set; }
+
+    // singleton:
+    public static HoveringCubeInstantiator instance;
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(this);
+    }
+
     void Start()
     {
         // add event listener:
-        GameEvents.DroppedAndCollidedEvent.AddListener(HandleDroppedAndCollidedEvent);
+        GameEvents.DroppedAndSlicedEvent.AddListener(HandleDroppedAndSlicedEvent);
     }
 
     // event handlers:
 
-    private void HandleDroppedAndCollidedEvent(GameObject droppedCube)
+    private void HandleDroppedAndSlicedEvent(GameObject staticCube, GameObject fallingCube)
     {
-        GameObject newHoveringCubeParent = InstantiateHoveringCube(droppedCube);
+        GameObject newHoveringCubeParent = InstantiateHoveringCube(staticCube);
         AttachComponentsToHoveringCube(newHoveringCubeParent);
         UpdateHoveringCubeReference(newHoveringCubeParent);
     }
 
     // helper methods:
 
-    private GameObject InstantiateHoveringCube(GameObject droppedCube)
+    private GameObject InstantiateHoveringCube(GameObject staticCube)
     {
         // retrieve position of dropped cube:
-        Vector3 droppedCubePos = droppedCube.transform.position;
+        Vector3 droppedCubePos = staticCube.transform.position;
 
         // calculate new position and scale based on settings:
         Vector3 newPos = droppedCubePos + offsetFromDroppedCube;
-        Vector3 newScale = droppedCube.transform.localScale;
+        Vector3 newScale = staticCube.transform.localScale;
 
         // create and return cube:
         return HoveringCubeMaker.CreateHoveringCube("Hovering", newPos, newScale);
@@ -55,8 +69,8 @@ public class HoveringCubeInstantiator : MonoBehaviour
 
     private void RandomizeAnimation(Animator animator)
     {
-        int animIndex = Random.Range(0, 2);
-        animator.SetInteger("index", animIndex);
+        AnimationIndex = Random.Range(0, 2);
+        animator.SetInteger("index", AnimationIndex);
     }
 
     private void UpdateHoveringCubeReference(GameObject hoveringCubeParent)
