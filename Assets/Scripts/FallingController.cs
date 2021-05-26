@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FallingController : MonoBehaviour
@@ -43,9 +41,10 @@ public class FallingController : MonoBehaviour
         hoveringCubeChild.AddComponent<Rigidbody>();
     }
 
-    private void RenameCube(GameObject cube, string name)
+    private void RenameHoveringCube(GameObject hoveringCubeChild, string name)
     {
-        cube.name = name;
+        hoveringCubeChild.name = $"HoveringChild{name}";
+        hoveringCubeChild.transform.parent.gameObject.name = $"HoveringParent{name}";
     }
 
     // event handlers:
@@ -56,7 +55,7 @@ public class FallingController : MonoBehaviour
         this.droppedCounter++;
 
         // rename cube:
-        string newName = $"Dropped{this.droppedCounter + 1}";
-        RenameCube(droppedCube, newName);
+        string newName = $"Dropped{this.droppedCounter}";
+        RenameHoveringCube(droppedCube, newName);
     }
 }
