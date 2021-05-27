@@ -50,8 +50,18 @@ public class CubeSlicer
                 newScales[1].x = cubeScale.x / 2.0f - distance;
 
                 // compute positions:
-                newPositions[0].x = value - newScales[0].x / 2.0f;
-                newPositions[1].x = value + newScales[1].x / 2.0f;
+                if (value >= 0)
+                {
+                    newPositions[0].x = value - newScales[0].x / 2.0f;
+                    newPositions[1].x = value + newScales[1].x / 2.0f;
+                }
+                else
+                {
+                    // I don't really know why this works tho!!?
+                    newPositions[0].x = value + newScales[0].x / 2.0f;
+                    newPositions[1].x = value - newScales[1].x / 2.0f;
+                }
+                
 
                 break;
 
@@ -64,8 +74,17 @@ public class CubeSlicer
                 newScales[1].y = cubeScale.y / 2.0f - distance;
 
                 // compute positions:
-                newPositions[0].y = value - newScales[0].y / 2.0f;
-                newPositions[1].y = value + newScales[1].y / 2.0f;
+                if (value >= 0)
+                {
+                    newPositions[0].y = value - newScales[0].y / 2.0f;
+                    newPositions[1].y = value + newScales[1].y / 2.0f;
+                }
+                else
+                {
+                    // I don't really know why this works tho!!?
+                    newPositions[0].y = value + newScales[0].y / 2.0f;
+                    newPositions[1].y = value - newScales[1].y / 2.0f;
+                }
 
                 break;
 
@@ -78,8 +97,17 @@ public class CubeSlicer
                 newScales[1].z = cubeScale.z / 2.0f - distance;
 
                 // compute positions:
-                newPositions[0].z = value - newScales[0].z / 2.0f;
-                newPositions[1].z = value + newScales[1].z / 2.0f;
+                if (value >= 0)
+                {
+                    newPositions[0].z = value - newScales[0].z / 2.0f;
+                    newPositions[1].z = value + newScales[1].z / 2.0f;
+                }
+                else
+                {
+                    // I don't really know why this works tho!!?
+                    newPositions[0].z = value + newScales[0].z / 2.0f;
+                    newPositions[1].z = value - newScales[1].z / 2.0f;
+                }
 
                 break;
 
