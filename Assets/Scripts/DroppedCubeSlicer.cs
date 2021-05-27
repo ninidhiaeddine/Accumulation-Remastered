@@ -74,7 +74,6 @@ public class DroppedCubeSlicer : MonoBehaviour
     {
         if (Helpers.GameObjectIsInTheAir(slicedCubes[0]))
         {
-            Debug.Log($"GameObject with position = {slicedCubes[0].transform.position} is in the air");
             // color cubes temporarily:
             slicedCubes[1].GetComponent<Renderer>().material.color = Color.green;
             slicedCubes[0].GetComponent<Renderer>().material.color = Color.red;
@@ -87,7 +86,6 @@ public class DroppedCubeSlicer : MonoBehaviour
         }
         else
         {
-            Debug.Log($"GameObject with position = {slicedCubes[1].transform.position} is in the air");
             // color cubes temporarily:
             slicedCubes[0].GetComponent<Renderer>().material.color = Color.green;
             slicedCubes[1].GetComponent<Renderer>().material.color = Color.red;
