@@ -21,6 +21,7 @@ public class CubeSlicer
     /// <returns>2 Cubes correctly positioned and scaled.</returns>
     public static GameObject[] SliceCube(GameObject cube, Axis axisToSliceAlong, float value)
     {
+        Debug.Log("axisToSliceAlong=" + axisToSliceAlong + " | value=" + value);
         if (!AxisIntersectsCube(cube, axisToSliceAlong, value))
             throw new Exception("The Axis specified does not intersect the cube in any point.");
 
@@ -43,71 +44,43 @@ public class CubeSlicer
         {
             case Axis.XAxis:
                 // compute distance:
-                distance = Mathf.Abs(cubePos.x - value);
+                distance = cubePos.x - value;
 
                 // compute scales:
                 newScales[0].x = cubeScale.x / 2.0f + distance;
                 newScales[1].x = cubeScale.x / 2.0f - distance;
 
                 // compute positions:
-                if (value >= 0)
-                {
-                    newPositions[0].x = value - newScales[0].x / 2.0f;
-                    newPositions[1].x = value + newScales[1].x / 2.0f;
-                }
-                else
-                {
-                    // I don't really know why this works tho!!?
-                    newPositions[0].x = value + newScales[0].x / 2.0f;
-                    newPositions[1].x = value - newScales[1].x / 2.0f;
-                }
-                
+                newPositions[0].x = value + newScales[0].x / 2.0f;
+                newPositions[1].x = value - newScales[1].x / 2.0f;                
 
                 break;
 
             case Axis.YAxis:
                 // compute distance:
-                distance = Mathf.Abs(cubePos.y - value);
+                distance = cubePos.y - value;
 
                 // compute scales:
                 newScales[0].y = cubeScale.y / 2.0f + distance;
                 newScales[1].y = cubeScale.y / 2.0f - distance;
 
                 // compute positions:
-                if (value >= 0)
-                {
-                    newPositions[0].y = value - newScales[0].y / 2.0f;
-                    newPositions[1].y = value + newScales[1].y / 2.0f;
-                }
-                else
-                {
-                    // I don't really know why this works tho!!?
-                    newPositions[0].y = value + newScales[0].y / 2.0f;
-                    newPositions[1].y = value - newScales[1].y / 2.0f;
-                }
+                newPositions[0].y = value + newScales[0].y / 2.0f;
+                newPositions[1].y = value - newScales[1].y / 2.0f;
 
                 break;
 
             case Axis.ZAxis:
                 // compute distance:
-                distance = Mathf.Abs(cubePos.z - value);
+                distance = cubePos.z - value;
 
                 // compute scales:
                 newScales[0].z = cubeScale.z / 2.0f + distance;
                 newScales[1].z = cubeScale.z / 2.0f - distance;
 
                 // compute positions:
-                if (value >= 0)
-                {
-                    newPositions[0].z = value - newScales[0].z / 2.0f;
-                    newPositions[1].z = value + newScales[1].z / 2.0f;
-                }
-                else
-                {
-                    // I don't really know why this works tho!!?
-                    newPositions[0].z = value + newScales[0].z / 2.0f;
-                    newPositions[1].z = value - newScales[1].z / 2.0f;
-                }
+                newPositions[0].z = value + newScales[0].z / 2.0f;
+                newPositions[1].z = value - newScales[1].z / 2.0f;
 
                 break;
 

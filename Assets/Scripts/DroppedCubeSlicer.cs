@@ -84,7 +84,7 @@ public class DroppedCubeSlicer : MonoBehaviour
             // invoke event:
             GameEvents.DroppedAndSlicedEvent.Invoke(slicedCubes[1], slicedCubes[0]);
         }
-        else
+        else if (Helpers.GameObjectIsInTheAir(slicedCubes[1]))
         {
             // color cubes temporarily:
             slicedCubes[0].GetComponent<Renderer>().material.color = Color.green;
@@ -95,6 +95,10 @@ public class DroppedCubeSlicer : MonoBehaviour
 
             // invoke event:
             GameEvents.DroppedAndSlicedEvent.Invoke(slicedCubes[0], slicedCubes[1]);
+        }
+        else
+        {
+            throw new System.Exception("Unexpected situation. Both cubes are not in the air?");
         }
     }
     

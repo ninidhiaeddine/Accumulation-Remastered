@@ -25,6 +25,7 @@ public class FallingController : MonoBehaviour
         Destroy(animator);
 
         // 2. add rigidbody to simulate dropping physics:
-        hoveringCubeChild.AddComponent<Rigidbody>();
+        if (hoveringCubeChild.GetComponent<Rigidbody>() == null)
+            hoveringCubeChild.AddComponent<Rigidbody>();
     }
 }

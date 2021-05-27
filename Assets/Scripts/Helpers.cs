@@ -9,6 +9,6 @@ public class Helpers
 
         Ray ray = new Ray(origin, direction);
 
-        return !Physics.Raycast(ray);
+        return !Physics.Raycast(ray, maxDistance: 1.0f);
     }
 }
