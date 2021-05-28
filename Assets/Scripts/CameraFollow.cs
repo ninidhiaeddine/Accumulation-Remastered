@@ -13,7 +13,6 @@ public class CameraFollow : MonoBehaviour
 
     private void HandleUpdateHoveringCubeReferenceEvent(GameObject hoveringCube)
     {
-        Debug.Log("Received new target: " + hoveringCube.transform.position);
         SetTarget(hoveringCube.transform);
     }
 

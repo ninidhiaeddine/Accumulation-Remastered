@@ -21,7 +21,6 @@ public class CubeSlicer
     /// <returns>2 Cubes correctly positioned and scaled.</returns>
     public static GameObject[] SliceCube(GameObject cube, Axis axisToSliceAlong, float value)
     {
-        Debug.Log("axisToSliceAlong=" + axisToSliceAlong + " | value=" + value);
         if (!AxisIntersectsCube(cube, axisToSliceAlong, value))
             throw new Exception("The Axis specified does not intersect the cube in any point.");
 
