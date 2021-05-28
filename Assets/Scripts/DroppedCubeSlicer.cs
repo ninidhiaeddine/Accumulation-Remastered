@@ -74,8 +74,40 @@ public class DroppedCubeSlicer : MonoBehaviour
 
                 break;
 
+            case 2:
+                axisToSliceAlong = Axis.XAxis;
+                distance = droppedCube.transform.position.x - cubeBelowDroppedCube.transform.position.x;
+
+                if (distance > 0)
+                    value = cubeBelowDroppedCubeBounds.XInterval.UpperBound;
+                else if (distance < 0)
+                    value = cubeBelowDroppedCubeBounds.XInterval.LowerBound;
+                else
+                {
+                    // no slicing needed
+                    return;
+                }
+
+                break;
+
+            case 3:
+                axisToSliceAlong = Axis.ZAxis;
+                distance = droppedCube.transform.position.z - cubeBelowDroppedCube.transform.position.z;
+
+                if (distance > 0)
+                    value = cubeBelowDroppedCubeBounds.ZInterval.UpperBound;
+                else if (distance < 0)
+                    value = cubeBelowDroppedCubeBounds.ZInterval.LowerBound;
+                else
+                {
+                    // no slicing needed
+                    return;
+                }
+
+                break;
+
             default:
-                throw new System.Exception("Unexpected Animation Index");
+                throw new System.Exception("Unexpected Animation Index: " + animIndex);
         }
 
         // slice cube:

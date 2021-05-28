@@ -70,7 +70,7 @@ public class HoveringCubeInstantiator : MonoBehaviour
 
     private void RandomizeAnimation(Animator animator)
     {
-        AnimationIndex = Random.Range(0, 2);
+        AnimationIndex = Random.Range(0, 4);
         animator.SetInteger("index", AnimationIndex);
     }
 
