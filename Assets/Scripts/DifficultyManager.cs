@@ -4,8 +4,21 @@ using UnityEngine;
 
 public class DifficultyManager : MonoBehaviour
 {
+    // settings:
     public float animationSpeedRatio = 1.0f;
     public Animator hoveringAnimator;
+
+    // singleton:
+    public static DifficultyManager instance;
+
+    private void Awake()
+    {
+        // enforce singleton:
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(this.gameObject);
+    }
 
     private void Start()
     {

@@ -6,6 +6,18 @@ public class DroppedCubeSlicer : MonoBehaviour
 {
     private GameObject[] slicedCubes;
 
+    // singleton:
+    public static DroppedCubeSlicer instance;
+
+    private void Awake()
+    {
+        // enforce singleton:
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(this.gameObject);
+    }
+
     void Start()
     {
         InitializeEventListeners();
@@ -72,7 +84,7 @@ public class DroppedCubeSlicer : MonoBehaviour
 
     private void ProcessSlicedCubes()
     {
-        if (Helpers.GameObjectIsInTheAir(slicedCubes[0]))
+        if (RaycastHelper.GameObjectIsInTheAir(slicedCubes[0]))
         {
             // attach rigid body to the sliced cube in the air so that it falls
             slicedCubes[0].AddComponent<Rigidbody>();
@@ -80,7 +92,7 @@ public class DroppedCubeSlicer : MonoBehaviour
             // invoke event:
             GameEvents.DroppedAndSlicedEvent.Invoke(slicedCubes[1], slicedCubes[0]);
         }
-        else if (Helpers.GameObjectIsInTheAir(slicedCubes[1]))
+        else if (RaycastHelper.GameObjectIsInTheAir(slicedCubes[1]))
         {
             // attach rigid body to the sliced cube in the air so that it falls
             slicedCubes[1].AddComponent<Rigidbody>();

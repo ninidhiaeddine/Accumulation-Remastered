@@ -14,6 +14,7 @@ public class HoveringCubeTracker : MonoBehaviour
 
     private void Awake()
     {
+        // enforce singleton:
         if (instance == null)
             instance = this;
         else

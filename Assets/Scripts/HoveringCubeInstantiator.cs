@@ -15,10 +15,11 @@ public class HoveringCubeInstantiator : MonoBehaviour
 
     private void Awake()
     {
+        // enforce singleton:
         if (instance == null)
             instance = this;
         else
-            Destroy(this);
+            Destroy(this.gameObject);
     }
 
     void Start()
