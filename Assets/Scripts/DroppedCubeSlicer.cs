@@ -7,6 +7,7 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventListener
     // helper variables:
     private GameObject[] slicedCubes;
     private bool isGameOver = false;
+    private bool isApproximated = false;
 
     // singleton:
     public static DroppedCubeSlicer instance;
@@ -29,8 +30,9 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventListener
 
     public void InitializeEventListeners()
     {
-        GameEvents.DroppedAndCollidedEvent.AddListener(HandleDroppedAndCollidedEvent);
+        GameEvents.DistanceApproximatedEvent.AddListener(HandleDistanceApprimxatedEvent);
         GameEvents.GameOverEvent.AddListener(HandleGameOverEvent);
+        GameEvents.DroppedAndCollidedEvent.AddListener(HandleDroppedAndCollidedEvent);
     }
 
     private void SliceDroppedCube(GameObject droppedCube, GameObject cubeBelowDroppedCube)
@@ -117,7 +119,7 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventListener
         slicedCubes = CubeSlicer.SliceCube(droppedCube, axisToSliceAlong, value);
     }
 
-    private void ProcessSlicedCubes()
+    private void ProcessAndNotifySlicedCubes()
     {
         if (RaycastHelper.GameObjectIsInTheAir(slicedCubes[0]))
         {
@@ -125,7 +127,7 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventListener
             slicedCubes[0].AddComponent<Rigidbody>();
 
             // invoke event:
-            GameEvents.DroppedAndSlicedEvent.Invoke(slicedCubes[1], slicedCubes[0]);
+            InvokeSlicedCubesEvent(slicedCubes[1], slicedCubes[0]);
         }
         else if (RaycastHelper.GameObjectIsInTheAir(slicedCubes[1]))
         {
@@ -133,34 +135,60 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventListener
             slicedCubes[1].AddComponent<Rigidbody>();
 
             // invoke event:
-            GameEvents.DroppedAndSlicedEvent.Invoke(slicedCubes[0], slicedCubes[1]);
+            InvokeSlicedCubesEvent(slicedCubes[0], slicedCubes[1]);
         }
         else
         {
             throw new System.Exception("Unexpected situation. Both cubes are not in the air?");
         }
     }
-    
+
+    private void InvokeSlicedCubesEvent(GameObject staticCube, GameObject fallingCube)
+    {
+        GameEvents.DroppedAndSlicedEvent.Invoke(staticCube, fallingCube);
+    }
+
+    private void InvokeSlicedCubesEvent(GameObject staticCube)
+    {
+        GameEvents.DroppedAndSlicedEvent.Invoke(staticCube, null);
+    }
+
     // event handlers:
 
     private void HandleDroppedAndCollidedEvent(GameObject droppedCube, GameObject cubeBelowDroppedCube)
     {
-        // only slice cubes when game is not over:
+        // only slice cubes when game is not over AND distance is not approximated:
         if (!isGameOver)
         {
-            // slice dropped cube
-            SliceDroppedCube(droppedCube, cubeBelowDroppedCube);
+            if (!isApproximated)
+            {
+                // slice dropped cube
+                SliceDroppedCube(droppedCube, cubeBelowDroppedCube);
 
-            // destroy cube:
-            Destroy(droppedCube.transform.parent.gameObject);
+                // destroy cube:
+                Destroy(droppedCube.transform.parent.gameObject);
 
-            // process sliced cubes:
-            ProcessSlicedCubes();
+                // process sliced cubes:
+                ProcessAndNotifySlicedCubes();
+            }
+            else
+            {
+                // notify:
+                InvokeSlicedCubesEvent(droppedCube);
+            }
+
+            // return (is distance approximated) to default:
+            isApproximated = false;
         }
     }
 
     private void HandleGameOverEvent()
     {
         this.isGameOver = true;
+    }
+
+    private void HandleDistanceApprimxatedEvent(GameObject droppedCube)
+    {
+        this.isApproximated = true;
     }
 }

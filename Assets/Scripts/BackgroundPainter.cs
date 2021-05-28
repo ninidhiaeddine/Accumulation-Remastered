@@ -108,7 +108,6 @@ namespace ColorManagement
                 yield return new WaitForEndOfFrame();
                 t += Time.deltaTime / duration;
             }
-            
         }
     }
 }

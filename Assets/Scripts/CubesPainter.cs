@@ -145,7 +145,8 @@ namespace ColorManagement
 
         private void ColorCube(GameObject cube, ColorOrder colorOrder)
         {
-            cube.GetComponent<Renderer>().material.color = GetColor(colorOrder);
+            if (cube != null)
+                cube.GetComponent<Renderer>().material.color = GetColor(colorOrder);
         }
 
         // event handlers:
