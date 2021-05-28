@@ -6,6 +6,7 @@ public class DroppedAndCollidedEvent : UnityEvent<GameObject, GameObject> { }
 public class UpdateHoveringCubeReferenceEvent : UnityEvent<GameObject> { }
 public class DroppedAndSlicedEvent : UnityEvent<GameObject, GameObject> { }
 public class GeneratedPaletteEvent : UnityEvent<List<Color>> { }
+public class GameOverEvent : UnityEvent { }
 
 public class GameEvents : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class GameEvents : MonoBehaviour
     public static DroppedAndSlicedEvent DroppedAndSlicedEvent;
     public static UpdateHoveringCubeReferenceEvent UpdateHoveringCubeReferenceEvent;
     public static GeneratedPaletteEvent GeneratedPaletteEvent;
+    public static GameOverEvent GameOverEvent;
 
     private void Awake()
     {
@@ -27,5 +29,8 @@ public class GameEvents : MonoBehaviour
 
         if (GeneratedPaletteEvent == null)
             GeneratedPaletteEvent = new GeneratedPaletteEvent();
+
+        if (GameOverEvent == null)
+            GameOverEvent = new GameOverEvent();
     }
 }

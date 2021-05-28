@@ -18,6 +18,9 @@ public class HoveringCubeMaker : CubeMaker
         Vector3 childScale = scale;
         GameObject child = CreateCube(childName, childPos, childScale);
 
+        // set tag:
+        child.tag = "Player";   // THIS IS IMPORTANT FOR DETECTING GAME OVER
+
         // set parent:
         child.transform.parent = parent.transform;
 

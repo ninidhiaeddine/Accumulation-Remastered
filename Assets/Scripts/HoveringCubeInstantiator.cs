@@ -10,6 +10,9 @@ public class HoveringCubeInstantiator : MonoBehaviour
     [HideInInspector]
     public int AnimationIndex { get; private set; }
 
+    // helper variable:
+    private bool isGameOver = false;
+
     // singleton:
     public static HoveringCubeInstantiator instance;
 
@@ -26,15 +29,25 @@ public class HoveringCubeInstantiator : MonoBehaviour
     {
         // add event listener:
         GameEvents.DroppedAndSlicedEvent.AddListener(HandleDroppedAndSlicedEvent);
+        GameEvents.GameOverEvent.AddListener(HandleGameOverEvent);
     }
 
     // event handlers:
 
     private void HandleDroppedAndSlicedEvent(GameObject staticCube, GameObject fallingCube)
     {
-        GameObject newHoveringCubeParent = InstantiateHoveringCube(staticCube);
-        AttachComponentsToHoveringCube(newHoveringCubeParent);
-        UpdateHoveringCubeReference(newHoveringCubeParent);
+        // only instantiate new hovering cubes when game is not over:
+        if (!isGameOver)
+        {
+            GameObject newHoveringCubeParent = InstantiateHoveringCube(staticCube);
+            AttachComponentsToHoveringCube(newHoveringCubeParent);
+            UpdateHoveringCubeReference(newHoveringCubeParent);
+        }
+    }
+
+    private void HandleGameOverEvent()
+    {
+        this.isGameOver = true;
     }
 
     // helper methods:
