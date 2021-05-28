@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraFollow : MonoBehaviour
+public class CameraFollow : MonoBehaviour, IEventListener
 {
     public Cinemachine.CinemachineVirtualCamera virtualCamera;
 
@@ -20,16 +20,27 @@ public class CameraFollow : MonoBehaviour
 
     private void Start()
     {
+        InitializeEventListeners();
+    }
+
+    // interface methods:
+
+    public void InitializeEventListeners()
+    {
         GameEvents.UpdateHoveringCubeReferenceEvent.AddListener(HandleUpdateHoveringCubeReferenceEvent);
     }
 
-    private void HandleUpdateHoveringCubeReferenceEvent(GameObject hoveringCube)
-    {
-        SetTarget(hoveringCube.transform);
-    }
+    // helper methods:
 
     private void SetTarget(Transform target)
     {
         virtualCamera.Follow = target;
+    }
+
+    // event handlers:
+
+    private void HandleUpdateHoveringCubeReferenceEvent(GameObject hoveringCube)
+    {
+        SetTarget(hoveringCube.transform);
     }
 }

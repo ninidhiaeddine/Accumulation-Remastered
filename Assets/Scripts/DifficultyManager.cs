@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DifficultyManager : MonoBehaviour
+public class DifficultyManager : MonoBehaviour, IEventListener
 {
     // settings:
     public float animationSpeedRatio = 1.0f;
@@ -23,14 +23,19 @@ public class DifficultyManager : MonoBehaviour
     private void Start()
     {
         SetAnimationSpeed();
-
-        // add event listeners:
-        GameEvents.UpdateHoveringCubeReferenceEvent.AddListener(HandleUpdateHoveringCubeReferenceEvent);
+        InitializeEventListeners();
     }
 
     private void OnValidate()
     {
         SetAnimationSpeed();
+    }
+
+    // interface methods:
+
+    public void InitializeEventListeners()
+    {
+        GameEvents.UpdateHoveringCubeReferenceEvent.AddListener(HandleUpdateHoveringCubeReferenceEvent);
     }
 
     // helper methods:

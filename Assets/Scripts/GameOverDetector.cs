@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GameOverDetector : MonoBehaviour
+public class GameOverDetector : MonoBehaviour, IEventListener
 {
     public Vector3 detectorOffsetPosition;
 
@@ -17,7 +17,7 @@ public class GameOverDetector : MonoBehaviour
 
     // helper methods:
 
-    private void InitializeEventListeners()
+    public void InitializeEventListeners()
     {
         GameEvents.UpdateHoveringCubeReferenceEvent.AddListener(HandleUpdateHoveringCubeReferenceEvent);
     }

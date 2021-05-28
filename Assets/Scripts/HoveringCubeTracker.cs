@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HoveringCubeTracker : MonoBehaviour
+public class HoveringCubeTracker : MonoBehaviour, IEventListener
 {
     public GameObject initialHoveringCubeParent;
 
@@ -41,7 +41,7 @@ public class HoveringCubeTracker : MonoBehaviour
             Child = Parent.transform.GetChild(0).gameObject;
     }
 
-    private void InitializeEventListeners()
+    public void InitializeEventListeners()
     {
         GameEvents.UpdateHoveringCubeReferenceEvent.AddListener(HandleUpdateHoveringCubeReferenceEvent);
     }

@@ -10,7 +10,7 @@ namespace ColorManagement
         Next
     };
 
-    public class CubesPainter : MonoBehaviour
+    public class CubesPainter : MonoBehaviour, IEventListener
     {
         [Header("Initial Cubes References")]
         public List<GameObject> initialCubesToColor;
@@ -44,13 +44,15 @@ namespace ColorManagement
             ColorInitialCubes();
         }
 
-        // helper methods:
+        // interface methods:
 
-        private void InitializeEventListeners()
+        public void InitializeEventListeners()
         {
             GameEvents.DroppedAndSlicedEvent.AddListener(HandleDroppedAndSlicedEvent);
             GameEvents.UpdateHoveringCubeReferenceEvent.AddListener(HandleUpdateHoveringCubeReferenceEvent);
         }
+
+        // helper methods:
 
         private void InitializeColors()
         {

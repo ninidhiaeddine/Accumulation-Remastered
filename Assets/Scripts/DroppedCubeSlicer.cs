@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DroppedCubeSlicer : MonoBehaviour
+public class DroppedCubeSlicer : MonoBehaviour, IEventListener
 {
     // helper variables:
     private GameObject[] slicedCubes;
@@ -27,7 +27,7 @@ public class DroppedCubeSlicer : MonoBehaviour
 
     // helper methods:
 
-    void InitializeEventListeners()
+    public void InitializeEventListeners()
     {
         GameEvents.DroppedAndCollidedEvent.AddListener(HandleDroppedAndCollidedEvent);
         GameEvents.GameOverEvent.AddListener(HandleGameOverEvent);
