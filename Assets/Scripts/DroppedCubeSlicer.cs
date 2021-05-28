@@ -74,10 +74,6 @@ public class DroppedCubeSlicer : MonoBehaviour
     {
         if (Helpers.GameObjectIsInTheAir(slicedCubes[0]))
         {
-            // color cubes temporarily:
-            slicedCubes[1].GetComponent<Renderer>().material.color = Color.green;
-            slicedCubes[0].GetComponent<Renderer>().material.color = Color.red;
-
             // attach rigid body to the sliced cube in the air so that it falls
             slicedCubes[0].AddComponent<Rigidbody>();
 
@@ -86,10 +82,6 @@ public class DroppedCubeSlicer : MonoBehaviour
         }
         else if (Helpers.GameObjectIsInTheAir(slicedCubes[1]))
         {
-            // color cubes temporarily:
-            slicedCubes[0].GetComponent<Renderer>().material.color = Color.green;
-            slicedCubes[1].GetComponent<Renderer>().material.color = Color.red;
-
             // attach rigid body to the sliced cube in the air so that it falls
             slicedCubes[1].AddComponent<Rigidbody>();
 
