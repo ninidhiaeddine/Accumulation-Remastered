@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +9,10 @@ namespace ColorManagement
         [Header("HSV Settings")]
         public float hueToAdd = 0.0f;
         public float saturationToAdd = 0.0f;
-        public float vibranceToAdd = -0.8f;
+        public float vibranceToAdd = -0.5f;
+
+        [Header("Transition Settings")]
+        public float transitionDuration = 5.0f;
 
         // singleton:
         public static BackgroundPainter instance;
@@ -57,12 +61,18 @@ namespace ColorManagement
             return ColorHelper.ChangeHSV(average, this.hueToAdd, this.saturationToAdd, this.vibranceToAdd);
         }
 
-        private void PaintBackgroundColor(Color color)
+        private void PaintBackgroundAndFogColor(Color color)
+        {
+            Color startColor = Camera.main.backgroundColor;
+            StartCoroutine(LerpBackgroundAndFogColor(startColor, color, this.transitionDuration));
+        }
+
+        private void SetBackgroundColor(Color color)
         {
             Camera.main.backgroundColor = color;
         }
 
-        private void PaintFogColor(Color color)
+        private void SetFogColor(Color color)
         {
             RenderSettings.fogColor = color;
         }
@@ -74,11 +84,31 @@ namespace ColorManagement
             // compute background color:
             Color backgroundColor = ComputeBackgroundColor(colorPalette);
 
-            // paint background color:
-            PaintBackgroundColor(backgroundColor);
+            // paint background and fog color:
+            PaintBackgroundAndFogColor(backgroundColor);
+        }
 
-            // paint fog color:
-            PaintFogColor(backgroundColor);
+        // Coroutines:
+
+        IEnumerator LerpBackgroundAndFogColor(Color startColor, Color endColor, float duration)
+        {
+            float t = 0.0f;
+            Color output;
+            
+            while(t < 1)
+            {
+                // lerp color:
+                output = Color.Lerp(startColor, endColor, t);
+
+                // set colors:
+                SetBackgroundColor(output);
+                SetFogColor(output);
+
+                // wait for end of frame:
+                yield return new WaitForEndOfFrame();
+                t += Time.deltaTime / duration;
+            }
+            
         }
     }
 }
