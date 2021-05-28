@@ -1135,6 +1135,7 @@ GameObject:
   - component: {fileID: 1396566048}
   - component: {fileID: 1396566049}
   - component: {fileID: 1396566050}
+  - component: {fileID: 1396566051}
   m_Layer: 0
   m_Name: CubesSmoothResizer
   m_TagString: Untagged
@@ -1168,10 +1169,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1e19c02eaf675949893ddb266686b6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resizeCubeAfterPerfectDrops: 1
-  scaleToAdd: {x: 1, y: 0, z: 1}
+  resizeCubeAfterPerfectDrops: 3
+  scaleToAdd: {x: 0.5, y: 0, z: 0.5}
   transitionDuration: 1
 --- !u!114 &1396566050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1396566047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6467ba49d66e6074698087b63cb95f80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1396566051
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

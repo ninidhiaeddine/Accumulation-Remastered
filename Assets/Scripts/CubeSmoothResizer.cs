@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ public class CubeSmoothResizer : MonoBehaviour, IEventListener
     // helper variable:
     private GameObject droppedCube;
     private GameObject hoveringCubeParent;
-    private SmoothResizer smoothResizer;
+    private SmoothResizer[] smoothResizers;
 
     // singleton:
     public static CubeSmoothResizer Instance { get; private set; }
@@ -36,10 +37,10 @@ public class CubeSmoothResizer : MonoBehaviour, IEventListener
 
     private void InitializeComponents()
     {
-        smoothResizer = GetComponent<SmoothResizer>();
+        smoothResizers = GetComponents<SmoothResizer>();
     }
 
-    private void SmoothResize(GameObject target)
+    private void SmoothResize(GameObject target, SmoothResizer smoothResizer)
     {
         // compute target scale:
         Vector3 currentScale = target.transform.localScale;
@@ -82,14 +83,13 @@ public class CubeSmoothResizer : MonoBehaviour, IEventListener
     IEnumerator ResizeCubes()
     {
         // resize dropped cube:
-        SmoothResize(droppedCube);
+        SmoothResize(droppedCube, smoothResizers[0]);
 
         // wait for one frame (wait until hoveringCube data is available)
-        // TODO: THERE'S A BUG HERE:
         yield return new WaitForEndOfFrame();
 
         // resize hovering cube:
         GameObject hoveringCubeChild = this.hoveringCubeParent.transform.GetChild(0).gameObject;
-        SmoothResize(hoveringCubeChild);
+        SmoothResize(hoveringCubeChild, smoothResizers[1]);
     }
 }
