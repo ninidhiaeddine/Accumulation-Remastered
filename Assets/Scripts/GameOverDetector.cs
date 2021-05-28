@@ -37,6 +37,7 @@ public class GameOverDetector : MonoBehaviour
     private void InvokeGameOverEvent()
     {
         GameEvents.GameOverEvent.Invoke();
+        Debug.Log("Game Over");
     }
 
     // event handlers:

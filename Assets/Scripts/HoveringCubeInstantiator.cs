@@ -27,9 +27,7 @@ public class HoveringCubeInstantiator : MonoBehaviour
 
     void Start()
     {
-        // add event listener:
-        GameEvents.DroppedAndSlicedEvent.AddListener(HandleDroppedAndSlicedEvent);
-        GameEvents.GameOverEvent.AddListener(HandleGameOverEvent);
+        InitializeEventListeners();
     }
 
     // event handlers:
@@ -51,6 +49,12 @@ public class HoveringCubeInstantiator : MonoBehaviour
     }
 
     // helper methods:
+
+    private void InitializeEventListeners()
+    {
+        GameEvents.DroppedAndSlicedEvent.AddListener(HandleDroppedAndSlicedEvent);
+        GameEvents.GameOverEvent.AddListener(HandleGameOverEvent);
+    }
 
     private GameObject InstantiateHoveringCube(GameObject staticCube)
     {

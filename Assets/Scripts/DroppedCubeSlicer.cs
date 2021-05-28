@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class DroppedCubeSlicer : MonoBehaviour
 {
+    // helper variables:
     private GameObject[] slicedCubes;
+    private bool isGameOver = false;
 
     // singleton:
     public static DroppedCubeSlicer instance;
@@ -28,6 +30,7 @@ public class DroppedCubeSlicer : MonoBehaviour
     void InitializeEventListeners()
     {
         GameEvents.DroppedAndCollidedEvent.AddListener(HandleDroppedAndCollidedEvent);
+        GameEvents.GameOverEvent.AddListener(HandleGameOverEvent);
     }
 
     private void SliceDroppedCube(GameObject droppedCube, GameObject cubeBelowDroppedCube)
@@ -142,13 +145,22 @@ public class DroppedCubeSlicer : MonoBehaviour
 
     private void HandleDroppedAndCollidedEvent(GameObject droppedCube, GameObject cubeBelowDroppedCube)
     {
-        // slice dropped cube
-        SliceDroppedCube(droppedCube, cubeBelowDroppedCube);
+        // only slice cubes when game is not over:
+        if (!isGameOver)
+        {
+            // slice dropped cube
+            SliceDroppedCube(droppedCube, cubeBelowDroppedCube);
 
-        // destroy cube:
-        Destroy(droppedCube.transform.parent.gameObject);
+            // destroy cube:
+            Destroy(droppedCube.transform.parent.gameObject);
 
-        // process sliced cubes:
-        ProcessSlicedCubes();
+            // process sliced cubes:
+            ProcessSlicedCubes();
+        }
+    }
+
+    private void HandleGameOverEvent()
+    {
+        this.isGameOver = true;
     }
 }
