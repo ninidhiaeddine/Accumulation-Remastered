@@ -517,6 +517,7 @@ MonoBehaviour:
   numberOfColors: 5
   saturation: 0.75
   vibrance: 1
+  useOldEndColor: 1
 --- !u!1 &659558169
 GameObject:
   m_ObjectHideFlags: 0

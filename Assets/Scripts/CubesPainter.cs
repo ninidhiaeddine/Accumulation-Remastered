@@ -19,6 +19,7 @@ namespace ColorManagement
         public int numberOfColors = 15;     // recommended value for this game
         public float saturation = 0.75f;    // recommended value for this game
         public float vibrance = 1.0f;       // recommended value for this game
+        public bool useOldEndColor = true;  // this implies that the new generated palette will use the latest endColor of the previous palette as a starting point for the new palette
 
         // helper variables:
         private List<Color> colors;
@@ -112,13 +113,31 @@ namespace ColorManagement
 
         private void GenerateNewPaletteAndNotify()
         {
-            GenerateNewPalette();
+            // generate new palette:
+            if (useOldEndColor && this.colors != null)
+            {
+                int size = this.colors.Count;
+                Color oldEndColor = this.colors[size - 1];
+                GenerateNewPalette(oldEndColor);
+            }
+            else
+            {
+                GenerateNewPalette();
+            }
+            
+            // notify:
             InvokeEvents();
         }
 
         private void GenerateNewPalette()
         {
             this.colors = GradientPaletteGenerator.GenerateRandom(numberOfColors, saturation, vibrance);
+            this.colorIndex = 0;
+        }
+
+        private void GenerateNewPalette(Color startColor)
+        {
+            this.colors = GradientPaletteGenerator.Generate(startColor, numberOfColors, saturation, vibrance);
             this.colorIndex = 0;
         }
 

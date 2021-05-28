@@ -8,7 +8,16 @@ namespace ColorManagement
     {
         public static List<Color> GenerateRandom(int numberOfColors, float saturation, float vibrance)
         {
+            // compute start and end colors:
             Color startColor = Color.HSVToRGB(H: Random.Range(0.0f, 1.0f), S: saturation, V: vibrance);
+            Color endColor = Color.HSVToRGB(H: Random.Range(0.0f, 1.0f), S: saturation, V: vibrance);
+
+            return GetGradientColors(startColor, endColor, numberOfColors);
+        }
+
+        public static List<Color> Generate(Color startColor, int numberOfColors, float saturation, float vibrance)
+        {
+            // compute end color:
             Color endColor = Color.HSVToRGB(H: Random.Range(0.0f, 1.0f), S: saturation, V: vibrance);
 
             return GetGradientColors(startColor, endColor, numberOfColors);
