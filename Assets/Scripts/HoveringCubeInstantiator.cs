@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HoveringCubeInstantiator : MonoBehaviour
+public class HoveringCubeInstantiator : MonoBehaviour, IEventListener
 {
     public Vector3 offsetFromDroppedCube;
     public RuntimeAnimatorController hoveringCubeAnimator;
@@ -48,13 +48,15 @@ public class HoveringCubeInstantiator : MonoBehaviour
         this.isGameOver = true;
     }
 
-    // helper methods:
+    // interface methods:
 
-    private void InitializeEventListeners()
+    public void InitializeEventListeners()
     {
         GameEvents.DroppedAndSlicedEvent.AddListener(HandleDroppedAndSlicedEvent);
         GameEvents.GameOverEvent.AddListener(HandleGameOverEvent);
     }
+
+    // helper methods:
 
     private GameObject InstantiateHoveringCube(GameObject staticCube)
     {
