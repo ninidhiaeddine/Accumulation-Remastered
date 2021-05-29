@@ -1,10 +1,12 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour, IEventListener
 {
     public Cinemachine.CinemachineVirtualCamera virtualCamera;
+    public float minOrthographicSize = 7.0f;
+    public float maxOrthographicSize = 20.0f;
+    public float sizeTransitionDuration = 1.0f;
 
     // singleton:
     public static CameraFollow instance;
@@ -39,8 +41,8 @@ public class CameraFollow : MonoBehaviour, IEventListener
 
     // event handlers:
 
-    private void HandleUpdateHoveringCubeReferenceEvent(GameObject hoveringCube)
+    private void HandleUpdateHoveringCubeReferenceEvent(GameObject hoveringCubeParent)
     {
-        SetTarget(hoveringCube.transform);
+        SetTarget(hoveringCubeParent.transform);
     }
 }

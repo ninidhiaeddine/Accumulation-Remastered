@@ -30,6 +30,15 @@ public class HoveringCubeInstantiator : MonoBehaviour, IEventListener
         InitializeEventListeners();
     }
 
+    // interface methods:
+
+    public void InitializeEventListeners()
+    {
+        GameEvents.DroppedAndSlicedEvent.AddListener(HandleDroppedAndSlicedEvent);
+        GameEvents.PerfectDropEvent.AddListener(HandlePerfectDropEvent);
+        GameEvents.GameOverEvent.AddListener(HandleGameOverEvent);
+    }
+
     // event handlers:
 
     private void HandleDroppedAndSlicedEvent(GameObject staticCube, GameObject fallingCube)
@@ -43,17 +52,20 @@ public class HoveringCubeInstantiator : MonoBehaviour, IEventListener
         }
     }
 
+    private void HandlePerfectDropEvent(GameObject staticCube)
+    {
+        // only instantiate new hovering cubes when game is not over:
+        if (!isGameOver)
+        {
+            GameObject newHoveringCubeParent = InstantiateHoveringCube(staticCube);
+            AttachComponentsToHoveringCube(newHoveringCubeParent);
+            UpdateHoveringCubeReference(newHoveringCubeParent);
+        }
+    }
+
     private void HandleGameOverEvent()
     {
         this.isGameOver = true;
-    }
-
-    // interface methods:
-
-    public void InitializeEventListeners()
-    {
-        GameEvents.DroppedAndSlicedEvent.AddListener(HandleDroppedAndSlicedEvent);
-        GameEvents.GameOverEvent.AddListener(HandleGameOverEvent);
     }
 
     // helper methods:

@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class DroppedCubeSlicer : MonoBehaviour, IEventListener
 {
+    public float errorMagnitude = 0.1f; 
+
     // helper variables:
     private GameObject[] slicedCubes;
     private bool isGameOver = false;
-    private bool isApproximated = false;
 
     // singleton:
     public static DroppedCubeSlicer instance;
@@ -30,7 +31,6 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventListener
 
     public void InitializeEventListeners()
     {
-        GameEvents.DistanceApproximatedEvent.AddListener(HandleDistanceApprimxatedEvent);
         GameEvents.GameOverEvent.AddListener(HandleGameOverEvent);
         GameEvents.DroppedAndCollidedEvent.AddListener(HandleDroppedAndCollidedEvent);
     }
@@ -148,19 +148,28 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventListener
         GameEvents.DroppedAndSlicedEvent.Invoke(staticCube, fallingCube);
     }
 
-    private void InvokeSlicedCubesEvent(GameObject staticCube)
-    {
-        GameEvents.DroppedAndSlicedEvent.Invoke(staticCube, null);
-    }
-
     // event handlers:
+
+    private void HandleGameOverEvent()
+    {
+        this.isGameOver = true;
+    }
 
     private void HandleDroppedAndCollidedEvent(GameObject droppedCube, GameObject cubeBelowDroppedCube)
     {
-        // only slice cubes when game is not over AND distance is not approximated:
         if (!isGameOver)
         {
-            if (!isApproximated)
+            if (DistanceApproximator.IsPerfectDrop(droppedCube, cubeBelowDroppedCube, errorMagnitude))
+            {
+                // perfect drop:
+
+                // align cubes:
+                DistanceApproximator.AlignCubesHorizonally(droppedCube, cubeBelowDroppedCube);
+
+                // notify:
+                GameEvents.PerfectDropEvent.Invoke(droppedCube);
+            }
+            else
             {
                 // slice dropped cube
                 SliceDroppedCube(droppedCube, cubeBelowDroppedCube);
@@ -171,24 +180,6 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventListener
                 // process sliced cubes:
                 ProcessAndNotifySlicedCubes();
             }
-            else
-            {
-                // notify:
-                InvokeSlicedCubesEvent(droppedCube);
-            }
-
-            // return (is distance approximated) to default:
-            isApproximated = false;
         }
-    }
-
-    private void HandleGameOverEvent()
-    {
-        this.isGameOver = true;
-    }
-
-    private void HandleDistanceApprimxatedEvent(GameObject droppedCube)
-    {
-        this.isApproximated = true;
-    }
+    }    
 }

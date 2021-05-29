@@ -1,17 +1,10 @@
 using UnityEngine;
 
-public class DistanceApproximator : MonoBehaviour, IEventListener
+public class DistanceApproximator
 {
-    public float distanceThreshold = 0.1f;
-
-    private void Start()
-    {
-        InitializeEventListeners();
-    }
-
     // helper methods:
 
-    private float ComputeHorizontalDistance(GameObject obj1, GameObject obj2)
+    public static float ComputeHorizontalDistance(GameObject obj1, GameObject obj2)
     {
         Vector2 firstPos = new Vector2(
             obj1.transform.position.x,
@@ -24,7 +17,7 @@ public class DistanceApproximator : MonoBehaviour, IEventListener
         return Vector2.Distance(firstPos, secondPos);
     }
 
-    private void AlignCubesHorizonally(GameObject droppedCube, GameObject cubeBelowDroppedCube)
+    public static void AlignCubesHorizonally(GameObject droppedCube, GameObject cubeBelowDroppedCube)
     {
         // retrieve positions:
         Vector3 droppedCubePos = droppedCube.transform.position;
@@ -41,24 +34,8 @@ public class DistanceApproximator : MonoBehaviour, IEventListener
         droppedCube.transform.position = droppedCubeNewPos;
     }
 
-    // interface methods:
-
-    public void InitializeEventListeners()
+    public static bool IsPerfectDrop(GameObject droppedCube, GameObject cubeBelowDroppedCube, float errorMagnitude)
     {
-        GameEvents.DroppedAndCollidedEvent.AddListener(HandleDroppedAndCollidedEvent);
-    }
-
-    // event handlers:
-
-    private void HandleDroppedAndCollidedEvent(GameObject droppedCube, GameObject cubeBelowDroppedCube)
-    {
-        if (ComputeHorizontalDistance(droppedCube, cubeBelowDroppedCube) < distanceThreshold)
-        {
-            // align cubes:
-            AlignCubesHorizonally(droppedCube, cubeBelowDroppedCube);
-
-            // notify:
-            GameEvents.DistanceApproximatedEvent.Invoke(droppedCube);
-        }
+        return (ComputeHorizontalDistance(droppedCube, cubeBelowDroppedCube) <= errorMagnitude);
     }
 }

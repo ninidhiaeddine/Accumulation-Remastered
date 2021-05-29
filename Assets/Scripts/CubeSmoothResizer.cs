@@ -33,6 +33,15 @@ public class CubeSmoothResizer : MonoBehaviour, IEventListener
         InitializeEventListeners();
     }
 
+    // interface methods:
+
+    public void InitializeEventListeners()
+    {
+        GameEvents.PerfectDropEvent.AddListener(HandlePerfectDropEvent);
+        GameEvents.PerfectDropCounterUpdatedEvent.AddListener(HandlePerfectDropCounterUpdatedEvent);
+        GameEvents.UpdateHoveringCubeReferenceEvent.AddListener(HandleUpdateHoveringCubeReferenceEvent);
+    }
+
     // helper methods:
 
     private void InitializeComponents()
@@ -51,18 +60,9 @@ public class CubeSmoothResizer : MonoBehaviour, IEventListener
         smoothResizer.StartSmoothResizing();
     }
 
-    // interface methods:
-
-    public void InitializeEventListeners()
-    {
-        GameEvents.DistanceApproximatedEvent.AddListener(HandleDistanceApproximatedEvent);
-        GameEvents.PerfectDropCounterUpdatedEvent.AddListener(HandlePerfectDropCounterUpdatedEvent);
-        GameEvents.UpdateHoveringCubeReferenceEvent.AddListener(HandleUpdateHoveringCubeReferenceEvent);
-    }
-
     // event handlers:
 
-    private void HandleDistanceApproximatedEvent(GameObject staticCube)
+    private void HandlePerfectDropEvent(GameObject staticCube)
     {
         this.droppedCube = staticCube;
     }

@@ -7,7 +7,7 @@ public class UpdateHoveringCubeReferenceEvent : UnityEvent<GameObject> { }
 public class DroppedAndSlicedEvent : UnityEvent<GameObject, GameObject> { }
 public class GeneratedPaletteEvent : UnityEvent<List<Color>> { }
 public class GameOverEvent : UnityEvent { }
-public class DistanceApproximatedEvent : UnityEvent<GameObject> { }
+public class PerfectDropEvent : UnityEvent<GameObject> { }
 public class PerfectDropCounterUpdatedEvent : UnityEvent<int> { }
 
 public class GameEvents : MonoBehaviour
@@ -17,7 +17,7 @@ public class GameEvents : MonoBehaviour
     public static UpdateHoveringCubeReferenceEvent UpdateHoveringCubeReferenceEvent;
     public static GeneratedPaletteEvent GeneratedPaletteEvent;
     public static GameOverEvent GameOverEvent;
-    public static DistanceApproximatedEvent DistanceApproximatedEvent;
+    public static PerfectDropEvent PerfectDropEvent;
     public static PerfectDropCounterUpdatedEvent PerfectDropCounterUpdatedEvent;
 
     private void Awake()
@@ -37,8 +37,8 @@ public class GameEvents : MonoBehaviour
         if (GameOverEvent == null)
             GameOverEvent = new GameOverEvent();
 
-        if (DistanceApproximatedEvent == null)
-            DistanceApproximatedEvent = new DistanceApproximatedEvent();
+        if (PerfectDropEvent == null)
+            PerfectDropEvent = new PerfectDropEvent();
 
         if (PerfectDropCounterUpdatedEvent == null)
             PerfectDropCounterUpdatedEvent = new PerfectDropCounterUpdatedEvent();

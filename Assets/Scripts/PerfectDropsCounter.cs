@@ -37,7 +37,7 @@ public class PerfectDropsCounter : MonoBehaviour, IEventListener
 
     // event handlers:
 
-    private void HandleDistanceApproximatedEvent(GameObject droppedCube)
+    private void HandlePerfectDropEvent(GameObject droppedCube)
     {
         // perfect drop detected:
         IncrementCounter();
@@ -48,21 +48,18 @@ public class PerfectDropsCounter : MonoBehaviour, IEventListener
 
     private void HandleDroppedAndSlicedEvent(GameObject staticCube, GameObject fallingCube)
     {
-        if (staticCube != null && fallingCube != null)
-        {
-            // slicing took place:
-            ResetCounter();
+        // slicing took place:
+        ResetCounter();
 
-            // invoke event:
-            GameEvents.PerfectDropCounterUpdatedEvent.Invoke(this.Counter);
-        }
+        // invoke event:
+        GameEvents.PerfectDropCounterUpdatedEvent.Invoke(this.Counter);
     }
 
     // interface methods:
 
     public void InitializeEventListeners()
     {
-        GameEvents.DistanceApproximatedEvent.AddListener(HandleDistanceApproximatedEvent);
+        GameEvents.PerfectDropEvent.AddListener(HandlePerfectDropEvent);
         GameEvents.DroppedAndSlicedEvent.AddListener(HandleDroppedAndSlicedEvent);
     }
 }
