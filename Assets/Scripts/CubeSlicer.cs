@@ -19,14 +19,14 @@ public class CubeSlicer
     /// then this will result in the following line: x = 2
     /// </param>
     /// <returns>2 Cubes correctly positioned and scaled.</returns>
-    public static GameObject[] SliceCube(GameObject cube, Axis axisToSliceAlong, float value)
+    public static GameObject[] SliceCube(Transform cubeTransform, Axis axisToSliceAlong, float value)
     {
-        if (!AxisIntersectsCube(cube, axisToSliceAlong, value))
+        if (!AxisIntersectsCube(cubeTransform, axisToSliceAlong, value))
             throw new Exception("The Axis specified does not intersect the cube in any point.");
 
         // retrieve cube info:
-        Vector3 cubePos = cube.transform.position;
-        Vector3 cubeScale = cube.transform.localScale;
+        Vector3 cubePos = cubeTransform.position;
+        Vector3 cubeScale = cubeTransform.localScale;
 
         // declare 2 cubes:
         GameObject[] slicedCubes = new GameObject[2] {
@@ -98,7 +98,7 @@ public class CubeSlicer
         return slicedCubes;
     }
 
-    public static bool AxisIntersectsCube(GameObject cube, Axis axisToSliceAlong, float value)
+    public static bool AxisIntersectsCube(Transform cube, Axis axisToSliceAlong, float value)
     {
         // compute cube bounds:
         CubeBounds bounds = new CubeBounds(cube);

@@ -34,13 +34,13 @@ namespace ScoreManagement
 
         // event Handler:
 
-        private void HandleDroppedAndSlicedEvent(GameObject staticCube, GameObject fallingCube)
+        private void SlicedEventHandler(GameObject staticCube, GameObject fallingCube)
         {
             if (!isGameOver)
                 IncrementScore();
         }
 
-        private void HandleGameOverEvent()
+        private void GameOverEventHandler()
         {
             isGameOver = true;
         }
@@ -49,8 +49,8 @@ namespace ScoreManagement
 
         public void InitializeEventListeners()
         {
-            GameEvents.DroppedAndSlicedEvent.AddListener(HandleDroppedAndSlicedEvent);
-            GameEvents.GameOverEvent.AddListener(HandleGameOverEvent);
+            GameEvents.SlicedEvent.AddListener(SlicedEventHandler);
+            GameEvents.GameOverEvent.AddListener(GameOverEventHandler);
         }
     }
 }

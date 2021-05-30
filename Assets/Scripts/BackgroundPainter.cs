@@ -35,7 +35,7 @@ namespace ColorManagement
 
         public void InitializeEventListeners()
         {
-            GameEvents.GeneratedPaletteEvent.AddListener(HandleGeneratedPaletteEvent);
+            GameEvents.GeneratedPaletteEvent.AddListener(GeneratedPaletteEventHandler);
         }
 
         private void GetStartAndEndColors(List<Color> colorPalette, out Color startColor, out Color endColor)
@@ -79,7 +79,7 @@ namespace ColorManagement
 
         // event handlers:
 
-        private void HandleGeneratedPaletteEvent(List<Color> colorPalette)
+        private void GeneratedPaletteEventHandler(List<Color> colorPalette)
         {
             // compute background color:
             Color backgroundColor = ComputeBackgroundColor(colorPalette);

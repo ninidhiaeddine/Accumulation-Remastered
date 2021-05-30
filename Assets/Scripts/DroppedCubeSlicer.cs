@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DroppedCubeSlicer : MonoBehaviour, IEventListener
@@ -7,17 +5,17 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventListener
     public float errorMagnitude = 0.1f; 
 
     // helper variables:
-    private GameObject[] slicedCubes;
+    public GameObject[] slicedCubes;
     private bool isGameOver = false;
 
     // singleton:
-    public static DroppedCubeSlicer instance;
+    public static DroppedCubeSlicer Instance { get; private set; }
 
     private void Awake()
     {
         // enforce singleton:
-        if (instance == null)
-            instance = this;
+        if (Instance == null)
+            Instance = this;
         else
             Destroy(this.gameObject);
     }
@@ -31,15 +29,15 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventListener
 
     public void InitializeEventListeners()
     {
-        GameEvents.GameOverEvent.AddListener(HandleGameOverEvent);
-        GameEvents.DroppedAndCollidedEvent.AddListener(HandleDroppedAndCollidedEvent);
+        GameEvents.GameOverEvent.AddListener(GameOverEventHandler);
+        GameEvents.DroppedAndCollidedEvent.AddListener(DroppedAndCollidedEventHandler);
     }
 
-    private void SliceDroppedCube(GameObject droppedCube, GameObject cubeBelowDroppedCube)
+    private void SliceDroppedCube(Transform droppedCubeTransform, Transform cubeBelowDroppedCubeTransform)
     {
         // helper variables:
-        int animIndex = HoveringCubeInstantiator.instance.AnimationIndex;
-        CubeBounds cubeBelowDroppedCubeBounds = new CubeBounds(cubeBelowDroppedCube);
+        int animIndex = HoveringCubeInstantiator.Instance.AnimationIndex;
+        CubeBounds cubeBelowDroppedCubeBounds = new CubeBounds(cubeBelowDroppedCubeTransform);
 
         // figure out the axis along which to slice, and value of axis:
         Axis axisToSliceAlong;
@@ -50,7 +48,7 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventListener
         {
             case 0:
                 axisToSliceAlong = Axis.XAxis;
-                distance = droppedCube.transform.position.x - cubeBelowDroppedCube.transform.position.x;
+                distance = droppedCubeTransform.position.x - cubeBelowDroppedCubeTransform.position.x;
 
                 if (distance > 0)
                     value = cubeBelowDroppedCubeBounds.XInterval.UpperBound;
@@ -65,7 +63,7 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventListener
                 break;
             case 1:
                 axisToSliceAlong = Axis.ZAxis;
-                distance = droppedCube.transform.position.z - cubeBelowDroppedCube.transform.position.z;
+                distance = droppedCubeTransform.position.z - cubeBelowDroppedCubeTransform.position.z;
 
                 if (distance > 0)
                     value = cubeBelowDroppedCubeBounds.ZInterval.UpperBound;
@@ -81,7 +79,7 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventListener
 
             case 2:
                 axisToSliceAlong = Axis.XAxis;
-                distance = droppedCube.transform.position.x - cubeBelowDroppedCube.transform.position.x;
+                distance = droppedCubeTransform.position.x - cubeBelowDroppedCubeTransform.position.x;
 
                 if (distance > 0)
                     value = cubeBelowDroppedCubeBounds.XInterval.UpperBound;
@@ -97,7 +95,7 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventListener
 
             case 3:
                 axisToSliceAlong = Axis.ZAxis;
-                distance = droppedCube.transform.position.z - cubeBelowDroppedCube.transform.position.z;
+                distance = droppedCubeTransform.position.z - cubeBelowDroppedCubeTransform.position.z;
 
                 if (distance > 0)
                     value = cubeBelowDroppedCubeBounds.ZInterval.UpperBound;
@@ -116,13 +114,17 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventListener
         }
 
         // slice cube:
-        slicedCubes = CubeSlicer.SliceCube(droppedCube, axisToSliceAlong, value);
+        slicedCubes = CubeSlicer.SliceCube(droppedCubeTransform, axisToSliceAlong, value);
     }
 
     private void ProcessAndNotifySlicedCubes()
     {
         if (RaycastHelper.GameObjectIsInTheAir(slicedCubes[0]))
         {
+            // give meaningful names:
+            slicedCubes[1].name = "StaticCube";
+            slicedCubes[0].name = "FallingCube";
+
             // attach rigid body to the sliced cube in the air so that it falls
             slicedCubes[0].AddComponent<Rigidbody>();
 
@@ -131,6 +133,10 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventListener
         }
         else if (RaycastHelper.GameObjectIsInTheAir(slicedCubes[1]))
         {
+            // give meaningful names:
+            slicedCubes[0].name = "StaticCube";
+            slicedCubes[1].name = "FallingCube";
+
             // attach rigid body to the sliced cube in the air so that it falls
             slicedCubes[1].AddComponent<Rigidbody>();
 
@@ -145,17 +151,17 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventListener
 
     private void InvokeSlicedCubesEvent(GameObject staticCube, GameObject fallingCube)
     {
-        GameEvents.DroppedAndSlicedEvent.Invoke(staticCube, fallingCube);
+        GameEvents.SlicedEvent.Invoke(staticCube, fallingCube);
     }
 
     // event handlers:
 
-    private void HandleGameOverEvent()
+    private void GameOverEventHandler()
     {
         this.isGameOver = true;
     }
 
-    private void HandleDroppedAndCollidedEvent(GameObject droppedCube, GameObject cubeBelowDroppedCube)
+    private void DroppedAndCollidedEventHandler(GameObject droppedCube, GameObject cubeBelowDroppedCube)
     {
         if (!isGameOver)
         {
@@ -171,11 +177,15 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventListener
             }
             else
             {
-                // slice dropped cube
-                SliceDroppedCube(droppedCube, cubeBelowDroppedCube);
+                // retrieve hierarchy:
+                HoveringParentHierarchy hierarchy = HoveringCubeHelper.GetHierarchy(droppedCube);
+                Transform droppedCubeTransform = hierarchy.MakeEncompassingTransform();
 
-                // destroy cube:
-                Destroy(droppedCube.transform.parent.gameObject);
+                // slice dropped cube
+                SliceDroppedCube(droppedCubeTransform, cubeBelowDroppedCube.transform);
+
+                // destroy hovering cube parent:
+                Destroy(HoveringCubeHelper.GetRootParent(droppedCube));
 
                 // process sliced cubes:
                 ProcessAndNotifySlicedCubes();

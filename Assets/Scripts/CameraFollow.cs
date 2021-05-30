@@ -29,7 +29,7 @@ public class CameraFollow : MonoBehaviour, IEventListener
 
     public void InitializeEventListeners()
     {
-        GameEvents.UpdateHoveringCubeReferenceEvent.AddListener(HandleUpdateHoveringCubeReferenceEvent);
+        GameEvents.UpdatedHoveringParentReferenceEvent.AddListener(UpdatedHoveringParentReferenceEventHandler);
     }
 
     // helper methods:
@@ -41,7 +41,7 @@ public class CameraFollow : MonoBehaviour, IEventListener
 
     // event handlers:
 
-    private void HandleUpdateHoveringCubeReferenceEvent(GameObject hoveringCubeParent)
+    private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent)
     {
         SetTarget(hoveringCubeParent.transform);
     }

@@ -3,8 +3,8 @@ using UnityEngine;
 using UnityEngine.Events;
 
 public class DroppedAndCollidedEvent : UnityEvent<GameObject, GameObject> { }
-public class UpdateHoveringCubeReferenceEvent : UnityEvent<GameObject> { }
-public class DroppedAndSlicedEvent : UnityEvent<GameObject, GameObject> { }
+public class UpdatedHoveringParentReferenceEvent : UnityEvent<GameObject> { }
+public class SlicedEvent : UnityEvent<GameObject, GameObject> { }
 public class GeneratedPaletteEvent : UnityEvent<List<Color>> { }
 public class GameOverEvent : UnityEvent { }
 public class PerfectDropEvent : UnityEvent<GameObject> { }
@@ -13,8 +13,8 @@ public class PerfectDropCounterUpdatedEvent : UnityEvent<int> { }
 public class GameEvents : MonoBehaviour
 {
     public static DroppedAndCollidedEvent DroppedAndCollidedEvent;
-    public static DroppedAndSlicedEvent DroppedAndSlicedEvent;
-    public static UpdateHoveringCubeReferenceEvent UpdateHoveringCubeReferenceEvent;
+    public static SlicedEvent SlicedEvent;
+    public static UpdatedHoveringParentReferenceEvent UpdatedHoveringParentReferenceEvent;
     public static GeneratedPaletteEvent GeneratedPaletteEvent;
     public static GameOverEvent GameOverEvent;
     public static PerfectDropEvent PerfectDropEvent;
@@ -25,11 +25,11 @@ public class GameEvents : MonoBehaviour
         if (DroppedAndCollidedEvent == null)
             DroppedAndCollidedEvent = new DroppedAndCollidedEvent();
 
-        if (DroppedAndSlicedEvent == null)
-            DroppedAndSlicedEvent = new DroppedAndSlicedEvent();
+        if (SlicedEvent == null)
+            SlicedEvent = new SlicedEvent();
 
-        if (UpdateHoveringCubeReferenceEvent == null)
-            UpdateHoveringCubeReferenceEvent = new UpdateHoveringCubeReferenceEvent();
+        if (UpdatedHoveringParentReferenceEvent == null)
+            UpdatedHoveringParentReferenceEvent = new UpdatedHoveringParentReferenceEvent();
 
         if (GeneratedPaletteEvent == null)
             GeneratedPaletteEvent = new GeneratedPaletteEvent();

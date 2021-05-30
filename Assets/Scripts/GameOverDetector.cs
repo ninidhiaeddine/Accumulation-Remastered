@@ -19,7 +19,7 @@ public class GameOverDetector : MonoBehaviour, IEventListener
 
     public void InitializeEventListeners()
     {
-        GameEvents.UpdateHoveringCubeReferenceEvent.AddListener(HandleUpdateHoveringCubeReferenceEvent);
+        GameEvents.UpdatedHoveringParentReferenceEvent.AddListener(UpdatedHoveringParentReferenceEventHandler);
     }
 
     private void UpdateDetectorPosition(GameObject hoveringCubeParent)
@@ -42,7 +42,7 @@ public class GameOverDetector : MonoBehaviour, IEventListener
 
     // event handlers:
 
-    private void HandleUpdateHoveringCubeReferenceEvent(GameObject hoveringCubeParent)
+    private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent)
     {
         UpdateDetectorPosition(hoveringCubeParent);
     }
