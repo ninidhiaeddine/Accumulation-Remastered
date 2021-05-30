@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ScoreManagement
 {
-    public class ScoreCounter : MonoBehaviour, IEventListener
+    public class ScoreCounter : MonoBehaviour, IEventHandler
     {
         public int Score { get; private set; }
 
@@ -22,7 +22,7 @@ namespace ScoreManagement
 
         private void Start()
         {
-            InitializeEventListeners();
+            InitializeEventHandlers();
         }
 
         // helper methods:
@@ -47,7 +47,7 @@ namespace ScoreManagement
 
         // interface method:
 
-        public void InitializeEventListeners()
+        public void InitializeEventHandlers()
         {
             GameEvents.SlicedEvent.AddListener(SlicedEventHandler);
             GameEvents.GameOverEvent.AddListener(GameOverEventHandler);

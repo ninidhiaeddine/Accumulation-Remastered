@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(SmoothResizer))]
-public class CubeSmoothResizer : MonoBehaviour, IEventListener
+public class CubeSmoothResizer : MonoBehaviour, IEventHandler
 {
     // settings:
     public int resizeCubeAfterPerfectDrops = 2;
@@ -30,12 +30,12 @@ public class CubeSmoothResizer : MonoBehaviour, IEventListener
     void Start()
     {
         InitializeComponents();
-        InitializeEventListeners();
+        InitializeEventHandlers();
     }
 
     // interface methods:
 
-    public void InitializeEventListeners()
+    public void InitializeEventHandlers()
     {
         GameEvents.PerfectDropEvent.AddListener(PerfectDropEventHandler);
         GameEvents.PerfectDropCounterUpdatedEvent.AddListener(PerfectDropCounterUpdatedEventHandler);

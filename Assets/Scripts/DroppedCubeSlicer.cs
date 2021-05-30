@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DroppedCubeSlicer : MonoBehaviour, IEventListener
+public class DroppedCubeSlicer : MonoBehaviour, IEventHandler
 {
     public float errorMagnitude = 0.1f; 
 
@@ -22,12 +22,12 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventListener
 
     void Start()
     {
-        InitializeEventListeners();
+        InitializeEventHandlers();
     }
 
     // helper methods:
 
-    public void InitializeEventListeners()
+    public void InitializeEventHandlers()
     {
         GameEvents.GameOverEvent.AddListener(GameOverEventHandler);
         GameEvents.DroppedAndCollidedEvent.AddListener(DroppedAndCollidedEventHandler);

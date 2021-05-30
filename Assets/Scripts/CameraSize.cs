@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class CameraSize : MonoBehaviour, IEventListener
+public class CameraSize : MonoBehaviour, IEventHandler
 {
     public Cinemachine.CinemachineVirtualCamera virtualCamera;
     public float minOrthographicSize = 7.0f;
@@ -22,12 +22,12 @@ public class CameraSize : MonoBehaviour, IEventListener
 
     private void Start()
     {
-        InitializeEventListeners();
+        InitializeEventHandlers();
     }
 
     // interface methods:
 
-    public void InitializeEventListeners()
+    public void InitializeEventHandlers()
     {
         GameEvents.UpdatedHoveringParentReferenceEvent.AddListener(UpdatedHoveringParentReferenceEventHandler);
     }

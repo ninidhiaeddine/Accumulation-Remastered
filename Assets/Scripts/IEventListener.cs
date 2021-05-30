@@ -1,4 +1,4 @@
-public interface IEventListener
+public interface IEventHandler
 {
-    public void InitializeEventListeners();
+    public void InitializeEventHandlers();
 }

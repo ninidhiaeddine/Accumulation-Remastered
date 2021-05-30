@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HoveringCubeTracker : MonoBehaviour, IEventListener
+public class HoveringCubeTracker : MonoBehaviour, IEventHandler
 {
     [SerializeField]
     private GameObject initialHoveringCubeParent;
@@ -23,12 +23,12 @@ public class HoveringCubeTracker : MonoBehaviour, IEventListener
     private void Start()
     {
         InitializeParentReference();
-        InitializeEventListeners();
+        InitializeEventHandlers();
     }
 
     // interface methods:
 
-    public void InitializeEventListeners()
+    public void InitializeEventHandlers()
     {
         GameEvents.UpdatedHoveringParentReferenceEvent.AddListener(UpdatedHoveringParentReferenceEventHandler);
     }

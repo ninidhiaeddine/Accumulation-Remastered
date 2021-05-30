@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ColorManagement
 {
-    public class BackgroundPainter : MonoBehaviour, IEventListener
+    public class BackgroundPainter : MonoBehaviour, IEventHandler
     {
         [Header("HSV Settings")]
         public float hueToAdd = 0.0f;
@@ -28,12 +28,12 @@ namespace ColorManagement
 
         void Start()
         {
-            InitializeEventListeners();
+            InitializeEventHandlers();
         }
 
         // helper methods:
 
-        public void InitializeEventListeners()
+        public void InitializeEventHandlers()
         {
             GameEvents.GeneratedPaletteEvent.AddListener(GeneratedPaletteEventHandler);
         }

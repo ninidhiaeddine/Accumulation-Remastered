@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HoveringCubeInstantiator : MonoBehaviour, IEventListener
+public class HoveringCubeInstantiator : MonoBehaviour, IEventHandler
 {
     public GameObject hoveringCubeParentPrefab;
     public Vector3 offsetFromDroppedCube;
@@ -25,12 +25,12 @@ public class HoveringCubeInstantiator : MonoBehaviour, IEventListener
 
     void Start()
     {
-        InitializeEventListeners();
+        InitializeEventHandlers();
     }
 
     // interface methods:
 
-    public void InitializeEventListeners()
+    public void InitializeEventHandlers()
     {
         GameEvents.SlicedEvent.AddListener(SlicedEventHandler);
         GameEvents.PerfectDropEvent.AddListener(PerfectDropEventHandler);

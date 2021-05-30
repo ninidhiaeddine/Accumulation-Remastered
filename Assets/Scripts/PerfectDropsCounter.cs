@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PerfectDropsCounter : MonoBehaviour, IEventListener
+public class PerfectDropsCounter : MonoBehaviour, IEventHandler
 {
     public int Counter { get; private set; }
 
@@ -20,7 +20,7 @@ public class PerfectDropsCounter : MonoBehaviour, IEventListener
 
     private void Start()
     {
-        InitializeEventListeners();
+        InitializeEventHandlers();
     }
 
     // helper methods:
@@ -57,7 +57,7 @@ public class PerfectDropsCounter : MonoBehaviour, IEventListener
 
     // interface methods:
 
-    public void InitializeEventListeners()
+    public void InitializeEventHandlers()
     {
         GameEvents.PerfectDropEvent.AddListener(PerfectDropEventHandler);
         GameEvents.SlicedEvent.AddListener(SlicedEventHandler);

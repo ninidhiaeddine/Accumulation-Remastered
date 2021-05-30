@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class GameOverDetector : MonoBehaviour, IEventListener
+public class GameOverDetector : MonoBehaviour, IEventHandler
 {
     public Vector3 detectorOffsetPosition;
 
     void Start()
     {
-        InitializeEventListeners();
+        InitializeEventHandlers();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -17,7 +17,7 @@ public class GameOverDetector : MonoBehaviour, IEventListener
 
     // helper methods:
 
-    public void InitializeEventListeners()
+    public void InitializeEventHandlers()
     {
         GameEvents.UpdatedHoveringParentReferenceEvent.AddListener(UpdatedHoveringParentReferenceEventHandler);
     }

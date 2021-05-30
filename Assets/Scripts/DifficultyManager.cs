@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DifficultyManager : MonoBehaviour, IEventListener
+public class DifficultyManager : MonoBehaviour, IEventHandler
 {
     // settings:
     public float animationSpeed = 1.0f;
@@ -21,7 +21,7 @@ public class DifficultyManager : MonoBehaviour, IEventListener
     private void Start()
     {
         SetAnimationSpeed();
-        InitializeEventListeners();
+        InitializeEventHandlers();
     }
 
     private void OnValidate()
@@ -31,7 +31,7 @@ public class DifficultyManager : MonoBehaviour, IEventListener
 
     // interface methods:
 
-    public void InitializeEventListeners()
+    public void InitializeEventHandlers()
     {
         GameEvents.UpdatedHoveringParentReferenceEvent.AddListener(UpdatedHoveringParentReferenceEventHandler);
     }
