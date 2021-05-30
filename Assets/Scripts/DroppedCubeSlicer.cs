@@ -185,7 +185,7 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventHandler
             {
                 // retrieve hierarchy:
                 HoveringParentHierarchy hierarchy = HoveringCubeHelper.GetHierarchy(droppedCube);
-                Transform droppedCubeTransform = hierarchy.MakeEncompassingTransform();
+                Transform droppedCubeTransform = hierarchy.EncompassingTransform;
 
                 // slice dropped cube
                 SliceDroppedCube(droppedCubeTransform, cubeBelowDroppedCube.transform);

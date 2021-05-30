@@ -87,8 +87,8 @@ public class HoveringCubeInstantiator : MonoBehaviour, IEventHandler
         HoveringParentHierarchy newHierarchy = HoveringCubeHelper.GetHierarchy(instance);
 
         // set position and scale:
-        newHierarchy.SetPosition(newPos);
-        newHierarchy.SetScale(newScale);
+        newHierarchy.Position = newPos;
+        newHierarchy.Scale = newScale;
 
         // return reference:
         return instance;
