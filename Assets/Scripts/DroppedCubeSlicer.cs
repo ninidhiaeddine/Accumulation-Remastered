@@ -172,6 +172,12 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventHandler
                 // align cubes:
                 DistanceApproximator.AlignCubesHorizonally(droppedCube, cubeBelowDroppedCube);
 
+                // delete parents:
+                HoveringCubeHelper.DeleteParents(droppedCube);
+
+                // give meaningful name:
+                droppedCube.name = "StaticCube";
+
                 // notify:
                 GameEvents.PerfectDropEvent.Invoke(droppedCube);
             }
@@ -186,6 +192,8 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventHandler
 
                 // destroy hovering cube parent:
                 Destroy(HoveringCubeHelper.GetRootParent(droppedCube));
+                // destroy temporary transform:
+                Destroy(droppedCubeTransform.gameObject);
 
                 // process sliced cubes:
                 ProcessAndNotifySlicedCubes();

@@ -49,7 +49,6 @@ public class HoveringCubeTracker : MonoBehaviour, IEventHandler
 
     private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent)
     {
-        Debug.Log("UpdatedHoveringParentReferenceEventHandler Called. | hoveringCubeParent = " + hoveringCubeParent);
         UpdateParentReference(hoveringCubeParent);
     }
 }
