@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ColorManagement
 {
-    public class BackgroundPainter : MonoBehaviour, IEventListener
+    public class BackgroundPainter : MonoBehaviour, IEventHandler
     {
         [Header("HSV Settings")]
         public float hueToAdd = 0.0f;
@@ -28,14 +28,14 @@ namespace ColorManagement
 
         void Start()
         {
-            InitializeEventListeners();
+            InitializeEventHandlers();
         }
 
         // helper methods:
 
-        public void InitializeEventListeners()
+        public void InitializeEventHandlers()
         {
-            GameEvents.GeneratedPaletteEvent.AddListener(HandleGeneratedPaletteEvent);
+            GameEvents.GeneratedPaletteEvent.AddListener(GeneratedPaletteEventHandler);
         }
 
         private void GetStartAndEndColors(List<Color> colorPalette, out Color startColor, out Color endColor)
@@ -79,7 +79,7 @@ namespace ColorManagement
 
         // event handlers:
 
-        private void HandleGeneratedPaletteEvent(List<Color> colorPalette)
+        private void GeneratedPaletteEventHandler(List<Color> colorPalette)
         {
             // compute background color:
             Color backgroundColor = ComputeBackgroundColor(colorPalette);

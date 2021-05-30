@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class HoveringCubeInstantiator : MonoBehaviour, IEventListener
+public class HoveringCubeInstantiator : MonoBehaviour, IEventHandler
 {
+    public GameObject hoveringCubeParentPrefab;
     public Vector3 offsetFromDroppedCube;
-    public RuntimeAnimatorController hoveringCubeAnimator;
 
     [HideInInspector]
     public int AnimationIndex { get; private set; }
@@ -14,99 +12,105 @@ public class HoveringCubeInstantiator : MonoBehaviour, IEventListener
     private bool isGameOver = false;
 
     // singleton:
-    public static HoveringCubeInstantiator instance;
+    public static HoveringCubeInstantiator Instance { get; private set; }
 
     private void Awake()
     {
         // enforce singleton:
-        if (instance == null)
-            instance = this;
+        if (Instance == null)
+            Instance = this;
         else
             Destroy(this.gameObject);
     }
 
     void Start()
     {
-        InitializeEventListeners();
+        InitializeEventHandlers();
     }
 
     // interface methods:
 
-    public void InitializeEventListeners()
+    public void InitializeEventHandlers()
     {
-        GameEvents.DroppedAndSlicedEvent.AddListener(HandleDroppedAndSlicedEvent);
-        GameEvents.PerfectDropEvent.AddListener(HandlePerfectDropEvent);
-        GameEvents.GameOverEvent.AddListener(HandleGameOverEvent);
+        GameEvents.SlicedEvent.AddListener(SlicedEventHandler);
+        GameEvents.PerfectDropEvent.AddListener(PerfectDropEventHandler);
+        GameEvents.GameOverEvent.AddListener(GameOverEventHandler);
     }
 
     // event handlers:
 
-    private void HandleDroppedAndSlicedEvent(GameObject staticCube, GameObject fallingCube)
+    private void SlicedEventHandler(GameObject staticCube, GameObject fallingCube)
     {
         // only instantiate new hovering cubes when game is not over:
         if (!isGameOver)
         {
-            GameObject newHoveringCubeParent = InstantiateHoveringCube(staticCube);
-            AttachComponentsToHoveringCube(newHoveringCubeParent);
-            UpdateHoveringCubeReference(newHoveringCubeParent);
+           InstantiateHoveringCubeAndNotify(staticCube);
         }
     }
 
-    private void HandlePerfectDropEvent(GameObject staticCube)
+    private void PerfectDropEventHandler(GameObject staticCube)
     {
         // only instantiate new hovering cubes when game is not over:
         if (!isGameOver)
         {
-            GameObject newHoveringCubeParent = InstantiateHoveringCube(staticCube);
-            AttachComponentsToHoveringCube(newHoveringCubeParent);
-            UpdateHoveringCubeReference(newHoveringCubeParent);
+            InstantiateHoveringCubeAndNotify(staticCube);
         }
     }
 
-    private void HandleGameOverEvent()
+    private void GameOverEventHandler()
     {
         this.isGameOver = true;
     }
 
     // helper methods:
 
-    private GameObject InstantiateHoveringCube(GameObject staticCube)
+    private void InstantiateHoveringCubeAndNotify(GameObject staticCube)
     {
-        // retrieve position of dropped cube:
-        Vector3 droppedCubePos = staticCube.transform.position;
+        GameObject newHoveringCubeParent = InstantiateHoveringCubeParent(staticCube);
+        SetRandomAnimation(newHoveringCubeParent);
+        UpdateHoveringParentReference(newHoveringCubeParent);
+    }
+
+    private GameObject InstantiateHoveringCubeParent(GameObject staticCube)
+    {
+        // retrieve position of static cube:
+        Vector3 staticCubePos = staticCube.transform.position;
 
         // calculate new position and scale based on settings:
-        Vector3 newPos = droppedCubePos + offsetFromDroppedCube;
+        Vector3 newPos = staticCubePos + offsetFromDroppedCube;
         Vector3 newScale = staticCube.transform.localScale;
 
-        // create and return cube:
-        return HoveringCubeMaker.CreateHoveringCube("Hovering", newPos, newScale);
+        // instantiate prefab:
+        GameObject instance = Instantiate(this.hoveringCubeParentPrefab);
+
+        // retrieve hierarchy of new instance:
+        HoveringParentHierarchy newHierarchy = HoveringCubeHelper.GetHierarchy(instance);
+
+        // set position and scale:
+        newHierarchy.Position = newPos;
+        newHierarchy.Scale = newScale;
+
+        // return reference:
+        return instance;
     }
 
-    private void AttachComponentsToHoveringCube(GameObject hoveringCubeParent)
+    private void SetRandomAnimation(GameObject hoveringCubeParent)
     {
-        // get child:
-        GameObject hoveringCubeChild = hoveringCubeParent.transform.GetChild(0).gameObject;
+        // get reference to hierarchy:
+        HoveringParentHierarchy hierarchy = HoveringCubeHelper.GetHierarchy(hoveringCubeParent);
 
-        // attach behavior script:
-        hoveringCubeChild.AddComponent<DroppedCubeBehavior>();
+        // get reference to animator in the hierarchy:
+        Animator animator = hierarchy.Animator;
 
-        // attach animator:
-        Animator animator = hoveringCubeChild.AddComponent<Animator>();
-        animator.runtimeAnimatorController = hoveringCubeAnimator;
-
-        // randomize animations:
-        RandomizeAnimation(animator);
-    }
-
-    private void RandomizeAnimation(Animator animator)
-    {
+        // generate random animation index:
         AnimationIndex = Random.Range(0, 4);
+
+        // set animation:
         animator.SetInteger("index", AnimationIndex);
     }
 
-    private void UpdateHoveringCubeReference(GameObject hoveringCubeParent)
+    private void UpdateHoveringParentReference(GameObject hoveringCubeParent)
     {
-        GameEvents.UpdateHoveringCubeReferenceEvent.Invoke(hoveringCubeParent);
+        GameEvents.UpdatedHoveringParentReferenceEvent.Invoke(hoveringCubeParent);
     }
 }

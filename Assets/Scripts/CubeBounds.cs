@@ -8,11 +8,11 @@ public class CubeBounds
     public Interval<float> YInterval { get; private set; }
     public Interval<float> ZInterval { get; private set; }
 
-    private GameObject cube;
+    private Transform cubeTransform;
 
-    public CubeBounds(GameObject cube)
+    public CubeBounds(Transform cubeTransform)
     {
-        this.cube = cube;
+        this.cubeTransform = cubeTransform;
 
         ComputeXBounds();
         ComputeYBounds();
@@ -21,8 +21,8 @@ public class CubeBounds
 
     private void ComputeXBounds()
     {
-        float xPosition = cube.transform.position.x;
-        float xScale = cube.transform.localScale.x;
+        float xPosition = cubeTransform.position.x;
+        float xScale = cubeTransform.localScale.x;
 
         float lowerBound = xPosition - (xScale / 2.0f);
         float upperBound = xPosition + (xScale / 2.0f);
@@ -32,8 +32,8 @@ public class CubeBounds
 
     private void ComputeYBounds()
     {
-        float yPosition = cube.transform.position.y;
-        float yScale = cube.transform.localScale.y;
+        float yPosition = cubeTransform.position.y;
+        float yScale = cubeTransform.localScale.y;
 
         float lowerBound = yPosition - (yScale / 2.0f);
         float upperBound = yPosition + (yScale / 2.0f);
@@ -43,8 +43,8 @@ public class CubeBounds
 
     private void ComputeZBounds()
     {
-        float zPosition = cube.transform.position.z;
-        float zScale = cube.transform.localScale.z;
+        float zPosition = cubeTransform.position.z;
+        float zScale = cubeTransform.localScale.z;
 
         float lowerBound = zPosition - (zScale / 2.0f);
         float upperBound = zPosition + (zScale / 2.0f);

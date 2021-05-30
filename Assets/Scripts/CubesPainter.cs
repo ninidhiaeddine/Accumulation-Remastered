@@ -10,7 +10,7 @@ namespace ColorManagement
         Next
     };
 
-    public class CubesPainter : MonoBehaviour, IEventListener
+    public class CubesPainter : MonoBehaviour, IEventHandler
     {
         [Header("Initial Cubes References")]
         public List<GameObject> initialCubesToColor;
@@ -39,17 +39,17 @@ namespace ColorManagement
 
         void Start()
         {
-            InitializeEventListeners();
+            InitializeEventHandlers();
             InitializeColors();
             ColorInitialCubes();
         }
 
         // interface methods:
 
-        public void InitializeEventListeners()
+        public void InitializeEventHandlers()
         {
-            GameEvents.DroppedAndSlicedEvent.AddListener(HandleDroppedAndSlicedEvent);
-            GameEvents.UpdateHoveringCubeReferenceEvent.AddListener(HandleUpdateHoveringCubeReferenceEvent);
+            GameEvents.SlicedEvent.AddListener(SlicedEventHandler);
+            GameEvents.UpdatedHoveringParentReferenceEvent.AddListener(UpdatedHoveringParentReferenceEventHandler);
         }
 
         // helper methods:
@@ -151,16 +151,20 @@ namespace ColorManagement
 
         // event handlers:
 
-        private void HandleDroppedAndSlicedEvent(GameObject staticCube, GameObject fallingCube)
+        private void SlicedEventHandler(GameObject staticCube, GameObject fallingCube)
         {
             ColorCube(staticCube, ColorOrder.Current);
             ColorCube(fallingCube, ColorOrder.Current);
         }
 
-        private void HandleUpdateHoveringCubeReferenceEvent(GameObject hoveringCubeParent)
+        private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent)
         {
-            GameObject child = hoveringCubeParent.transform.GetChild(0).gameObject;
-            ColorCube(child, ColorOrder.Next);
+            // get hierarchy:
+            HoveringParentHierarchy hierarchy = HoveringCubeHelper.GetHierarchy(hoveringCubeParent);
+
+            // get reference to mesh:
+            GameObject mesh = hierarchy.MeshContainer;
+            ColorCube(mesh, ColorOrder.Next);
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(SmoothResizer))]
-public class CubeSmoothResizer : MonoBehaviour, IEventListener
+public class CubeSmoothResizer : MonoBehaviour, IEventHandler
 {
     // settings:
     public int resizeCubeAfterPerfectDrops = 2;
@@ -30,16 +30,16 @@ public class CubeSmoothResizer : MonoBehaviour, IEventListener
     void Start()
     {
         InitializeComponents();
-        InitializeEventListeners();
+        InitializeEventHandlers();
     }
 
     // interface methods:
 
-    public void InitializeEventListeners()
+    public void InitializeEventHandlers()
     {
-        GameEvents.PerfectDropEvent.AddListener(HandlePerfectDropEvent);
-        GameEvents.PerfectDropCounterUpdatedEvent.AddListener(HandlePerfectDropCounterUpdatedEvent);
-        GameEvents.UpdateHoveringCubeReferenceEvent.AddListener(HandleUpdateHoveringCubeReferenceEvent);
+        GameEvents.PerfectDropEvent.AddListener(PerfectDropEventHandler);
+        GameEvents.PerfectDropCounterUpdatedEvent.AddListener(PerfectDropCounterUpdatedEventHandler);
+        GameEvents.UpdatedHoveringParentReferenceEvent.AddListener(UpdatedHoveringParentReferenceEventHandler);
     }
 
     // helper methods:
@@ -62,18 +62,18 @@ public class CubeSmoothResizer : MonoBehaviour, IEventListener
 
     // event handlers:
 
-    private void HandlePerfectDropEvent(GameObject staticCube)
+    private void PerfectDropEventHandler(GameObject staticCube)
     {
         this.droppedCube = staticCube;
     }
 
-    private void HandlePerfectDropCounterUpdatedEvent(int count)
+    private void PerfectDropCounterUpdatedEventHandler(int count)
     {
         if (count >= this.resizeCubeAfterPerfectDrops)
             StartCoroutine(ResizeCubes());
     }
 
-    private void HandleUpdateHoveringCubeReferenceEvent(GameObject hoveringCubeParent)
+    private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent)
     {
         this.hoveringCubeParent = hoveringCubeParent;
     }

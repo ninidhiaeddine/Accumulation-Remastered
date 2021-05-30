@@ -1,21 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class DifficultyManager : MonoBehaviour, IEventListener
+public class DifficultyManager : MonoBehaviour, IEventHandler
 {
     // settings:
-    public float animationSpeedRatio = 1.0f;
+    public float animationSpeed = 1.0f;
     public Animator hoveringAnimator;
 
     // singleton:
-    public static DifficultyManager instance;
+    public static DifficultyManager Instance { get; private set; }
 
     private void Awake()
     {
         // enforce singleton:
-        if (instance == null)
-            instance = this;
+        if (Instance == null)
+            Instance = this;
         else
             Destroy(this.gameObject);
     }
@@ -23,7 +21,7 @@ public class DifficultyManager : MonoBehaviour, IEventListener
     private void Start()
     {
         SetAnimationSpeed();
-        InitializeEventListeners();
+        InitializeEventHandlers();
     }
 
     private void OnValidate()
@@ -33,16 +31,16 @@ public class DifficultyManager : MonoBehaviour, IEventListener
 
     // interface methods:
 
-    public void InitializeEventListeners()
+    public void InitializeEventHandlers()
     {
-        GameEvents.UpdateHoveringCubeReferenceEvent.AddListener(HandleUpdateHoveringCubeReferenceEvent);
+        GameEvents.UpdatedHoveringParentReferenceEvent.AddListener(UpdatedHoveringParentReferenceEventHandler);
     }
 
     // helper methods:
 
     private void SetAnimationSpeed()
     {
-        hoveringAnimator.speed = animationSpeedRatio;
+        hoveringAnimator.speed = animationSpeed;
     }
 
     private void UpdateAnimatorReference(Animator newAnimator)
@@ -56,15 +54,12 @@ public class DifficultyManager : MonoBehaviour, IEventListener
 
     // event handlers:
 
-    private void HandleUpdateHoveringCubeReferenceEvent(GameObject hoveringCubeParent)
+    private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent)
     {
-        // retrieve child:
-        GameObject child = hoveringCubeParent.transform.GetChild(0).gameObject;
+        // get reference to hierarchy:
+        HoveringParentHierarchy hierarchy = hoveringCubeParent.GetComponent<HoveringParentHierarchy>();
 
-        // get animator reference
-        Animator animator = child.GetComponent<Animator>();
-
-        // update reference:
-        UpdateAnimatorReference(animator);
+        // update reference to animator:
+        UpdateAnimatorReference(hierarchy.Animator);
     }
 }

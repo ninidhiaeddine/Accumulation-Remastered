@@ -17,15 +17,19 @@ public class FallingController : MonoBehaviour
 
     private void DropHoveringCube()
     {
-        // get reference to the child:
-        GameObject hoveringCubeChild = HoveringCubeTracker.instance.Child;
+        // get reference to the hovering cube parent:
+        GameObject hoveringCubeParent = HoveringCubeTracker.Instance.HoveringCubeParent;
 
-        // 1. remove animator:
-        Animator animator = hoveringCubeChild.GetComponent<Animator>();
-        Destroy(animator);
+        // get reference to the hovering parent hierarchy:
+        HoveringParentHierarchy hierarchy = hoveringCubeParent.GetComponent<HoveringParentHierarchy>();
 
-        // 2. add rigidbody to simulate dropping physics:
-        if (hoveringCubeChild.GetComponent<Rigidbody>() == null)
-            hoveringCubeChild.AddComponent<Rigidbody>();
+        // 1. remove animator from the hierarchy:
+        Destroy(hierarchy.Animator);
+
+        // 2. add rigidbody to the mesh (to simulate dropping physics):
+        if (hierarchy.Rigidbody == null)
+        {
+            hierarchy.MeshContainer.AddComponent<Rigidbody>();
+        }
     }
 }

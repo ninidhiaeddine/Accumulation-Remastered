@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PerfectDropsCounter : MonoBehaviour, IEventListener
+public class PerfectDropsCounter : MonoBehaviour, IEventHandler
 {
     public int Counter { get; private set; }
 
@@ -20,7 +20,7 @@ public class PerfectDropsCounter : MonoBehaviour, IEventListener
 
     private void Start()
     {
-        InitializeEventListeners();
+        InitializeEventHandlers();
     }
 
     // helper methods:
@@ -37,7 +37,7 @@ public class PerfectDropsCounter : MonoBehaviour, IEventListener
 
     // event handlers:
 
-    private void HandlePerfectDropEvent(GameObject droppedCube)
+    private void PerfectDropEventHandler(GameObject droppedCube)
     {
         // perfect drop detected:
         IncrementCounter();
@@ -46,7 +46,7 @@ public class PerfectDropsCounter : MonoBehaviour, IEventListener
         GameEvents.PerfectDropCounterUpdatedEvent.Invoke(this.Counter);
     }
 
-    private void HandleDroppedAndSlicedEvent(GameObject staticCube, GameObject fallingCube)
+    private void SlicedEventHandler(GameObject staticCube, GameObject fallingCube)
     {
         // slicing took place:
         ResetCounter();
@@ -57,9 +57,9 @@ public class PerfectDropsCounter : MonoBehaviour, IEventListener
 
     // interface methods:
 
-    public void InitializeEventListeners()
+    public void InitializeEventHandlers()
     {
-        GameEvents.PerfectDropEvent.AddListener(HandlePerfectDropEvent);
-        GameEvents.DroppedAndSlicedEvent.AddListener(HandleDroppedAndSlicedEvent);
+        GameEvents.PerfectDropEvent.AddListener(PerfectDropEventHandler);
+        GameEvents.SlicedEvent.AddListener(SlicedEventHandler);
     }
 }

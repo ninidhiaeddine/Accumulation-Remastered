@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ScoreManagement
 {
-    public class ScoreCounter : MonoBehaviour, IEventListener
+    public class ScoreCounter : MonoBehaviour, IEventHandler
     {
         public int Score { get; private set; }
 
@@ -22,7 +22,7 @@ namespace ScoreManagement
 
         private void Start()
         {
-            InitializeEventListeners();
+            InitializeEventHandlers();
         }
 
         // helper methods:
@@ -34,23 +34,23 @@ namespace ScoreManagement
 
         // event Handler:
 
-        private void HandleDroppedAndSlicedEvent(GameObject staticCube, GameObject fallingCube)
+        private void SlicedEventHandler(GameObject staticCube, GameObject fallingCube)
         {
             if (!isGameOver)
                 IncrementScore();
         }
 
-        private void HandleGameOverEvent()
+        private void GameOverEventHandler()
         {
             isGameOver = true;
         }
 
         // interface method:
 
-        public void InitializeEventListeners()
+        public void InitializeEventHandlers()
         {
-            GameEvents.DroppedAndSlicedEvent.AddListener(HandleDroppedAndSlicedEvent);
-            GameEvents.GameOverEvent.AddListener(HandleGameOverEvent);
+            GameEvents.SlicedEvent.AddListener(SlicedEventHandler);
+            GameEvents.GameOverEvent.AddListener(GameOverEventHandler);
         }
     }
 }

@@ -1,56 +1,54 @@
 using UnityEngine;
 
-public class HoveringCubeTracker : MonoBehaviour, IEventListener
+public class HoveringCubeTracker : MonoBehaviour, IEventHandler
 {
-    public GameObject initialHoveringCubeParent;
+    [SerializeField]
+    private GameObject initialHoveringCubeParent;
 
     [HideInInspector]
-    public GameObject Parent { get; private set; }
-    [HideInInspector]
-    public GameObject Child { get; private set; }
+    public GameObject HoveringCubeParent { get; private set; }
 
     // singleton:
-    public static HoveringCubeTracker instance;
+    public static HoveringCubeTracker Instance { get; private set; }
 
     private void Awake()
     {
         // enforce singleton:
-        if (instance == null)
-            instance = this;
+        if (Instance == null)
+            Instance = this;
         else
             Destroy(this);
     }
 
     private void Start()
     {
-        InitializeParent();
-        UpdateChild();
-        InitializeEventListeners();
+        InitializeParentReference();
+        InitializeEventHandlers();
+    }
+
+    // interface methods:
+
+    public void InitializeEventHandlers()
+    {
+        GameEvents.UpdatedHoveringParentReferenceEvent.AddListener(UpdatedHoveringParentReferenceEventHandler);
     }
 
     // helper methods:
 
-    private void InitializeParent()
+    private void InitializeParentReference()
     {
-        Parent = initialHoveringCubeParent;
+        this.HoveringCubeParent = initialHoveringCubeParent;
     }
 
-    private void UpdateChild()
+    private void UpdateParentReference(GameObject hoveringCubeParent)
     {
-        if (Parent != null)
-            Child = Parent.transform.GetChild(0).gameObject;
+        this.HoveringCubeParent = hoveringCubeParent;
     }
-
-    public void InitializeEventListeners()
-    {
-        GameEvents.UpdateHoveringCubeReferenceEvent.AddListener(HandleUpdateHoveringCubeReferenceEvent);
-    }
-
+    
     // event handlers:
 
-    private void HandleUpdateHoveringCubeReferenceEvent(GameObject hoveringCubeParent)
+    private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent)
     {
-        Parent = hoveringCubeParent;
-        UpdateChild();
+        UpdateParentReference(hoveringCubeParent);
     }
 }

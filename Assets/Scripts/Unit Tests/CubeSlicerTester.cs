@@ -23,7 +23,7 @@ public class CubeSlicerTester : MonoBehaviour
     void SliceCube()
     {
         // slice cubes:
-        GameObject[] slicedCubes = CubeSlicer.SliceCube(this.cube, this.axis, this.value);
+        GameObject[] slicedCubes = CubeSlicer.SliceCube(this.cube.transform, this.axis, this.value);
 
         // destroy current cube:
         Destroy(cube);

@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class CameraFollow : MonoBehaviour, IEventListener
+public class CameraFollow : MonoBehaviour, IEventHandler
 {
     public Cinemachine.CinemachineVirtualCamera virtualCamera;
     public float minOrthographicSize = 7.0f;
@@ -22,14 +22,14 @@ public class CameraFollow : MonoBehaviour, IEventListener
 
     private void Start()
     {
-        InitializeEventListeners();
+        InitializeEventHandlers();
     }
 
     // interface methods:
 
-    public void InitializeEventListeners()
+    public void InitializeEventHandlers()
     {
-        GameEvents.UpdateHoveringCubeReferenceEvent.AddListener(HandleUpdateHoveringCubeReferenceEvent);
+        GameEvents.UpdatedHoveringParentReferenceEvent.AddListener(UpdatedHoveringParentReferenceEventHandler);
     }
 
     // helper methods:
@@ -41,7 +41,7 @@ public class CameraFollow : MonoBehaviour, IEventListener
 
     // event handlers:
 
-    private void HandleUpdateHoveringCubeReferenceEvent(GameObject hoveringCubeParent)
+    private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent)
     {
         SetTarget(hoveringCubeParent.transform);
     }
