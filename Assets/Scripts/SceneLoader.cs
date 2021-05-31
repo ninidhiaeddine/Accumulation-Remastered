@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEditor.SceneManagement;
 
 public enum SceneType
 {
@@ -33,20 +33,17 @@ public class SceneLoader : MonoBehaviour
     [HideInInspector] public MultiplayerType multiplayerType;
     [HideInInspector] public AIDifficulty aiDifficulty;
 
+    private void OnValidate()
+    {
+        InitializeSceneTypeNameDictionary();
+    }
+
     private void Start()
     {
         InitializeSceneTypeNameDictionary();
     }
 
-    private void InitializeSceneTypeNameDictionary()
-    {
-        SceneTypeNameDictionary = new Dictionary<int, string>();
-
-        SceneTypeNameDictionary.Add(key: 0, value: SceneNames[0]);
-        SceneTypeNameDictionary.Add(key: 1, value: SceneNames[1]);
-        SceneTypeNameDictionary.Add(key: 2, value: SceneNames[2]);
-        SceneTypeNameDictionary.Add(key: 3, value: SceneNames[3]);
-    }
+    // public methods:
 
     public void StartGame(SceneType sceneType, MultiplayerType multiplayerType, AIDifficulty aiDifficulty)
     {
@@ -61,6 +58,18 @@ public class SceneLoader : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    // helper methods:
+
+    private void InitializeSceneTypeNameDictionary()
+    {
+        SceneTypeNameDictionary = new Dictionary<int, string>();
+
+        SceneTypeNameDictionary.Add(key: 0, value: SceneNames[0]);
+        SceneTypeNameDictionary.Add(key: 1, value: SceneNames[1]);
+        SceneTypeNameDictionary.Add(key: 2, value: SceneNames[2]);
+        SceneTypeNameDictionary.Add(key: 3, value: SceneNames[3]);
     }
 
     private void StartSingle()
@@ -132,6 +141,9 @@ public class SceneLoader : MonoBehaviour
 
     private void LoadScene(string sceneName)
     {
-        SceneManager.LoadScene(sceneName);
+        if (!Application.isEditor)
+            SceneManager.LoadScene(sceneName);
+        else
+            EditorSceneManager.OpenScene("Assets/Scenes/" + sceneName + ".unity");
     }
 }
