@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+#if UNITY_EDITOR
 using UnityEditor.SceneManagement;
+#endif
 
 public enum SceneType
 {
@@ -143,7 +145,9 @@ public class SceneLoader : MonoBehaviour
     {
         if (!Application.isEditor)
             SceneManager.LoadScene(sceneName);
+#if UNITY_EDITOR
         else
             EditorSceneManager.OpenScene("Assets/Scenes/" + sceneName + ".unity");
+#endif
     }
 }

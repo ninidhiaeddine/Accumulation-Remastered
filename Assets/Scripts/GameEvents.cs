@@ -11,7 +11,7 @@ public class PerfectDropEvent : UnityEvent<GameObject> { }
 public class PerfectDropCounterUpdatedEvent : UnityEvent<int> { }
 
 public class GameEvents : MonoBehaviour
-{
+{   
     public static DroppedAndCollidedEvent DroppedAndCollidedEvent;
     public static SlicedEvent SlicedEvent;
     public static UpdatedHoveringParentReferenceEvent UpdatedHoveringParentReferenceEvent;

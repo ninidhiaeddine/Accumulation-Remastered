@@ -12,13 +12,13 @@ public class HoveringCubeInstantiator : MonoBehaviour, IEventHandler
     private bool isGameOver = false;
 
     // singleton:
-    public static HoveringCubeInstantiator Instance { get; private set; }
+    public static HoveringCubeInstantiator Singleton { get; private set; }
 
     private void Awake()
     {
         // enforce singleton:
-        if (Instance == null)
-            Instance = this;
+        if (Singleton == null)
+            Singleton = this;
         else
             Destroy(this.gameObject);
     }

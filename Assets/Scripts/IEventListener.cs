@@ -1,4 +1,4 @@
-public interface IEventHandler
+interface IEventHandler
 {
     public void InitializeEventHandlers();
 }

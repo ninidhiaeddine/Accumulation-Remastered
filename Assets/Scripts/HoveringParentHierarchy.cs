@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HoveringParentHierarchy : MonoBehaviour
+public class HoveringParentHierarchy : MonoBehaviour, IHoveringParentHierarchy
 {
     // children references:
     public GameObject ScalerContainer { get { return transform.GetChild(0).gameObject; } }

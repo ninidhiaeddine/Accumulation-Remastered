@@ -16,13 +16,13 @@ public class CubeSmoothResizer : MonoBehaviour, IEventHandler
     private SmoothResizer[] smoothResizers;
 
     // singleton:
-    public static CubeSmoothResizer Instance { get; private set; }
+    public static CubeSmoothResizer Singleton { get; private set; }
 
     private void Awake()
     {
         // enforce singleton:
-        if (Instance == null)
-            Instance = this;
+        if (Singleton == null)
+            Singleton = this;
         else
             Destroy(this.gameObject);
     }

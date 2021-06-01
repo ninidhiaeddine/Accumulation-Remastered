@@ -8,10 +8,13 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Menu.unity
     guid: c7c4e4977df27bd4cb1ffca317c774fb
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Single.unity
     guid: 680e3f73727932c40a29a6c609b4f24c
+  - enabled: 1
+    path: Assets/Scenes/MultiplayerRemote.unity
+    guid: 80a651dca7d1c2f45bc4868e7812e35a
   m_configObjects: {}

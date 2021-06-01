@@ -7,13 +7,13 @@ public class DifficultyManager : MonoBehaviour, IEventHandler
     public Animator hoveringAnimator;
 
     // singleton:
-    public static DifficultyManager Instance { get; private set; }
+    public static DifficultyManager Singleton { get; private set; }
 
     private void Awake()
     {
         // enforce singleton:
-        if (Instance == null)
-            Instance = this;
+        if (Singleton == null)
+            Singleton = this;
         else
             Destroy(this.gameObject);
     }

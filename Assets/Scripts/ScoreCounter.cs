@@ -7,15 +7,15 @@ namespace ScoreManagement
         public int Score { get; private set; }
 
         // singleton:
-        public static ScoreCounter Instance { get; private set; }
+        public static ScoreCounter Singleton { get; private set; }
 
         // helper variable:
         private bool isGameOver = true;
 
         private void Awake()
         {
-            if (Instance == null)
-                Instance = this;
+            if (Singleton == null)
+                Singleton = this;
             else
                 Destroy(gameObject);
         }

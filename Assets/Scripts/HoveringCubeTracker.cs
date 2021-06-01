@@ -9,13 +9,13 @@ public class HoveringCubeTracker : MonoBehaviour, IEventHandler
     public GameObject HoveringCubeParent { get; private set; }
 
     // singleton:
-    public static HoveringCubeTracker Instance { get; private set; }
+    public static HoveringCubeTracker Singleton { get; private set; }
 
     private void Awake()
     {
         // enforce singleton:
-        if (Instance == null)
-            Instance = this;
+        if (Singleton == null)
+            Singleton = this;
         else
             Destroy(this);
     }

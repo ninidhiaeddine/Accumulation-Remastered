@@ -7,13 +7,13 @@ public class PerfectDropsCounter : MonoBehaviour, IEventHandler
     public int Counter { get; private set; }
 
     // singleton:
-    public static PerfectDropsCounter Instance { get; private set; }
+    public static PerfectDropsCounter Singleton { get; private set; }
 
     private void Awake()
     {
         // enforce singleton:
-        if (Instance == null)
-            Instance = this;
+        if (Singleton == null)
+            Singleton = this;
         else
             Destroy(this.gameObject);
     }

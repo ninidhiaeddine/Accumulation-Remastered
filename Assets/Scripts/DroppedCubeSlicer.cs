@@ -9,13 +9,13 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventHandler
     private bool isGameOver = false;
 
     // singleton:
-    public static DroppedCubeSlicer Instance { get; private set; }
+    public static DroppedCubeSlicer Singleton { get; private set; }
 
     private void Awake()
     {
         // enforce singleton:
-        if (Instance == null)
-            Instance = this;
+        if (Singleton == null)
+            Singleton = this;
         else
             Destroy(this.gameObject);
     }
@@ -36,7 +36,7 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventHandler
     private void SliceDroppedCube(Transform droppedCubeTransform, Transform cubeBelowDroppedCubeTransform)
     {
         // helper variables:
-        int animIndex = HoveringCubeInstantiator.Instance.AnimationIndex;
+        int animIndex = HoveringCubeInstantiator.Singleton.AnimationIndex;
         CubeBounds cubeBelowDroppedCubeBounds = new CubeBounds(cubeBelowDroppedCubeTransform);
 
         // figure out the axis along which to slice, and value of axis:
@@ -119,7 +119,7 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventHandler
 
     private void ProcessAndNotifySlicedCubes()
     {
-        if (RaycastHelper.GameObjectIsInTheAir(slicedCubes[0]))
+        if (RaycastHelper.IsInTheAir(slicedCubes[0].transform, 1.0f))
         {
             // give meaningful names:
             slicedCubes[1].name = "StaticCube";
@@ -131,7 +131,7 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventHandler
             // invoke event:
             InvokeSlicedCubesEvent(slicedCubes[1], slicedCubes[0]);
         }
-        else if (RaycastHelper.GameObjectIsInTheAir(slicedCubes[1]))
+        else if (RaycastHelper.IsInTheAir(slicedCubes[1].transform, 1.0f))
         {
             // give meaningful names:
             slicedCubes[0].name = "StaticCube";
