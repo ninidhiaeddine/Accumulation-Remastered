@@ -10,6 +10,7 @@ public class HoveringParentHierarchy : MonoBehaviour, IHoveringParentHierarchy
     // components references:
     public Animator Animator { get { return AnimatorContainer.GetComponent<Animator>(); } }
     public Rigidbody Rigidbody { get { return MeshContainer.GetComponent<Rigidbody>(); } }
+    public Renderer Renderer { get { return MeshContainer.GetComponent<Renderer>(); } }
 
     // transform references info:
     public Vector3 Position

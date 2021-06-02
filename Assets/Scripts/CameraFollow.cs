@@ -37,10 +37,16 @@ public class CameraFollow : MonoBehaviour, IEventHandler
 
     public void InitializeEventHandlers()
     {
+        GameEvents.SpawnedPlayerEvent.AddListener(SpawnedPlayerEventHandler);
         GameEvents.UpdatedHoveringParentReferenceEvent.AddListener(UpdatedHoveringParentReferenceEventHandler);
     }
 
     // event handlers:
+
+    private void SpawnedPlayerEventHandler(GameObject hoveringCubeParent)
+    {
+        this.Target = hoveringCubeParent.transform;
+    }
 
     private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent)
     {

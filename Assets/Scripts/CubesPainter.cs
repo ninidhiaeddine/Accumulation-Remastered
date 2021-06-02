@@ -68,6 +68,10 @@ namespace ColorManagement
 
         private void ColorInitialCubes()
         {
+            // only color when count is equal or greater than 2:
+            if (initialCubesToColor.Count < 2)
+                return;
+
             for (int i = 0; i < initialCubesToColor.Count; i++)
             {
                 StartCoroutine(LerpCubeColor(
@@ -160,11 +164,11 @@ namespace ColorManagement
 
         private void SpawnedPlayerEventHandler(GameObject spawnedPlayer)
         {
-            // get refenrece to renderer:
-            Renderer renderer = spawnedPlayer.GetComponent<Renderer>();
+            // get hierarachy:
+            IHoveringParentHierarchy hierarchy = spawnedPlayer.GetComponent<IHoveringParentHierarchy>();
 
             // add spawned player to list:
-            this.initialCubesToColor.Add(renderer);
+            this.initialCubesToColor.Add(hierarchy.Renderer);
 
             // color again:
             ColorInitialCubes();

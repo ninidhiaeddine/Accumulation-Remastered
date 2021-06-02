@@ -10,6 +10,7 @@ public interface IHoveringParentHierarchy
     // components references:
     public Animator Animator { get; }
     public Rigidbody Rigidbody { get; }
+    public Renderer Renderer { get; }
 
     // transform references info:
     public Vector3 Position { get; set; }
