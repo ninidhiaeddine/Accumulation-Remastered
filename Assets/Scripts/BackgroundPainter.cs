@@ -15,13 +15,13 @@ namespace ColorManagement
         public float transitionDuration = 5.0f;
 
         // singleton:
-        public static BackgroundPainter instance;
+        public static BackgroundPainter Singleton { get; private set; }
 
         private void Awake()
         {
             // enforce singleton:
-            if (instance == null)
-                instance = this;
+            if (Singleton == null)
+                Singleton = this;
             else
                 Destroy(this.gameObject);
         }
@@ -48,7 +48,7 @@ namespace ColorManagement
             endColor = colorPalette[size - 1];
         }
 
-        private Color ComputeBackgroundColor(List<Color> colorPalette)
+        private Color ComputeAverageBackgroundColor(List<Color> colorPalette)
         {
             // get startColor and endColor
             Color startColor, endColor;
@@ -82,7 +82,7 @@ namespace ColorManagement
         private void GeneratedPaletteEventHandler(List<Color> colorPalette)
         {
             // compute background color:
-            Color backgroundColor = ComputeBackgroundColor(colorPalette);
+            Color backgroundColor = ComputeAverageBackgroundColor(colorPalette);
 
             // paint background and fog color:
             PaintBackgroundAndFogColor(backgroundColor);
@@ -94,8 +94,8 @@ namespace ColorManagement
         {
             float t = 0.0f;
             Color output;
-            
-            while(t < 1)
+
+            while (t < 1)
             {
                 // lerp color:
                 output = Color.Lerp(startColor, endColor, t);

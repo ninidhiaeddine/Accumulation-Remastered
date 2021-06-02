@@ -4,24 +4,24 @@ public class DistanceApproximator
 {
     // helper methods:
 
-    public static float ComputeHorizontalDistance(GameObject obj1, GameObject obj2)
+    public static float ComputeHorizontalDistance(Transform transform1, Transform transform2)
     {
         Vector2 firstPos = new Vector2(
-            obj1.transform.position.x,
-            obj1.transform.position.z
+            transform1.transform.position.x,
+            transform1.transform.position.z
             );
         Vector2 secondPos = new Vector2(
-            obj2.transform.position.x,
-            obj2.transform.position.z
+            transform2.transform.position.x,
+            transform2.transform.position.z
             );
         return Vector2.Distance(firstPos, secondPos);
     }
 
-    public static void AlignCubesHorizonally(GameObject droppedCube, GameObject cubeBelowDroppedCube)
+    public static void AlignCubesHorizonally(Transform droppedCubeTransform, Transform cubeBelowDroppedCubeTransform)
     {
         // retrieve positions:
-        Vector3 droppedCubePos = droppedCube.transform.position;
-        Vector3 cubeBelowDroppedCubePos = cubeBelowDroppedCube.transform.position;
+        Vector3 droppedCubePos = droppedCubeTransform.position;
+        Vector3 cubeBelowDroppedCubePos = cubeBelowDroppedCubeTransform.position;
 
         // compute new position for dropped cube:
         Vector3 droppedCubeNewPos = new Vector3(
@@ -31,11 +31,11 @@ public class DistanceApproximator
             );
 
         // set new position:
-        droppedCube.transform.position = droppedCubeNewPos;
+        droppedCubeTransform.position = droppedCubeNewPos;
     }
 
-    public static bool IsPerfectDrop(GameObject droppedCube, GameObject cubeBelowDroppedCube, float errorMagnitude)
+    public static bool IsPerfectDrop(Transform droppedCubeTransform, Transform cubeBelowDroppedCubeTransform, float errorMagnitude)
     {
-        return (ComputeHorizontalDistance(droppedCube, cubeBelowDroppedCube) <= errorMagnitude);
+        return (ComputeHorizontalDistance(droppedCubeTransform, cubeBelowDroppedCubeTransform) <= errorMagnitude);
     }
 }

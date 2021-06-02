@@ -4,7 +4,7 @@ public class DifficultyManager : MonoBehaviour, IEventHandler
 {
     // settings:
     public float animationSpeed = 1.0f;
-    public Animator hoveringAnimator;
+    [SerializeField] private Animator hoveringAnimator;
 
     // singleton:
     public static DifficultyManager Singleton { get; private set; }
@@ -40,7 +40,8 @@ public class DifficultyManager : MonoBehaviour, IEventHandler
 
     private void SetAnimationSpeed()
     {
-        hoveringAnimator.speed = animationSpeed;
+        if (hoveringAnimator != null)
+            hoveringAnimator.speed = animationSpeed;
     }
 
     private void UpdateAnimatorReference(Animator newAnimator)

@@ -44,12 +44,9 @@ public class PlayerController : MonoBehaviour, IEventHandler
         IHoveringParentHierarchy hierarchy = GetComponent<IHoveringParentHierarchy>();
 
         // 1. remove animator from the hierarchy:
-        Destroy(hierarchy.Animator);
+        hierarchy.DestroyAnimator();
 
         // 2. add rigidbody to the mesh (to simulate dropping physics):
-        if (hierarchy.Rigidbody == null)
-        {
-            hierarchy.MeshContainer.AddComponent<Rigidbody>();
-        }
+        hierarchy.AddRigidbody();
     }
 }

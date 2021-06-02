@@ -1,21 +1,29 @@
-using System.Collections;
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour, IEventHandler
 {
     public Cinemachine.CinemachineVirtualCamera virtualCamera;
-    public float minOrthographicSize = 7.0f;
-    public float maxOrthographicSize = 20.0f;
-    public float sizeTransitionDuration = 1.0f;
+    public Transform Target 
+    {
+        get
+        {
+            return Target;
+        }
+        private set 
+        { 
+            if (virtualCamera != null)
+                virtualCamera.Follow = value; 
+        } 
+    }
 
     // singleton:
-    public static CameraFollow instance;
+    public static CameraFollow Singleton { get; private set; }
 
     private void Awake()
     {
         // enforce singleton:
-        if (instance == null)
-            instance = this;
+        if (Singleton == null)
+            Singleton = this;
         else
             Destroy(this.gameObject);
     }
@@ -32,17 +40,10 @@ public class CameraFollow : MonoBehaviour, IEventHandler
         GameEvents.UpdatedHoveringParentReferenceEvent.AddListener(UpdatedHoveringParentReferenceEventHandler);
     }
 
-    // helper methods:
-
-    private void SetTarget(Transform target)
-    {
-        virtualCamera.Follow = target;
-    }
-
     // event handlers:
 
     private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent)
     {
-        SetTarget(hoveringCubeParent.transform);
+        this.Target = hoveringCubeParent.transform;
     }
 }

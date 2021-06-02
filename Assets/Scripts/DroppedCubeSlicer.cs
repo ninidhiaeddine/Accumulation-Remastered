@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DroppedCubeSlicer : MonoBehaviour, IEventHandler
 {
-    public float errorMagnitude = 0.1f; 
+    public float errorMagnitude = 0.1f;
 
     // helper variables:
     public GameObject[] slicedCubes;
@@ -165,12 +165,12 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventHandler
     {
         if (!isGameOver)
         {
-            if (DistanceApproximator.IsPerfectDrop(droppedCube, cubeBelowDroppedCube, errorMagnitude))
+            if (DistanceApproximator.IsPerfectDrop(droppedCube.transform, cubeBelowDroppedCube.transform, errorMagnitude))
             {
                 // perfect drop:
 
                 // align cubes:
-                DistanceApproximator.AlignCubesHorizonally(droppedCube, cubeBelowDroppedCube);
+                DistanceApproximator.AlignCubesHorizonally(droppedCube.transform, cubeBelowDroppedCube.transform);
 
                 // delete parents:
                 HoveringCubeHelper.DeleteParents(droppedCube);
@@ -190,8 +190,9 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventHandler
                 // slice dropped cube
                 SliceDroppedCube(droppedCubeTransform, cubeBelowDroppedCube.transform);
 
-                // destroy hovering cube parent:
+                // destroy hovering cube parent (as a whole, not just the parent):
                 Destroy(HoveringCubeHelper.GetRootParent(droppedCube));
+
                 // destroy temporary transform:
                 Destroy(droppedCubeTransform.gameObject);
 
@@ -199,5 +200,5 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventHandler
                 ProcessAndNotifySlicedCubes();
             }
         }
-    }    
+    }
 }

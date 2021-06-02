@@ -50,4 +50,17 @@ public class HoveringParentHierarchy : MonoBehaviour, IHoveringParentHierarchy
             return result;
         }
     }
+
+    // useful functions:
+    public void AddRigidbody()
+    {
+        if (Rigidbody == null)
+            MeshContainer.AddComponent<Rigidbody>();
+    }
+
+    public void DestroyAnimator()
+    {
+        if (Animator != null)
+            Destroy(Animator);
+    }
 }

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 
@@ -89,7 +88,8 @@ public class CubeSmoothResizer : MonoBehaviour, IEventHandler
         yield return new WaitForEndOfFrame();
 
         // resize hovering cube:
-        GameObject hoveringCubeChild = this.hoveringCubeParent.transform.GetChild(0).gameObject;
-        SmoothResize(hoveringCubeChild, smoothResizers[1]);
+        IHoveringParentHierarchy hierarchy = this.hoveringCubeParent.GetComponent<IHoveringParentHierarchy>();
+        GameObject scaler = hierarchy.ScalerContainer;
+        SmoothResize(scaler, smoothResizers[1]);
     }
 }

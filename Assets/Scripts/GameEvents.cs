@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+public class SpawnedPlayerEvent : UnityEvent<GameObject> { }
 public class DroppedAndCollidedEvent : UnityEvent<GameObject, GameObject> { }
 public class UpdatedHoveringParentReferenceEvent : UnityEvent<GameObject> { }
 public class SlicedEvent : UnityEvent<GameObject, GameObject> { }
@@ -11,7 +12,8 @@ public class PerfectDropEvent : UnityEvent<GameObject> { }
 public class PerfectDropCounterUpdatedEvent : UnityEvent<int> { }
 
 public class GameEvents : MonoBehaviour
-{   
+{
+    public static SpawnedPlayerEvent SpawnedPlayerEvent;
     public static DroppedAndCollidedEvent DroppedAndCollidedEvent;
     public static SlicedEvent SlicedEvent;
     public static UpdatedHoveringParentReferenceEvent UpdatedHoveringParentReferenceEvent;
@@ -22,6 +24,9 @@ public class GameEvents : MonoBehaviour
 
     private void Awake()
     {
+        if (SpawnedPlayerEvent == null)
+            SpawnedPlayerEvent = new SpawnedPlayerEvent();
+
         if (DroppedAndCollidedEvent == null)
             DroppedAndCollidedEvent = new DroppedAndCollidedEvent();
 

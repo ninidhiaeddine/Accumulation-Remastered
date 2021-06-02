@@ -6,16 +6,16 @@ public class CameraSize : MonoBehaviour, IEventHandler
     public Cinemachine.CinemachineVirtualCamera virtualCamera;
     public float minOrthographicSize = 7.0f;
     public float maxOrthographicSize = 20.0f;
-    public float sizeTransitionDuration = 1.0f;
+    public float transitionDuration = 1.0f;
 
     // singleton:
-    public static CameraSize instance;
+    public static CameraSize Singleton { get; private set; }
 
     private void Awake()
     {
         // enforce singleton:
-        if (instance == null)
-            instance = this;
+        if (Singleton == null)
+            Singleton = this;
         else
             Destroy(this.gameObject);
     }
@@ -34,27 +34,25 @@ public class CameraSize : MonoBehaviour, IEventHandler
 
     // helper methods:
 
-    private void SetOrthographicSize(GameObject hoveringCubeParent)
+    private void SetOrthographicSize(IHoveringParentHierarchy hoveringParentHierarchy)
     {
-        // get child:
-        GameObject child = hoveringCubeParent.transform.GetChild(0).gameObject;
-
-        // retrieve child's scale:
-        Vector3 hoveringCubeScale = child.transform.localScale;
+        // retrieve scale:
+        Vector3 hoveringCubeScale = hoveringParentHierarchy.Scale;
 
         // compute size:
         float size = hoveringCubeScale.x > hoveringCubeScale.z ? hoveringCubeScale.x : hoveringCubeScale.z;
         size = Mathf.Clamp(size, minOrthographicSize, maxOrthographicSize);
 
         // lineraly interpolate size:
-        StartCoroutine(LerpSize(size, sizeTransitionDuration));
+        StartCoroutine(LerpSize(size, transitionDuration));
     }
 
     // event handlers:
 
     private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent)
     {
-        SetOrthographicSize(hoveringCubeParent);
+        IHoveringParentHierarchy hierarchy = hoveringCubeParent.GetComponent<IHoveringParentHierarchy>();
+        SetOrthographicSize(hierarchy);
     }
 
     // coroutines

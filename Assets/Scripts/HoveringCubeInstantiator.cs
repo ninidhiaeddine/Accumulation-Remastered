@@ -44,7 +44,7 @@ public class HoveringCubeInstantiator : MonoBehaviour, IEventHandler
         // only instantiate new hovering cubes when game is not over:
         if (!isGameOver)
         {
-           InstantiateHoveringCubeAndNotify(staticCube);
+            InstantiateHoveringCubeAndNotify(staticCube);
         }
     }
 

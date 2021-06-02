@@ -15,4 +15,8 @@ public interface IHoveringParentHierarchy
     public Vector3 Position { get; set; }
     public Vector3 Scale { get; set; }
     public Transform EncompassingTransform { get; }
+
+    // useful functions:
+    public void DestroyAnimator();
+    public void AddRigidbody();
 }

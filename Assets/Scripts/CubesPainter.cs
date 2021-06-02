@@ -13,7 +13,8 @@ namespace ColorManagement
     public class CubesPainter : MonoBehaviour, IEventHandler
     {
         [Header("Initial Cubes References")]
-        public List<GameObject> initialCubesToColor;
+        public List<Renderer> initialCubesToColor;
+        public float initialColoringDuration = 0.5f;
 
         [Header("Color Settings")]
         public int numberOfColors = 15;     // recommended value for this game
@@ -26,13 +27,13 @@ namespace ColorManagement
         private int colorIndex;
 
         // singleton:
-        public static CubesPainter instance;
+        public static CubesPainter Singleton { get; private set; }
 
         private void Awake()
         {
             // enforce singleton:
-            if (instance == null)
-                instance = this;
+            if (Singleton == null)
+                Singleton = this;
             else
                 Destroy(this.gameObject);
         }
@@ -48,6 +49,7 @@ namespace ColorManagement
 
         public void InitializeEventHandlers()
         {
+            GameEvents.SpawnedPlayerEvent.AddListener(SpawnedPlayerEventHandler);
             GameEvents.SlicedEvent.AddListener(SlicedEventHandler);
             GameEvents.UpdatedHoveringParentReferenceEvent.AddListener(UpdatedHoveringParentReferenceEventHandler);
         }
@@ -68,7 +70,12 @@ namespace ColorManagement
         {
             for (int i = 0; i < initialCubesToColor.Count; i++)
             {
-                ColorCube(initialCubesToColor[i], ColorOrder.Next);
+                StartCoroutine(LerpCubeColor(
+                    cubeRenderer: initialCubesToColor[i],
+                    startColor: Color.white,
+                    endColor: GetColor(ColorOrder.Next),
+                    duration: initialColoringDuration
+                    ));
             }
         }
 
@@ -126,7 +133,7 @@ namespace ColorManagement
             {
                 GenerateNewPalette();
             }
-            
+
             // notify:
             InvokeEvents();
         }
@@ -143,18 +150,30 @@ namespace ColorManagement
             this.colorIndex = 0;
         }
 
-        private void ColorCube(GameObject cube, ColorOrder colorOrder)
+        private void ColorCube(Renderer cubeRenderer, ColorOrder colorOrder)
         {
-            if (cube != null)
-                cube.GetComponent<Renderer>().material.color = GetColor(colorOrder);
+            if (cubeRenderer != null)
+                cubeRenderer.material.color = GetColor(colorOrder);
         }
 
         // event handlers:
 
+        private void SpawnedPlayerEventHandler(GameObject spawnedPlayer)
+        {
+            // get refenrece to renderer:
+            Renderer renderer = spawnedPlayer.GetComponent<Renderer>();
+
+            // add spawned player to list:
+            this.initialCubesToColor.Add(renderer);
+
+            // color again:
+            ColorInitialCubes();
+        }
+
         private void SlicedEventHandler(GameObject staticCube, GameObject fallingCube)
         {
-            ColorCube(staticCube, ColorOrder.Current);
-            ColorCube(fallingCube, ColorOrder.Current);
+            ColorCube(staticCube.GetComponent<Renderer>(), ColorOrder.Current);
+            ColorCube(fallingCube.GetComponent<Renderer>(), ColorOrder.Current);
         }
 
         private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent)
@@ -162,9 +181,30 @@ namespace ColorManagement
             // get hierarchy:
             HoveringParentHierarchy hierarchy = HoveringCubeHelper.GetHierarchy(hoveringCubeParent);
 
-            // get reference to mesh:
-            GameObject mesh = hierarchy.MeshContainer;
-            ColorCube(mesh, ColorOrder.Next);
+            // get reference to cube renderer:
+            Renderer cubeRenderer = hierarchy.MeshContainer.GetComponent<Renderer>();
+            ColorCube(cubeRenderer, ColorOrder.Next);
+        }
+
+        // coroutines:
+
+        IEnumerator LerpCubeColor(Renderer cubeRenderer, Color startColor, Color endColor, float duration)
+        {
+            float t = 0.0f;
+            Color output;
+
+            while (t < 1)
+            {
+                // lerp color:
+                output = Color.Lerp(startColor, endColor, t);
+
+                // set color:
+                cubeRenderer.material.color = output;
+
+                // wait for end of frame:
+                yield return new WaitForEndOfFrame();
+                t += Time.deltaTime / duration;
+            }
         }
     }
 }

@@ -44,7 +44,7 @@ public class HoveringCubeTracker : MonoBehaviour, IEventHandler
     {
         this.HoveringCubeParent = hoveringCubeParent;
     }
-    
+
     // event handlers:
 
     private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent)

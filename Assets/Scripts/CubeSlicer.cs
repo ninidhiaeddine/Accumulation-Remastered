@@ -1,5 +1,5 @@
-using UnityEngine;
 using System;
+using UnityEngine;
 
 public enum Axis
 {
@@ -51,7 +51,7 @@ public class CubeSlicer
 
                 // compute positions:
                 newPositions[0].x = value + newScales[0].x / 2.0f;
-                newPositions[1].x = value - newScales[1].x / 2.0f;                
+                newPositions[1].x = value - newScales[1].x / 2.0f;
 
                 break;
 

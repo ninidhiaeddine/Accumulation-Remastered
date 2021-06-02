@@ -15,7 +15,7 @@ public class SceneLoaderEditor : Editor
         sceneLoader = target as SceneLoader;
 
         ConditionalDropDowns();
-        DisplayButton();       
+        DisplayButton();
     }
 
     private void ConditionalDropDowns()

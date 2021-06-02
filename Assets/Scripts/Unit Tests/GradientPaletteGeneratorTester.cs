@@ -1,6 +1,6 @@
+using ColorManagement;
 using System.Collections.Generic;
 using UnityEngine;
-using ColorManagement;
 
 public class GradientPaletteGeneratorTester : MonoBehaviour
 {

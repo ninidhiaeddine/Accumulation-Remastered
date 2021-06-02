@@ -16,9 +16,9 @@ public class Interval<T> where T : IComparable
     public IntervalType UpperBoundIntervalType { get; private set; }
 
     public Interval(
-        T lowerBound, 
-        T upperBound, 
-        IntervalType lowerBoundIntervalType, 
+        T lowerBound,
+        T upperBound,
+        IntervalType lowerBoundIntervalType,
         IntervalType upperBoundIntervalType
     )
     {
