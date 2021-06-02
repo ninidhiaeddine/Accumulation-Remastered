@@ -2,65 +2,43 @@ using UnityEngine;
 
 public class DifficultyManager : MonoBehaviour, IEventHandler
 {
-    // settings:
-    public float animationSpeed = 1.0f;
-    [SerializeField] private Animator hoveringAnimator;
-
-    // singleton:
-    public static DifficultyManager Singleton { get; private set; }
-
-    private void Awake()
-    {
-        // enforce singleton:
-        if (Singleton == null)
-            Singleton = this;
-        else
-            Destroy(this.gameObject);
-    }
+    public float ratioToIncreaseAnimatorSpeed = 0.1f;
 
     private void Start()
     {
-        SetAnimationSpeed();
         InitializeEventHandlers();
-    }
-
-    private void OnValidate()
-    {
-        SetAnimationSpeed();
     }
 
     // interface methods:
 
     public void InitializeEventHandlers()
     {
-        GameEvents.UpdatedHoveringParentReferenceEvent.AddListener(UpdatedHoveringParentReferenceEventHandler);
+        GameEvents.PerfectDropCounterUpdatedEvent.AddListener(PerfectDropCounterUpdatedEventHandler);
+        GameEvents.SlicedEvent.AddListener(SlicedEventHandler);
     }
 
     // helper methods:
 
-    private void SetAnimationSpeed()
+    private void IncreaseAnimatorSpeed(float ratio)
     {
-        if (hoveringAnimator != null)
-            hoveringAnimator.speed = animationSpeed;
+        AnimatorSpeedManager.Singleton.AnimationSpeed *= ratio;
     }
 
-    private void UpdateAnimatorReference(Animator newAnimator)
+    private void ResetAnimatorSpeed()
     {
-        // update reference:
-        hoveringAnimator = newAnimator;
-
-        // set speed again:
-        SetAnimationSpeed();
+        AnimatorSpeedManager.Singleton.AnimationSpeed = 1.0f;
     }
 
     // event handlers:
 
-    private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent)
+    private void PerfectDropCounterUpdatedEventHandler(int count)
     {
-        // get reference to hierarchy:
-        HoveringParentHierarchy hierarchy = hoveringCubeParent.GetComponent<HoveringParentHierarchy>();
+        float ratio = 1.0f + count * this.ratioToIncreaseAnimatorSpeed;
+        IncreaseAnimatorSpeed(ratio);
+    }
 
-        // update reference to animator:
-        UpdateAnimatorReference(hierarchy.Animator);
+    private void SlicedEventHandler(GameObject staticCube, GameObject fallingCube)
+    {
+        ResetAnimatorSpeed();
     }
 }
