@@ -424,7 +424,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &597978984
 Transform:
   m_ObjectHideFlags: 0
@@ -453,11 +453,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialCubesToColor:
   - {fileID: 990679446}
-  initialColoringDuration: 0.5
-  numberOfColors: 5
+  initialColoringDuration: 1
+  numberOfColors: 15
   saturation: 0.75
   vibrance: 1
   useOldEndColor: 1
+  emitColorsAfterPerfectDrops: 3
 --- !u!1 &659558169
 GameObject:
   m_ObjectHideFlags: 0
@@ -1533,7 +1534,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1935415174
 Transform:
   m_ObjectHideFlags: 0

@@ -21,10 +21,13 @@ namespace ColorManagement
         public float saturation = 0.75f;    // recommended value for this game
         public float vibrance = 1.0f;       // recommended value for this game
         public bool useOldEndColor = true;  // this implies that the new generated palette will use the latest endColor of the previous palette as a starting point for the new palette
+        public int emitColorsAfterPerfectDrops = 2;
 
         // helper variables:
         private List<Color> colors;
         private int colorIndex;
+
+        private GameObject perfectDropCube;
 
         // singleton:
         public static CubesPainter Singleton { get; private set; }
@@ -51,6 +54,8 @@ namespace ColorManagement
         {
             GameEvents.SpawnedPlayerEvent.AddListener(SpawnedPlayerEventHandler);
             GameEvents.SlicedEvent.AddListener(SlicedEventHandler);
+            GameEvents.PerfectDropEvent.AddListener(PerfectDropEventHandler);
+            GameEvents.PerfectDropCounterUpdatedEvent.AddListener(PerfectDropCounterUpdatedEventHandler);
             GameEvents.UpdatedHoveringParentReferenceEvent.AddListener(UpdatedHoveringParentReferenceEventHandler);
         }
 
@@ -160,7 +165,37 @@ namespace ColorManagement
                 cubeRenderer.material.color = GetColor(colorOrder);
         }
 
+        private void MakeCubeEmissive(Renderer cubeRenderer)
+        {
+            // retrieve color:
+            Color color = cubeRenderer.material.color;
+
+            // make emission color (a darker one than the original color):
+            Color emissionColor = ColorHelper.ChangeHSV(color, 0, 0, -0.5f);
+
+            // set emissive color:
+            cubeRenderer.material.SetColor("_EmissionColor", emissionColor);
+
+            // enable emission:
+            cubeRenderer.material.EnableKeyword("_EMISSION");
+        }
+
         // event handlers:
+
+        private void PerfectDropEventHandler(GameObject staticCube)
+        {
+            // store reference to the cube:
+            this.perfectDropCube = staticCube;
+        }
+
+        private void PerfectDropCounterUpdatedEventHandler(int count)
+        {
+            if (count >= this.emitColorsAfterPerfectDrops)
+            {
+                // make material emissive:
+                MakeCubeEmissive(this.perfectDropCube.GetComponent<Renderer>());
+            } 
+        }
 
         private void SpawnedPlayerEventHandler(GameObject spawnedPlayer)
         {
