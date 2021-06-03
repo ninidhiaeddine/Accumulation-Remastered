@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    public PlayerManager playerManager;
     public List<KeyCode> singlePlayerDropKeyBindings;
     public List<KeyCode> firstPlayerDropKeyBindings;
     public List<KeyCode> secondPlayerDropKeyBindings;
@@ -21,7 +20,7 @@ public class InputManager : MonoBehaviour
         {
             if (Input.GetKeyDown(keyBinding))
             {
-                InputEvents.SinglePlayerDroppedInputEvent.Invoke(playerManager.playerToLookFor);
+                InputEvents.SinglePlayerDroppedInputEvent.Invoke(Player.SinglePlayer);
             }
         }
     }
@@ -32,7 +31,7 @@ public class InputManager : MonoBehaviour
         {
             if (Input.GetKeyDown(keyBinding))
             {
-                InputEvents.FirstPlayerDroppedInputEvent.Invoke(playerManager.playerToLookFor);
+                InputEvents.FirstPlayerDroppedInputEvent.Invoke(Player.Player1);
             }
         }
     }
@@ -43,7 +42,7 @@ public class InputManager : MonoBehaviour
         {
             if (Input.GetKeyDown(keyBinding))
             {
-                InputEvents.SecondPlayerDroppedInputEvent.Invoke(playerManager.playerToLookFor);
+                InputEvents.SecondPlayerDroppedInputEvent.Invoke(Player.Player2);
             }
         }
     }

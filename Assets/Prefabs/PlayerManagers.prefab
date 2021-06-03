@@ -747,10 +747,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ece5aac197136c40b40e63a1cd9a770, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerManager: {fileID: 1883850573164913954}
   singlePlayerDropKeyBindings: 2000000043010000
   firstPlayerDropKeyBindings: 2000000043010000
-  secondPlayerDropKeyBindings: 2f01000044010000
+  secondPlayerDropKeyBindings: 0800000044010000
 --- !u!1 &1883850572622014444
 GameObject:
   m_ObjectHideFlags: 0

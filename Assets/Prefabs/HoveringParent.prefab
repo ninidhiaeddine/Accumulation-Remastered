@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7661219850775934489}
   m_Layer: 0
   m_Name: Scaler
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 7661219851687466150}
   m_Layer: 0
   m_Name: Animator
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

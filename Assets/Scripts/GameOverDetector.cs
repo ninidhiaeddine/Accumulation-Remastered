@@ -14,6 +14,7 @@ public class GameOverDetector : MonoBehaviour, IEventHandler
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.CompareTag("Player") || other.CompareTag("Player1") || other.CompareTag("Player2"))
         InvokeGameOverEvent();
     }
 
