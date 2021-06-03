@@ -8,7 +8,7 @@ namespace ColorManagement
     {
         // references:
         public PlayerManager playerManager;
-        public Camera camera;
+        public new Camera camera;
 
         [Header("HSV Settings")]
         public float hueToAdd = 0.0f;
@@ -88,9 +88,10 @@ namespace ColorManagement
         IEnumerator LerpBackgroundAndFogColor(Color startColor, Color endColor, float duration)
         {
             float t = 0.0f;
+            float elapsed = 0.0f;
             Color output;
 
-            while (t < 1)
+            while (elapsed < duration)
             {
                 // lerp color:
                 output = Color.Lerp(startColor, endColor, t);
@@ -101,7 +102,8 @@ namespace ColorManagement
 
                 // wait for end of frame:
                 yield return new WaitForEndOfFrame();
-                t += Time.deltaTime / duration;
+                elapsed += Time.deltaTime;
+                t = elapsed / duration;
             }
         }
     }

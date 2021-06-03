@@ -13,7 +13,7 @@ public class CubeSmoothResizer : MonoBehaviour, IEventHandler
     public float transitionDuration;
 
     // helper variable:
-    private GameObject droppedCube;
+    private GameObject staticCube;
     private GameObject hoveringCubeParent;
     private SmoothResizer[] smoothResizers;
 
@@ -55,7 +55,7 @@ public class CubeSmoothResizer : MonoBehaviour, IEventHandler
     private void PerfectDropEventHandler(GameObject staticCube, Player sender)
     {
         if (playerManager.EventShouldBeApproved(sender))
-            this.droppedCube = staticCube;
+            this.staticCube = staticCube;
     }
 
     private void PerfectDropCounterUpdatedEventHandler(int count, Player sender)
@@ -77,8 +77,8 @@ public class CubeSmoothResizer : MonoBehaviour, IEventHandler
 
     IEnumerator ResizeCubes()
     {
-        // resize dropped cube:
-        SmoothResize(droppedCube, smoothResizers[0]);
+        // resize static cube:
+        SmoothResize(staticCube, smoothResizers[0]);
 
         // wait for one frame (wait until hoveringCube data is available)
         yield return new WaitForEndOfFrame();

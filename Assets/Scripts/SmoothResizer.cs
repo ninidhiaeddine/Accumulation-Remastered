@@ -7,7 +7,9 @@ public class SmoothResizer : MonoBehaviour
     public Vector3 TargetScale { get; set; }
     public float TransitionDuration { get; set; }
 
+    // helper variables:
     private bool isInitialized;
+    private Vector3 initalScale;
 
     public void SetSettings(GameObject target, Vector3 targetScale, float transitionDuration)
     {
@@ -15,6 +17,7 @@ public class SmoothResizer : MonoBehaviour
         TargetScale = targetScale;
         TransitionDuration = transitionDuration;
 
+        initalScale = TargetGameObject.gameObject.transform.localScale;
         isInitialized = true;
     }
 
@@ -30,22 +33,24 @@ public class SmoothResizer : MonoBehaviour
 
     private IEnumerator Resize()
     {
+        float elapsed = 0.0f;
         float t = 0.0f;
 
-        while (t < 1)
+        while (elapsed < TransitionDuration)
         {
             // retrieve current scale:
             Vector3 currentScale = TargetGameObject.transform.localScale;
 
             // compute new scale:
-            Vector3 newScale = Vector3.Lerp(currentScale, TargetScale, t);
+            Vector3 newScale = Vector3.Lerp(initalScale, TargetScale, t);
 
             // set new scale:
             TargetGameObject.transform.localScale = newScale;
 
             // wait for end of frame:
             yield return new WaitForEndOfFrame();
-            t += Time.deltaTime / TransitionDuration;
+            elapsed += Time.deltaTime;
+            t = elapsed / TransitionDuration;
         }
     }
 }
