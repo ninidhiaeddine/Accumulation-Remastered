@@ -285,6 +285,49 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &97892814
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 97892816}
+  - component: {fileID: 97892815}
+  m_Layer: 0
+  m_Name: InputEvents
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &97892815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 97892814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e49952a100b2b145b7ac9c2da748f11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &97892816
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 97892814}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &659558169
 GameObject:
   m_ObjectHideFlags: 0
@@ -777,6 +820,52 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 30, y: 45, z: 0}
+--- !u!1 &1603472889
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1603472891}
+  - component: {fileID: 1603472890}
+  m_Layer: 0
+  m_Name: InputManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1603472890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1603472889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ece5aac197136c40b40e63a1cd9a770, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  singlePlayerDropKeyBindings: 2000000043010000
+  firstPlayerDropKeyBindings: 2000000043010000
+  secondPlayerDropKeyBindings: 0800000044010000
+--- !u!4 &1603472891
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1603472889}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1883850573118785675
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -784,6 +873,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1883850571240071111, guid: 6bff9175abafa8645ba236b3dbe5c68a, type: 3}
+      propertyPath: hoveringCubePrefab
+      value: 
+      objectReference: {fileID: 7661219852752223140, guid: 536d5fe0f7f485543b7e9b7b80b70774, type: 3}
     - target: {fileID: 1883850571496959984, guid: 6bff9175abafa8645ba236b3dbe5c68a, type: 3}
       propertyPath: virtualCamera
       value: 
@@ -800,6 +893,22 @@ PrefabInstance:
       propertyPath: virtualCamera
       value: 
       objectReference: {fileID: 1326652032}
+    - target: {fileID: 1883850572328822203, guid: 6bff9175abafa8645ba236b3dbe5c68a, type: 3}
+      propertyPath: playerManager
+      value: 
+      objectReference: {fileID: 62942633}
+    - target: {fileID: 1883850572328822203, guid: 6bff9175abafa8645ba236b3dbe5c68a, type: 3}
+      propertyPath: playerDropKeyBindings.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1883850572328822203, guid: 6bff9175abafa8645ba236b3dbe5c68a, type: 3}
+      propertyPath: playerDropKeyBindings.Array.data[0]
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 1883850572328822203, guid: 6bff9175abafa8645ba236b3dbe5c68a, type: 3}
+      propertyPath: playerDropKeyBindings.Array.data[1]
+      value: 323
+      objectReference: {fileID: 0}
     - target: {fileID: 1883850572622014434, guid: 6bff9175abafa8645ba236b3dbe5c68a, type: 3}
       propertyPath: initialCubesToColor.Array.data[0]
       value: 

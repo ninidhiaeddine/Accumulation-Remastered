@@ -4,7 +4,7 @@ public class HoveringCubeInstantiator : MonoBehaviour, IEventHandler
 {
     // references:
     public PlayerManager playerManager;
-    public GameObject hoveringCubeParentPrefab;
+    public GameObject hoveringCubePrefab;
     public Vector3 offsetFromDroppedCube;
 
     [HideInInspector]
@@ -65,8 +65,9 @@ public class HoveringCubeInstantiator : MonoBehaviour, IEventHandler
     private void InstantiateHoveringCubeAndNotify(GameObject staticCube)
     {
         GameObject newHoveringCubeParent = InstantiateHoveringCubeParent(staticCube);
-        SetRandomAnimation(newHoveringCubeParent);
-        SetPlayerManagerReference(newHoveringCubeParent);
+        IHoveringParentHierarchy hierarchy = newHoveringCubeParent.GetComponent<IHoveringParentHierarchy>();
+        SetRandomAnimation(hierarchy);
+        SetPlayerManagerReference(hierarchy);
         UpdateHoveringParentReference(newHoveringCubeParent);
     }
 
@@ -80,7 +81,7 @@ public class HoveringCubeInstantiator : MonoBehaviour, IEventHandler
         Vector3 newScale = staticCube.transform.localScale;
 
         // instantiate prefab:
-        GameObject instance = Instantiate(this.hoveringCubeParentPrefab);
+        GameObject instance = Instantiate(this.hoveringCubePrefab);
 
         // retrieve hierarchy of new instance:
         HoveringParentHierarchy newHierarchy = HoveringCubeHelper.GetHierarchy(instance);
@@ -93,13 +94,10 @@ public class HoveringCubeInstantiator : MonoBehaviour, IEventHandler
         return instance;
     }
 
-    private void SetRandomAnimation(GameObject hoveringCubeParent)
+    private void SetRandomAnimation(IHoveringParentHierarchy hoveringParentHierarchy)
     {
-        // get reference to hierarchy:
-        HoveringParentHierarchy hierarchy = HoveringCubeHelper.GetHierarchy(hoveringCubeParent);
-
         // get reference to animator in the hierarchy:
-        Animator animator = hierarchy.Animator;
+        Animator animator = hoveringParentHierarchy.Animator;
 
         // generate random animation index:
         AnimationIndex = Random.Range(0, 4);
@@ -108,13 +106,10 @@ public class HoveringCubeInstantiator : MonoBehaviour, IEventHandler
         animator.SetInteger("index", AnimationIndex);
     }
 
-    private void SetPlayerManagerReference(GameObject hoveringCubeParent)
+    private void SetPlayerManagerReference(IHoveringParentHierarchy hoveringParentHierarchy)
     {
-        // get hierarchy:
-        IHoveringParentHierarchy hierarchy = hoveringCubeParent.GetComponent<IHoveringParentHierarchy>();
-
         // get script reference:
-        DroppedCubeBehavior script = hierarchy.MeshContainer.GetComponent<DroppedCubeBehavior>();
+        DroppedCubeBehavior script = hoveringParentHierarchy.MeshContainer.GetComponent<DroppedCubeBehavior>();
 
         // set reference:
         script.playerManager = this.playerManager;

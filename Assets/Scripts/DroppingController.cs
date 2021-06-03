@@ -25,19 +25,25 @@ public class DroppingController : MonoBehaviour, IEventHandler
     private void SinglePlayerDroppedInputEventHandler(Player sender)
     {
         if (playerManager.EventShouldBeApproved(sender))
+        {
             DropHoveringCube();
+        }
     }
 
     private void FirstPlayerDroppedInputEventHandler(Player sender)
     {
         if (playerManager.EventShouldBeApproved(sender))
+        {
             DropHoveringCube();
+        }
     }
 
     private void SecondPlayerDroppedInputEventHandler(Player sender)
     {
         if (playerManager.EventShouldBeApproved(sender))
+        {
             DropHoveringCube();
+        }
     }
 
     // helper method:

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour
-{
+{ 
     public List<KeyCode> singlePlayerDropKeyBindings;
     public List<KeyCode> firstPlayerDropKeyBindings;
     public List<KeyCode> secondPlayerDropKeyBindings;
