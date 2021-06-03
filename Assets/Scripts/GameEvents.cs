@@ -2,14 +2,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class SpawnedPlayerEvent : UnityEvent<GameObject> { }
-public class DroppedAndCollidedEvent : UnityEvent<GameObject, GameObject> { }
-public class UpdatedHoveringParentReferenceEvent : UnityEvent<GameObject> { }
-public class SlicedEvent : UnityEvent<GameObject, GameObject> { }
-public class GeneratedPaletteEvent : UnityEvent<List<Color>> { }
-public class GameOverEvent : UnityEvent { }
-public class PerfectDropEvent : UnityEvent<GameObject> { }
-public class PerfectDropCounterUpdatedEvent : UnityEvent<int> { }
+public class SpawnedPlayerEvent : UnityEvent<GameObject, Player> { }
+public class DroppedAndCollidedEvent : UnityEvent<GameObject, GameObject, Player> { }
+public class UpdatedHoveringParentReferenceEvent : UnityEvent<GameObject, Player> { }
+public class SlicedEvent : UnityEvent<GameObject, GameObject, Player> { }
+public class GeneratedPaletteEvent : UnityEvent<List<Color>, Player> { }
+public class GameOverEvent : UnityEvent<Player> { }
+public class PerfectDropEvent : UnityEvent<GameObject, Player> { }
+public class PerfectDropCounterUpdatedEvent : UnityEvent<int, Player> { }
 
 public class GameEvents : MonoBehaviour
 {

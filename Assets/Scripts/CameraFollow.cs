@@ -2,7 +2,10 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour, IEventHandler
 {
+    // references:
+    public PlayerManager playerManager;
     public Cinemachine.CinemachineVirtualCamera virtualCamera;
+
     public Transform Target 
     {
         get
@@ -14,18 +17,6 @@ public class CameraFollow : MonoBehaviour, IEventHandler
             if (virtualCamera != null)
                 virtualCamera.Follow = value; 
         } 
-    }
-
-    // singleton:
-    public static CameraFollow Singleton { get; private set; }
-
-    private void Awake()
-    {
-        // enforce singleton:
-        if (Singleton == null)
-            Singleton = this;
-        else
-            Destroy(this.gameObject);
     }
 
     private void Start()
@@ -43,13 +34,15 @@ public class CameraFollow : MonoBehaviour, IEventHandler
 
     // event handlers:
 
-    private void SpawnedPlayerEventHandler(GameObject hoveringCubeParent)
+    private void SpawnedPlayerEventHandler(GameObject hoveringCubeParent, Player sender)
     {
-        this.Target = hoveringCubeParent.transform;
+        if (playerManager.EventShouldBeApproved(sender))
+            this.Target = hoveringCubeParent.transform;
     }
 
-    private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent)
+    private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent, Player sender)
     {
-        this.Target = hoveringCubeParent.transform;
+        if (playerManager.EventShouldBeApproved(sender))
+            this.Target = hoveringCubeParent.transform;
     }
 }

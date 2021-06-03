@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class GameOverDetector : MonoBehaviour, IEventHandler
 {
+    // references:
+    public PlayerManager playerManager;
+
     public Vector3 detectorOffsetPosition;
 
     void Start()
@@ -11,8 +14,7 @@ public class GameOverDetector : MonoBehaviour, IEventHandler
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-            InvokeGameOverEvent();
+        InvokeGameOverEvent();
     }
 
     // helper methods:
@@ -36,14 +38,14 @@ public class GameOverDetector : MonoBehaviour, IEventHandler
 
     private void InvokeGameOverEvent()
     {
-        GameEvents.GameOverEvent.Invoke();
-        Debug.Log("Game Over");
+        GameEvents.GameOverEvent.Invoke(playerManager.playerToLookFor);
     }
 
     // event handlers:
 
-    private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent)
+    private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent, Player sender)
     {
-        UpdateDetectorPosition(hoveringCubeParent);
+        if (playerManager.EventShouldBeApproved(sender))
+            UpdateDetectorPosition(hoveringCubeParent);
     }
 }

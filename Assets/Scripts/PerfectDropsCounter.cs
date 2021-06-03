@@ -2,19 +2,10 @@ using UnityEngine;
 
 public class PerfectDropsCounter : MonoBehaviour, IEventHandler
 {
+    // references:
+    public PlayerManager playerManager;
+
     public int Counter { get; private set; }
-
-    // singleton:
-    public static PerfectDropsCounter Singleton { get; private set; }
-
-    private void Awake()
-    {
-        // enforce singleton:
-        if (Singleton == null)
-            Singleton = this;
-        else
-            Destroy(this.gameObject);
-    }
 
     private void Start()
     {
@@ -35,22 +26,28 @@ public class PerfectDropsCounter : MonoBehaviour, IEventHandler
 
     // event handlers:
 
-    private void PerfectDropEventHandler(GameObject droppedCube)
+    private void PerfectDropEventHandler(GameObject droppedCube, Player sender)
     {
-        // perfect drop detected:
-        IncrementCounter();
+        if (playerManager.EventShouldBeApproved(sender))
+        {
+            // perfect drop detected:
+            IncrementCounter();
 
-        // invoke event:
-        GameEvents.PerfectDropCounterUpdatedEvent.Invoke(this.Counter);
+            // invoke event:
+            GameEvents.PerfectDropCounterUpdatedEvent.Invoke(this.Counter, playerManager.playerToLookFor);
+        }
     }
 
-    private void SlicedEventHandler(GameObject staticCube, GameObject fallingCube)
+    private void SlicedEventHandler(GameObject staticCube, GameObject fallingCube, Player sender)
     {
-        // slicing took place:
-        ResetCounter();
+        if (playerManager.EventShouldBeApproved(sender))
+        {
+            // slicing took place:
+            ResetCounter();
 
-        // invoke event:
-        GameEvents.PerfectDropCounterUpdatedEvent.Invoke(this.Counter);
+            // invoke event:
+            GameEvents.PerfectDropCounterUpdatedEvent.Invoke(this.Counter, playerManager.playerToLookFor);
+        }
     }
 
     // interface methods:

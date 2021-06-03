@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class DifficultyManager : MonoBehaviour, IEventHandler
 {
+    // references:
+    public PlayerManager playerManager;
+    public AnimatorSpeedManager animatorSpeedManager;
+
     public float ratioToIncreaseAnimatorSpeed = 0.1f;
 
     private void Start()
@@ -21,24 +25,29 @@ public class DifficultyManager : MonoBehaviour, IEventHandler
 
     private void IncreaseAnimatorSpeed(float ratio)
     {
-        AnimatorSpeedManager.Singleton.AnimationSpeed *= ratio;
+        animatorSpeedManager.AnimationSpeed *= ratio;
     }
 
     private void ResetAnimatorSpeed()
     {
-        AnimatorSpeedManager.Singleton.AnimationSpeed = 1.0f;
+        animatorSpeedManager.AnimationSpeed = 1.0f;
     }
 
     // event handlers:
 
-    private void PerfectDropCounterUpdatedEventHandler(int count)
+    private void PerfectDropCounterUpdatedEventHandler(int count, Player sender)
     {
-        float ratio = 1.0f + count * this.ratioToIncreaseAnimatorSpeed;
-        IncreaseAnimatorSpeed(ratio);
+        if (playerManager.EventShouldBeApproved(sender))
+        {
+            float ratio = 1.0f + count * this.ratioToIncreaseAnimatorSpeed;
+            IncreaseAnimatorSpeed(ratio);
+        }
+
     }
 
-    private void SlicedEventHandler(GameObject staticCube, GameObject fallingCube)
+    private void SlicedEventHandler(GameObject staticCube, GameObject fallingCube, Player sender)
     {
-        ResetAnimatorSpeed();
+        if (playerManager.EventShouldBeApproved(sender))
+            ResetAnimatorSpeed();
     }
 }

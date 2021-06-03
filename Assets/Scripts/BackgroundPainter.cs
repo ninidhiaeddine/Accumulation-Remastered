@@ -6,6 +6,9 @@ namespace ColorManagement
 {
     public class BackgroundPainter : MonoBehaviour, IEventHandler
     {
+        // references:
+        public PlayerManager playerManager;
+
         [Header("HSV Settings")]
         public float hueToAdd = 0.0f;
         public float saturationToAdd = 0.0f;
@@ -13,18 +16,6 @@ namespace ColorManagement
 
         [Header("Transition Settings")]
         public float transitionDuration = 5.0f;
-
-        // singleton:
-        public static BackgroundPainter Singleton { get; private set; }
-
-        private void Awake()
-        {
-            // enforce singleton:
-            if (Singleton == null)
-                Singleton = this;
-            else
-                Destroy(this.gameObject);
-        }
 
         void Start()
         {
@@ -79,13 +70,16 @@ namespace ColorManagement
 
         // event handlers:
 
-        private void GeneratedPaletteEventHandler(List<Color> colorPalette)
+        private void GeneratedPaletteEventHandler(List<Color> colorPalette, Player sender)
         {
-            // compute background color:
-            Color backgroundColor = ComputeAverageBackgroundColor(colorPalette);
+            if (playerManager.EventShouldBeApproved(sender))
+            {
+                // compute background color:
+                Color backgroundColor = ComputeAverageBackgroundColor(colorPalette);
 
-            // paint background and fog color:
-            PaintBackgroundAndFogColor(backgroundColor);
+                // paint background and fog color:
+                PaintBackgroundAndFogColor(backgroundColor);
+            }
         }
 
         // Coroutines:

@@ -4,6 +4,9 @@ using UnityEngine;
 [RequireComponent(typeof(SmoothResizer))]
 public class CubeSmoothResizer : MonoBehaviour, IEventHandler
 {
+    // references:
+    public PlayerManager playerManager;
+
     // settings:
     public int resizeCubeAfterPerfectDrops = 2;
     public Vector3 scaleToAdd;
@@ -13,18 +16,6 @@ public class CubeSmoothResizer : MonoBehaviour, IEventHandler
     private GameObject droppedCube;
     private GameObject hoveringCubeParent;
     private SmoothResizer[] smoothResizers;
-
-    // singleton:
-    public static CubeSmoothResizer Singleton { get; private set; }
-
-    private void Awake()
-    {
-        // enforce singleton:
-        if (Singleton == null)
-            Singleton = this;
-        else
-            Destroy(this.gameObject);
-    }
 
     void Start()
     {
@@ -61,20 +52,25 @@ public class CubeSmoothResizer : MonoBehaviour, IEventHandler
 
     // event handlers:
 
-    private void PerfectDropEventHandler(GameObject staticCube)
+    private void PerfectDropEventHandler(GameObject staticCube, Player sender)
     {
-        this.droppedCube = staticCube;
+        if (playerManager.EventShouldBeApproved(sender))
+            this.droppedCube = staticCube;
     }
 
-    private void PerfectDropCounterUpdatedEventHandler(int count)
+    private void PerfectDropCounterUpdatedEventHandler(int count, Player sender)
     {
-        if (count >= this.resizeCubeAfterPerfectDrops)
-            StartCoroutine(ResizeCubes());
+        if (playerManager.EventShouldBeApproved(sender))
+        {
+            if (count >= this.resizeCubeAfterPerfectDrops)
+                StartCoroutine(ResizeCubes());
+        }
     }
 
-    private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent)
+    private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent, Player sender)
     {
-        this.hoveringCubeParent = hoveringCubeParent;
+        if (playerManager.EventShouldBeApproved(sender))
+            this.hoveringCubeParent = hoveringCubeParent;
     }
 
     // Couroutines:

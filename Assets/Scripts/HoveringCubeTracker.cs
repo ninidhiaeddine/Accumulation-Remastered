@@ -2,23 +2,14 @@ using UnityEngine;
 
 public class HoveringCubeTracker : MonoBehaviour, IEventHandler
 {
+    // references:
+    public PlayerManager playerManager;
+
     [SerializeField]
     private GameObject initialHoveringCubeParent;
 
     [HideInInspector]
     public GameObject HoveringCubeParent { get; private set; }
-
-    // singleton:
-    public static HoveringCubeTracker Singleton { get; private set; }
-
-    private void Awake()
-    {
-        // enforce singleton:
-        if (Singleton == null)
-            Singleton = this;
-        else
-            Destroy(this);
-    }
 
     private void Start()
     {
@@ -47,8 +38,9 @@ public class HoveringCubeTracker : MonoBehaviour, IEventHandler
 
     // event handlers:
 
-    private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent)
+    private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent, Player sender)
     {
-        UpdateParentReference(hoveringCubeParent);
+        if (playerManager.EventShouldBeApproved(sender))
+            UpdateParentReference(hoveringCubeParent);
     }
 }

@@ -12,6 +12,9 @@ namespace ColorManagement
 
     public class CubesPainter : MonoBehaviour, IEventHandler
     {
+        // references:
+        public PlayerManager playerManager;
+
         [Header("Initial Cubes References")]
         public List<Renderer> initialCubesToColor;
         public float initialColoringDuration = 0.5f;
@@ -28,18 +31,6 @@ namespace ColorManagement
         private int colorIndex;
 
         private GameObject perfectDropCube;
-
-        // singleton:
-        public static CubesPainter Singleton { get; private set; }
-
-        private void Awake()
-        {
-            // enforce singleton:
-            if (Singleton == null)
-                Singleton = this;
-            else
-                Destroy(this.gameObject);
-        }
 
         void Start()
         {
@@ -68,7 +59,7 @@ namespace ColorManagement
 
         private void InvokeEvents()
         {
-            GameEvents.GeneratedPaletteEvent.Invoke(this.colors);
+            GameEvents.GeneratedPaletteEvent.Invoke(this.colors, playerManager.playerToLookFor);
         }
 
         private void ColorInitialCubes()
@@ -182,47 +173,62 @@ namespace ColorManagement
 
         // event handlers:
 
-        private void PerfectDropEventHandler(GameObject staticCube)
+        private void PerfectDropEventHandler(GameObject staticCube, Player sender)
         {
-            // store reference to the cube:
-            this.perfectDropCube = staticCube;
-        }
-
-        private void PerfectDropCounterUpdatedEventHandler(int count)
-        {
-            if (count >= this.emitColorsAfterPerfectDrops)
+            if (playerManager.EventShouldBeApproved(sender))
             {
-                // make material emissive:
-                MakeCubeEmissive(this.perfectDropCube.GetComponent<Renderer>());
-            } 
+                // store reference to the cube:
+                this.perfectDropCube = staticCube;
+            }
         }
 
-        private void SpawnedPlayerEventHandler(GameObject spawnedPlayer)
+        private void PerfectDropCounterUpdatedEventHandler(int count, Player sender)
         {
-            // get hierarachy:
-            IHoveringParentHierarchy hierarchy = spawnedPlayer.GetComponent<IHoveringParentHierarchy>();
-
-            // add spawned player to list:
-            this.initialCubesToColor.Add(hierarchy.Renderer);
-
-            // color again:
-            ColorInitialCubes();
+            if (playerManager.EventShouldBeApproved(sender))
+            {
+                if (count >= this.emitColorsAfterPerfectDrops)
+                {
+                    // make material emissive:
+                    MakeCubeEmissive(this.perfectDropCube.GetComponent<Renderer>());
+                }
+            }
         }
 
-        private void SlicedEventHandler(GameObject staticCube, GameObject fallingCube)
+        private void SpawnedPlayerEventHandler(GameObject spawnedPlayer, Player sender)
         {
-            ColorCube(staticCube.GetComponent<Renderer>(), ColorOrder.Current);
-            ColorCube(fallingCube.GetComponent<Renderer>(), ColorOrder.Current);
+            if (playerManager.EventShouldBeApproved(sender))
+            {
+                // get hierarachy:
+                IHoveringParentHierarchy hierarchy = spawnedPlayer.GetComponent<IHoveringParentHierarchy>();
+
+                // add spawned player to list:
+                this.initialCubesToColor.Add(hierarchy.Renderer);
+
+                // color again:
+                ColorInitialCubes();
+            }
         }
 
-        private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent)
+        private void SlicedEventHandler(GameObject staticCube, GameObject fallingCube, Player sender)
         {
-            // get hierarchy:
-            HoveringParentHierarchy hierarchy = HoveringCubeHelper.GetHierarchy(hoveringCubeParent);
+            if (playerManager.EventShouldBeApproved(sender))
+            {
+                ColorCube(staticCube.GetComponent<Renderer>(), ColorOrder.Current);
+                ColorCube(fallingCube.GetComponent<Renderer>(), ColorOrder.Current);
+            }
+        }
 
-            // get reference to cube renderer:
-            Renderer cubeRenderer = hierarchy.MeshContainer.GetComponent<Renderer>();
-            ColorCube(cubeRenderer, ColorOrder.Next);
+        private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent, Player sender)
+        {
+            if (playerManager.EventShouldBeApproved(sender))
+            {
+                // get hierarchy:
+                HoveringParentHierarchy hierarchy = HoveringCubeHelper.GetHierarchy(hoveringCubeParent);
+
+                // get reference to cube renderer:
+                Renderer cubeRenderer = hierarchy.MeshContainer.GetComponent<Renderer>();
+                ColorCube(cubeRenderer, ColorOrder.Next);
+            }
         }
 
         // coroutines:

@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class DistanceApproximator
 {
-    // helper methods:
-
     public static float ComputeHorizontalDistance(Transform transform1, Transform transform2)
     {
         Vector2 firstPos = new Vector2(

@@ -2,10 +2,13 @@ using UnityEngine;
 
 public class DroppedCubeBehavior : MonoBehaviour
 {
+    // references:
+    public PlayerManager playerManager;
+
     private void OnCollisionEnter(Collision collision)
     {
         // invoke event:
-        GameEvents.DroppedAndCollidedEvent.Invoke(this.gameObject, collision.gameObject);
+        GameEvents.DroppedAndCollidedEvent.Invoke(this.gameObject, collision.gameObject, playerManager.playerToLookFor);
 
         // remove components:
         RemoveHoveringCubeComponents();

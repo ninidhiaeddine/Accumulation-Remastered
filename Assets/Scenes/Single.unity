@@ -132,8 +132,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 62942632}
+  - component: {fileID: 62942633}
   m_Layer: 0
-  m_Name: Managers
+  m_Name: PlayerManagers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -168,9 +169,23 @@ Transform:
   - {fileID: 195368532}
   - {fileID: 1732813104}
   - {fileID: 1172827340}
+  - {fileID: 1199568525}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &62942633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 62942631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b454d522e597034681e2fb9117dd735, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerToLookFor: 0
 --- !u!1 &97772115
 GameObject:
   m_ObjectHideFlags: 0
@@ -1052,6 +1067,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 185daa200faa4e84886c482eeed96e35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1199568524
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1199568525}
+  - component: {fileID: 1199568527}
+  - component: {fileID: 1199568526}
+  m_Layer: 0
+  m_Name: DroppingController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1199568525
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199568524}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 62942632}
+  m_RootOrder: 18
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1199568526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199568524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b09c28ed6e8ac34a8dc1ca16ead529f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1199568527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199568524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b454d522e597034681e2fb9117dd735, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerToLookFor: 0
 --- !u!1 &1326652031
 GameObject:
   m_ObjectHideFlags: 0
@@ -1366,9 +1438,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a59351622758ea34e92385822e127b96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneType: 0
   playerPrefab: {fileID: 7661219852752223140, guid: 536d5fe0f7f485543b7e9b7b80b70774, type: 3}
-  positions:
-  - {x: 0, y: 5.6, z: 0}
+  singlePlayerTag: Player
+  singlePlayerPosition: {x: 0, y: 5.6, z: 0}
+  firstPlayerTag: Player1
+  secondPlayerTag: Player2
+  firstPlayerPosition: {x: 0, y: 5.6, z: 0}
+  secondPlayerPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &1733781369
 GameObject:
   m_ObjectHideFlags: 0

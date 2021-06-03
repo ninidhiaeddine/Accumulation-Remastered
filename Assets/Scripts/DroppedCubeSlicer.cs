@@ -2,23 +2,15 @@ using UnityEngine;
 
 public class DroppedCubeSlicer : MonoBehaviour, IEventHandler
 {
+    // references:
+    public PlayerManager playerManager;
+    public HoveringCubeInstantiator hoveringCubeInstantiator;
+
     public float errorMagnitude = 0.1f;
 
     // helper variables:
     public GameObject[] slicedCubes;
     private bool isGameOver = false;
-
-    // singleton:
-    public static DroppedCubeSlicer Singleton { get; private set; }
-
-    private void Awake()
-    {
-        // enforce singleton:
-        if (Singleton == null)
-            Singleton = this;
-        else
-            Destroy(this.gameObject);
-    }
 
     void Start()
     {
@@ -36,7 +28,7 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventHandler
     private void SliceDroppedCube(Transform droppedCubeTransform, Transform cubeBelowDroppedCubeTransform)
     {
         // helper variables:
-        int animIndex = HoveringCubeInstantiator.Singleton.AnimationIndex;
+        int animIndex = hoveringCubeInstantiator.AnimationIndex;
         CubeBounds cubeBelowDroppedCubeBounds = new CubeBounds(cubeBelowDroppedCubeTransform);
 
         // figure out the axis along which to slice, and value of axis:
@@ -151,53 +143,57 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventHandler
 
     private void InvokeSlicedCubesEvent(GameObject staticCube, GameObject fallingCube)
     {
-        GameEvents.SlicedEvent.Invoke(staticCube, fallingCube);
+        GameEvents.SlicedEvent.Invoke(staticCube, fallingCube, playerManager.playerToLookFor);
     }
 
     // event handlers:
 
-    private void GameOverEventHandler()
+    private void GameOverEventHandler(Player sender)
     {
-        this.isGameOver = true;
+        if (playerManager.EventShouldBeApproved(sender))
+            this.isGameOver = true;
     }
 
-    private void DroppedAndCollidedEventHandler(GameObject droppedCube, GameObject cubeBelowDroppedCube)
+    private void DroppedAndCollidedEventHandler(GameObject droppedCube, GameObject cubeBelowDroppedCube, Player sender)
     {
-        if (!isGameOver)
+        if (playerManager.EventShouldBeApproved(sender))
         {
-            if (DistanceApproximator.IsPerfectDrop(droppedCube.transform, cubeBelowDroppedCube.transform, errorMagnitude))
+            if (!isGameOver)
             {
-                // perfect drop:
+                if (DistanceApproximator.IsPerfectDrop(droppedCube.transform, cubeBelowDroppedCube.transform, errorMagnitude))
+                {
+                    // perfect drop:
 
-                // align cubes:
-                DistanceApproximator.AlignCubesHorizonally(droppedCube.transform, cubeBelowDroppedCube.transform);
+                    // align cubes:
+                    DistanceApproximator.AlignCubesHorizonally(droppedCube.transform, cubeBelowDroppedCube.transform);
 
-                // delete parents:
-                HoveringCubeHelper.DeleteParents(droppedCube);
+                    // delete parents:
+                    HoveringCubeHelper.DeleteParents(droppedCube);
 
-                // give meaningful name:
-                droppedCube.name = "StaticCube";
+                    // give meaningful name:
+                    droppedCube.name = "StaticCube";
 
-                // notify:
-                GameEvents.PerfectDropEvent.Invoke(droppedCube);
-            }
-            else
-            {
-                // retrieve hierarchy:
-                HoveringParentHierarchy hierarchy = HoveringCubeHelper.GetHierarchy(droppedCube);
-                Transform droppedCubeTransform = hierarchy.EncompassingTransform;
+                    // notify:
+                    GameEvents.PerfectDropEvent.Invoke(droppedCube, playerManager.playerToLookFor);
+                }
+                else
+                {
+                    // retrieve hierarchy:
+                    HoveringParentHierarchy hierarchy = HoveringCubeHelper.GetHierarchy(droppedCube);
+                    Transform droppedCubeTransform = hierarchy.EncompassingTransform;
 
-                // slice dropped cube
-                SliceDroppedCube(droppedCubeTransform, cubeBelowDroppedCube.transform);
+                    // slice dropped cube
+                    SliceDroppedCube(droppedCubeTransform, cubeBelowDroppedCube.transform);
 
-                // destroy hovering cube parent (as a whole, not just the parent):
-                Destroy(HoveringCubeHelper.GetRootParent(droppedCube));
+                    // destroy hovering cube parent (as a whole, not just the parent):
+                    Destroy(HoveringCubeHelper.GetRootParent(droppedCube));
 
-                // destroy temporary transform:
-                Destroy(droppedCubeTransform.gameObject);
+                    // destroy temporary transform:
+                    Destroy(droppedCubeTransform.gameObject);
 
-                // process sliced cubes:
-                ProcessAndNotifySlicedCubes();
+                    // process sliced cubes:
+                    ProcessAndNotifySlicedCubes();
+                }
             }
         }
     }

@@ -4,21 +4,13 @@ namespace ScoreManagement
 {
     public class ScoreCounter : MonoBehaviour, IEventHandler
     {
-        public int Score { get; private set; }
+        // references:
+        public PlayerManager playerManager;
 
-        // singleton:
-        public static ScoreCounter Singleton { get; private set; }
+        public int Score { get; private set; }
 
         // helper variable:
         private bool isGameOver = true;
-
-        private void Awake()
-        {
-            if (Singleton == null)
-                Singleton = this;
-            else
-                Destroy(gameObject);
-        }
 
         private void Start()
         {
@@ -34,15 +26,19 @@ namespace ScoreManagement
 
         // event Handler:
 
-        private void SlicedEventHandler(GameObject staticCube, GameObject fallingCube)
+        private void SlicedEventHandler(GameObject staticCube, GameObject fallingCube, Player sender)
         {
-            if (!isGameOver)
-                IncrementScore();
+            if (playerManager.EventShouldBeApproved(sender))
+            {
+                if (!isGameOver)
+                    IncrementScore();
+            }
         }
 
-        private void GameOverEventHandler()
+        private void GameOverEventHandler(Player sender)
         {
-            isGameOver = true;
+            if (playerManager.EventShouldBeApproved(sender))
+                isGameOver = true;
         }
 
         // interface method:

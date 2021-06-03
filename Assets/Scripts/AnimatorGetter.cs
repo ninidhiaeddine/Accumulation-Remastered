@@ -2,19 +2,12 @@ using UnityEngine;
 
 public class AnimatorGetter : MonoBehaviour, IEventHandler
 {
+    // references:
+    public PlayerManager playerManager;
+    public AnimatorSpeedManager animatorSpeedManager;
+
+    // helper variables:
     private Animator animator;
-
-    // singleton:
-    public static AnimatorGetter Singleton { get; private set; }
-
-    private void Awake()
-    {
-        // enforce singleton:
-        if (Singleton == null)
-            Singleton = this;
-        else
-            Destroy(this.gameObject);
-    }
 
     private void Start()
     {
@@ -33,32 +26,38 @@ public class AnimatorGetter : MonoBehaviour, IEventHandler
 
     private void PassAnimatorReference()
     {
-        AnimatorSpeedManager.Singleton.animator = this.animator;
+        animatorSpeedManager.animator = this.animator;
     }
 
     // event handlers:
 
-    private void SpawnedPlayerEventHandler(GameObject spawnedPlayer)
+    private void SpawnedPlayerEventHandler(GameObject spawnedPlayer, Player sender)
     {
-        // get hierarchy:
-        IHoveringParentHierarchy hierarchy = spawnedPlayer.GetComponent<IHoveringParentHierarchy>();
+        if (playerManager.EventShouldBeApproved(sender))
+        {
+            // get hierarchy:
+            IHoveringParentHierarchy hierarchy = spawnedPlayer.GetComponent<IHoveringParentHierarchy>();
 
-        // update reference to animator:
-        this.animator = hierarchy.Animator;
+            // update reference to animator:
+            this.animator = hierarchy.Animator;
 
-        // pass reference:
-        PassAnimatorReference();
+            // pass reference:
+            PassAnimatorReference();
+        }
     }
 
-    private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent)
+    private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent, Player sender)
     {
-        // get reference to hierarchy:
-        IHoveringParentHierarchy hierarchy = hoveringCubeParent.GetComponent<IHoveringParentHierarchy>();
+        if (playerManager.EventShouldBeApproved(sender))
+        {
+            // get reference to hierarchy:
+            IHoveringParentHierarchy hierarchy = hoveringCubeParent.GetComponent<IHoveringParentHierarchy>();
 
-        // update reference to animator:
-        this.animator = hierarchy.Animator;
+            // update reference to animator:
+            this.animator = hierarchy.Animator;
 
-        // pass reference:
-        PassAnimatorReference();
+            // pass reference:
+            PassAnimatorReference();
+        }
     }
 }

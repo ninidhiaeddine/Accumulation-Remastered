@@ -1,7 +1,11 @@
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour, IEventHandler
+public class DroppingController : MonoBehaviour, IEventHandler
 {
+    // references:
+    public PlayerManager playerManager;
+    public HoveringCubeTracker hoveringCubeTracker;
+
     private void Start()
     {
         InitializeEventHandlers();
@@ -18,21 +22,21 @@ public class PlayerController : MonoBehaviour, IEventHandler
 
     // event handlers:
 
-    private void SinglePlayerDroppedInputEventHandler()
+    private void SinglePlayerDroppedInputEventHandler(Player sender)
     {
-        if (transform.CompareTag("Player"))
+        if (playerManager.EventShouldBeApproved(sender))
             DropHoveringCube();
     }
 
-    private void FirstPlayerDroppedInputEventHandler()
+    private void FirstPlayerDroppedInputEventHandler(Player sender)
     {
-        if (transform.CompareTag("Player1"))
+        if (playerManager.EventShouldBeApproved(sender))
             DropHoveringCube();
     }
 
-    private void SecondPlayerDroppedInputEventHandler()
+    private void SecondPlayerDroppedInputEventHandler(Player sender)
     {
-        if (transform.CompareTag("Player2"))
+        if (playerManager.EventShouldBeApproved(sender))
             DropHoveringCube();
     }
 
@@ -40,8 +44,11 @@ public class PlayerController : MonoBehaviour, IEventHandler
 
     private void DropHoveringCube()
     {
+        // get reference to the current hovering cube:
+        GameObject hoveringCubeParent = hoveringCubeTracker.HoveringCubeParent;
+
         // get reference to the hovering parent hierarchy interface:
-        IHoveringParentHierarchy hierarchy = GetComponent<IHoveringParentHierarchy>();
+        IHoveringParentHierarchy hierarchy = hoveringCubeParent.GetComponent<IHoveringParentHierarchy>();
 
         // 1. remove animator from the hierarchy:
         hierarchy.DestroyAnimator();

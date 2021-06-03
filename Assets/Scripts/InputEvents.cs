@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class SinglePlayerDroppedInputEvent : UnityEvent { }
-public class FirstPlayerDroppedInputEvent : UnityEvent { }
-public class SecondPlayerDroppedInputEvent : UnityEvent { }
+public class SinglePlayerDroppedInputEvent : UnityEvent<Player> { }
+public class FirstPlayerDroppedInputEvent : UnityEvent<Player> { }
+public class SecondPlayerDroppedInputEvent : UnityEvent<Player> { }
 
 public class InputEvents : MonoBehaviour
 {

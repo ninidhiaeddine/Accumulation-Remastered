@@ -3,22 +3,14 @@ using UnityEngine;
 
 public class CameraSize : MonoBehaviour, IEventHandler
 {
+    // references:
+    public PlayerManager playerManager;
     public Cinemachine.CinemachineVirtualCamera virtualCamera;
+
+    // settings:
     public float minOrthographicSize = 7.0f;
     public float maxOrthographicSize = 20.0f;
     public float transitionDuration = 1.0f;
-
-    // singleton:
-    public static CameraSize Singleton { get; private set; }
-
-    private void Awake()
-    {
-        // enforce singleton:
-        if (Singleton == null)
-            Singleton = this;
-        else
-            Destroy(this.gameObject);
-    }
 
     private void Start()
     {
@@ -49,10 +41,13 @@ public class CameraSize : MonoBehaviour, IEventHandler
 
     // event handlers:
 
-    private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent)
+    private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent, Player sender)
     {
-        IHoveringParentHierarchy hierarchy = hoveringCubeParent.GetComponent<IHoveringParentHierarchy>();
-        SetOrthographicSize(hierarchy);
+        if (playerManager.EventShouldBeApproved(sender))
+        {
+            IHoveringParentHierarchy hierarchy = hoveringCubeParent.GetComponent<IHoveringParentHierarchy>();
+            SetOrthographicSize(hierarchy);
+        }
     }
 
     // coroutines

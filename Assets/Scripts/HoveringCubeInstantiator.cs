@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class HoveringCubeInstantiator : MonoBehaviour, IEventHandler
 {
+    // references:
+    public PlayerManager playerManager;
     public GameObject hoveringCubeParentPrefab;
     public Vector3 offsetFromDroppedCube;
 
@@ -10,18 +12,6 @@ public class HoveringCubeInstantiator : MonoBehaviour, IEventHandler
 
     // helper variable:
     private bool isGameOver = false;
-
-    // singleton:
-    public static HoveringCubeInstantiator Singleton { get; private set; }
-
-    private void Awake()
-    {
-        // enforce singleton:
-        if (Singleton == null)
-            Singleton = this;
-        else
-            Destroy(this.gameObject);
-    }
 
     void Start()
     {
@@ -39,27 +29,35 @@ public class HoveringCubeInstantiator : MonoBehaviour, IEventHandler
 
     // event handlers:
 
-    private void SlicedEventHandler(GameObject staticCube, GameObject fallingCube)
+    private void SlicedEventHandler(GameObject staticCube, GameObject fallingCube, Player sender)
     {
-        // only instantiate new hovering cubes when game is not over:
-        if (!isGameOver)
+        if (playerManager.EventShouldBeApproved(sender))
         {
-            InstantiateHoveringCubeAndNotify(staticCube);
+            // only instantiate new hovering cubes when game is not over:
+            if (!isGameOver)
+            {
+                InstantiateHoveringCubeAndNotify(staticCube);
+            }
+        }
+
+    }
+
+    private void PerfectDropEventHandler(GameObject staticCube, Player sender)
+    {
+        if (playerManager.EventShouldBeApproved(sender))
+        {
+            // only instantiate new hovering cubes when game is not over:
+            if (!isGameOver)
+            {
+                InstantiateHoveringCubeAndNotify(staticCube);
+            }
         }
     }
 
-    private void PerfectDropEventHandler(GameObject staticCube)
+    private void GameOverEventHandler(Player sender)
     {
-        // only instantiate new hovering cubes when game is not over:
-        if (!isGameOver)
-        {
-            InstantiateHoveringCubeAndNotify(staticCube);
-        }
-    }
-
-    private void GameOverEventHandler()
-    {
-        this.isGameOver = true;
+        if (playerManager.EventShouldBeApproved(sender))
+            this.isGameOver = true;
     }
 
     // helper methods:
@@ -111,6 +109,6 @@ public class HoveringCubeInstantiator : MonoBehaviour, IEventHandler
 
     private void UpdateHoveringParentReference(GameObject hoveringCubeParent)
     {
-        GameEvents.UpdatedHoveringParentReferenceEvent.Invoke(hoveringCubeParent);
+        GameEvents.UpdatedHoveringParentReferenceEvent.Invoke(hoveringCubeParent, playerManager.playerToLookFor);
     }
 }
