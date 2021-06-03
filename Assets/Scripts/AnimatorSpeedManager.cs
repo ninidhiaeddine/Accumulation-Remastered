@@ -3,7 +3,7 @@ using UnityEngine;
 public class AnimatorSpeedManager : MonoBehaviour
 {
     // settings:
-    public Animator animator;
+    public Animator animator { get; set; }
     public float AnimationSpeed 
     { 
         get

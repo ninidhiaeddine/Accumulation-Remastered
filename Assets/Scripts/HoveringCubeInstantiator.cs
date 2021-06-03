@@ -66,6 +66,7 @@ public class HoveringCubeInstantiator : MonoBehaviour, IEventHandler
     {
         GameObject newHoveringCubeParent = InstantiateHoveringCubeParent(staticCube);
         SetRandomAnimation(newHoveringCubeParent);
+        SetPlayerManagerReference(newHoveringCubeParent);
         UpdateHoveringParentReference(newHoveringCubeParent);
     }
 
@@ -105,6 +106,18 @@ public class HoveringCubeInstantiator : MonoBehaviour, IEventHandler
 
         // set animation:
         animator.SetInteger("index", AnimationIndex);
+    }
+
+    private void SetPlayerManagerReference(GameObject hoveringCubeParent)
+    {
+        // get hierarchy:
+        IHoveringParentHierarchy hierarchy = hoveringCubeParent.GetComponent<IHoveringParentHierarchy>();
+
+        // get script reference:
+        DroppedCubeBehavior script = hierarchy.MeshContainer.GetComponent<DroppedCubeBehavior>();
+
+        // set reference:
+        script.playerManager = this.playerManager;
     }
 
     private void UpdateHoveringParentReference(GameObject hoveringCubeParent)

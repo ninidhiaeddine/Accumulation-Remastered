@@ -9,7 +9,7 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventHandler
     public float errorMagnitude = 0.1f;
 
     // helper variables:
-    public GameObject[] slicedCubes;
+    private GameObject[] slicedCubes;
     private bool isGameOver = false;
 
     void Start()

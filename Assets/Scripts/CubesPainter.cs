@@ -43,7 +43,6 @@ namespace ColorManagement
 
         public void InitializeEventHandlers()
         {
-            GameEvents.SpawnedPlayerEvent.AddListener(SpawnedPlayerEventHandler);
             GameEvents.SlicedEvent.AddListener(SlicedEventHandler);
             GameEvents.PerfectDropEvent.AddListener(PerfectDropEventHandler);
             GameEvents.PerfectDropCounterUpdatedEvent.AddListener(PerfectDropCounterUpdatedEventHandler);
@@ -64,10 +63,6 @@ namespace ColorManagement
 
         private void ColorInitialCubes()
         {
-            // only color when count is equal or greater than 2:
-            if (initialCubesToColor.Count < 2)
-                return;
-
             for (int i = 0; i < initialCubesToColor.Count; i++)
             {
                 StartCoroutine(LerpCubeColor(
@@ -191,21 +186,6 @@ namespace ColorManagement
                     // make material emissive:
                     MakeCubeEmissive(this.perfectDropCube.GetComponent<Renderer>());
                 }
-            }
-        }
-
-        private void SpawnedPlayerEventHandler(GameObject spawnedPlayer, Player sender)
-        {
-            if (playerManager.EventShouldBeApproved(sender))
-            {
-                // get hierarachy:
-                IHoveringParentHierarchy hierarchy = spawnedPlayer.GetComponent<IHoveringParentHierarchy>();
-
-                // add spawned player to list:
-                this.initialCubesToColor.Add(hierarchy.Renderer);
-
-                // color again:
-                ColorInitialCubes();
             }
         }
 

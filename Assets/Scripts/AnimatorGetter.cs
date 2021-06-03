@@ -6,19 +6,26 @@ public class AnimatorGetter : MonoBehaviour, IEventHandler
     public PlayerManager playerManager;
     public AnimatorSpeedManager animatorSpeedManager;
 
+    public Animator initalAnimator;
+
     // helper variables:
     private Animator animator;
 
     private void Start()
     {
+        InitializeAnimatorReference();
         InitializeEventHandlers();
+    }
+
+    private void InitializeAnimatorReference()
+    {
+        this.animator = initalAnimator;
     }
 
     // interface methods:
 
     public void InitializeEventHandlers()
     {
-        GameEvents.SpawnedPlayerEvent.AddListener(SpawnedPlayerEventHandler);
         GameEvents.UpdatedHoveringParentReferenceEvent.AddListener(UpdatedHoveringParentReferenceEventHandler);
     }
 
@@ -30,21 +37,6 @@ public class AnimatorGetter : MonoBehaviour, IEventHandler
     }
 
     // event handlers:
-
-    private void SpawnedPlayerEventHandler(GameObject spawnedPlayer, Player sender)
-    {
-        if (playerManager.EventShouldBeApproved(sender))
-        {
-            // get hierarchy:
-            IHoveringParentHierarchy hierarchy = spawnedPlayer.GetComponent<IHoveringParentHierarchy>();
-
-            // update reference to animator:
-            this.animator = hierarchy.Animator;
-
-            // pass reference:
-            PassAnimatorReference();
-        }
-    }
 
     private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent, Player sender)
     {
