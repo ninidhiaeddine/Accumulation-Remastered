@@ -227,9 +227,9 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.5
+    x: 0.502
     y: 0
-    width: 0.5
+    width: 0.498
     height: 1
   near clip plane: 1
   far clip plane: 1000
@@ -799,7 +799,7 @@ Camera:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 0.5
+    width: 0.498
     height: 1
   near clip plane: 1
   far clip plane: 1000
@@ -1402,6 +1402,14 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1883850572622014434, guid: 6bff9175abafa8645ba236b3dbe5c68a, type: 3}
+      propertyPath: saturation
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 1883850572622014434, guid: 6bff9175abafa8645ba236b3dbe5c68a, type: 3}
+      propertyPath: numberOfColors
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1883850572622014434, guid: 6bff9175abafa8645ba236b3dbe5c68a, type: 3}
       propertyPath: initialCubesToColor.Array.data[0]
       value: 
       objectReference: {fileID: 212223237}
@@ -1577,6 +1585,14 @@ PrefabInstance:
     - target: {fileID: 1883850572328822203, guid: 6bff9175abafa8645ba236b3dbe5c68a, type: 3}
       propertyPath: playerDropKeyBindings.Array.data[1]
       value: 323
+      objectReference: {fileID: 0}
+    - target: {fileID: 1883850572622014434, guid: 6bff9175abafa8645ba236b3dbe5c68a, type: 3}
+      propertyPath: saturation
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 1883850572622014434, guid: 6bff9175abafa8645ba236b3dbe5c68a, type: 3}
+      propertyPath: numberOfColors
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1883850572622014434, guid: 6bff9175abafa8645ba236b3dbe5c68a, type: 3}
       propertyPath: initialCubesToColor.Array.data[0]
