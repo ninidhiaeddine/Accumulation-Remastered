@@ -1357,6 +1357,10 @@ PrefabInstance:
       propertyPath: hoveringCubePrefab
       value: 
       objectReference: {fileID: 7661219852752223140, guid: 536d5fe0f7f485543b7e9b7b80b70774, type: 3}
+    - target: {fileID: 1883850571295055628, guid: 6bff9175abafa8645ba236b3dbe5c68a, type: 3}
+      propertyPath: camera
+      value: 
+      objectReference: {fileID: 39485566}
     - target: {fileID: 1883850571496959984, guid: 6bff9175abafa8645ba236b3dbe5c68a, type: 3}
       propertyPath: virtualCamera
       value: 
@@ -1498,6 +1502,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1883850571295055628, guid: 6bff9175abafa8645ba236b3dbe5c68a, type: 3}
+      propertyPath: camera
+      value: 
+      objectReference: {fileID: 665250494}
     - target: {fileID: 1883850571295055630, guid: 6bff9175abafa8645ba236b3dbe5c68a, type: 3}
       propertyPath: m_IsActive
       value: 1

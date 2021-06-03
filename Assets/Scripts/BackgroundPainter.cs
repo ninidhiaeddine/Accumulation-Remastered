@@ -8,6 +8,7 @@ namespace ColorManagement
     {
         // references:
         public PlayerManager playerManager;
+        public Camera camera;
 
         [Header("HSV Settings")]
         public float hueToAdd = 0.0f;
@@ -54,13 +55,13 @@ namespace ColorManagement
 
         private void PaintBackgroundAndFogColor(Color color)
         {
-            Color startColor = Camera.main.backgroundColor;
+            Color startColor = this.camera.backgroundColor;
             StartCoroutine(LerpBackgroundAndFogColor(startColor, color, this.transitionDuration));
         }
 
         private void SetBackgroundColor(Color color)
         {
-            Camera.main.backgroundColor = color;
+            this.camera.backgroundColor = color;
         }
 
         private void SetFogColor(Color color)
