@@ -4,7 +4,8 @@ public enum Player
 {
     SinglePlayer,
     Player1,
-    Player2
+    Player2,
+    AI
 };
 
 public class PlayerManager : MonoBehaviour
@@ -22,6 +23,8 @@ public class PlayerManager : MonoBehaviour
                 return "Player1";
             case Player.Player2:
                 return "Player2";
+            case Player.AI:
+                return "AI";
             default:
                 throw new System.Exception("Unexpected Player Enum Value!");
         }

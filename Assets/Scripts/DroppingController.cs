@@ -18,6 +18,7 @@ public class DroppingController : MonoBehaviour, IEventHandler
         InputEvents.SinglePlayerDroppedInputEvent.AddListener(SinglePlayerDroppedInputEventHandler);
         InputEvents.FirstPlayerDroppedInputEvent.AddListener(FirstPlayerDroppedInputEventHandler);
         InputEvents.SecondPlayerDroppedInputEvent.AddListener(SecondPlayerDroppedInputEventHandler);
+        InputEvents.AIPlayerDroppedInputEvent.AddListener(AIPlayerDroppedInputEventHandler);
     }
 
     // event handlers:
@@ -39,6 +40,14 @@ public class DroppingController : MonoBehaviour, IEventHandler
     }
 
     private void SecondPlayerDroppedInputEventHandler(Player sender)
+    {
+        if (playerManager.EventShouldBeApproved(sender))
+        {
+            DropHoveringCube();
+        }
+    }
+
+    private void AIPlayerDroppedInputEventHandler(Player sender)
     {
         if (playerManager.EventShouldBeApproved(sender))
         {

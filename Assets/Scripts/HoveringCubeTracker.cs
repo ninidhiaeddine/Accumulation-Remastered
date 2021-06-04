@@ -7,13 +7,15 @@ public class HoveringCubeTracker : MonoBehaviour, IEventHandler
 
     [SerializeField]
     private GameObject initialHoveringCubeParent;
+    private GameObject initialCubeBeneathHoveringCube;
 
     [HideInInspector]
     public GameObject HoveringCubeParent { get; private set; }
+    public GameObject CubeBeneathHoveringCube { get; private set; }
 
     private void Start()
     {
-        InitializeParentReference();
+        InitializeCubesReferences();
         InitializeEventHandlers();
     }
 
@@ -22,18 +24,16 @@ public class HoveringCubeTracker : MonoBehaviour, IEventHandler
     public void InitializeEventHandlers()
     {
         GameEvents.UpdatedHoveringParentReferenceEvent.AddListener(UpdatedHoveringParentReferenceEventHandler);
+        GameEvents.SlicedEvent.AddListener(SlicedEventHandler);
+        GameEvents.PerfectDropEvent.AddListener(PerfectDropEventHandler);
     }
 
     // helper methods:
 
-    private void InitializeParentReference()
+    private void InitializeCubesReferences()
     {
         this.HoveringCubeParent = initialHoveringCubeParent;
-    }
-
-    private void UpdateParentReference(GameObject hoveringCubeParent)
-    {
-        this.HoveringCubeParent = hoveringCubeParent;
+        this.CubeBeneathHoveringCube = initialCubeBeneathHoveringCube;
     }
 
     // event handlers:
@@ -41,6 +41,18 @@ public class HoveringCubeTracker : MonoBehaviour, IEventHandler
     private void UpdatedHoveringParentReferenceEventHandler(GameObject hoveringCubeParent, Player sender)
     {
         if (playerManager.EventShouldBeApproved(sender))
-            UpdateParentReference(hoveringCubeParent);
+            this.HoveringCubeParent = hoveringCubeParent;
+    }
+
+    private void SlicedEventHandler(GameObject staticCube, GameObject fallingCube, Player sender)
+    {
+        if (playerManager.EventShouldBeApproved(sender))
+            this.CubeBeneathHoveringCube = staticCube;
+    }
+
+    private void PerfectDropEventHandler(GameObject staticCube, Player sender)
+    {
+        if (playerManager.EventShouldBeApproved(sender))
+            this.CubeBeneathHoveringCube = staticCube;
     }
 }
