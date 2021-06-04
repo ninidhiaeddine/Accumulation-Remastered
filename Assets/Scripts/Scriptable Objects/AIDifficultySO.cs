@@ -6,5 +6,7 @@ public class AIDifficultySO : ScriptableObject
     public AIDifficulty aiDifficulty;
     public float minErrorMagnitude;
     public float maxErrorMagnitude;
-    [Range(0.0f, 1.0f)] public float missingProbability;
+
+    [Range(0.0f, 1.0f)]
+    public float missingProbability = 0.5f;
 }
