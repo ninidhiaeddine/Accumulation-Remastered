@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class DistanceApproximator
 {
-    public static float ComputeHorizontalDistance(Transform transform1, Transform transform2)
+    public static float ComputeHorizontalDistance(Vector3 position1, Vector3 position2)
     {
         Vector2 firstPos = new Vector2(
-            transform1.transform.position.x,
-            transform1.transform.position.z
+            position1.x,
+            position1.z
             );
         Vector2 secondPos = new Vector2(
-            transform2.transform.position.x,
-            transform2.transform.position.z
+            position2.x,
+            position2.z
             );
         return Vector2.Distance(firstPos, secondPos);
     }
@@ -32,8 +32,8 @@ public class DistanceApproximator
         droppedCubeTransform.position = droppedCubeNewPos;
     }
 
-    public static bool IsPerfectDrop(Transform droppedCubeTransform, Transform cubeBelowDroppedCubeTransform, float errorMagnitude)
+    public static bool IsPerfectDrop(Vector3 droppedCubePos, Vector3 cubeBelowDroppedCubePos, float errorMagnitude)
     {
-        return (ComputeHorizontalDistance(droppedCubeTransform, cubeBelowDroppedCubeTransform) <= errorMagnitude);
+        return (ComputeHorizontalDistance(droppedCubePos, cubeBelowDroppedCubePos) <= errorMagnitude);
     }
 }

@@ -7,6 +7,7 @@ public class HoveringCubeTracker : MonoBehaviour, IEventHandler
 
     [SerializeField]
     private GameObject initialHoveringCubeParent;
+    [SerializeField]
     private GameObject initialCubeBeneathHoveringCube;
 
     [HideInInspector]

@@ -160,7 +160,7 @@ public class DroppedCubeSlicer : MonoBehaviour, IEventHandler
         {
             if (!isGameOver)
             {
-                if (DistanceApproximator.IsPerfectDrop(droppedCube.transform, cubeBelowDroppedCube.transform, errorMagnitude))
+                if (DistanceApproximator.IsPerfectDrop(droppedCube.transform.position, cubeBelowDroppedCube.transform.position, errorMagnitude))
                 {
                     // perfect drop:
 
