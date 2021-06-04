@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 749bad92a8ac5b44198f979cbfebcad0, type: 3}
   m_Name: IntermediateAIDiffuclty
   m_EditorClassIdentifier: 
-  aiDifficulty: 1
   minErrorMagnitude: 0
   maxErrorMagnitude: 3
-  missingProbability: 0.33
+  missingProbability: 0.58

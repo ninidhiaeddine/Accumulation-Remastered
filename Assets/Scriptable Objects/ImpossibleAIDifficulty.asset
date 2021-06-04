@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 749bad92a8ac5b44198f979cbfebcad0, type: 3}
   m_Name: ImpossibleAIDifficulty
   m_EditorClassIdentifier: 
-  aiDifficulty: 2
   minErrorMagnitude: 0
   maxErrorMagnitude: 0.05
   missingProbability: 0

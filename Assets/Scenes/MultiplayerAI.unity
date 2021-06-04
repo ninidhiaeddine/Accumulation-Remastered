@@ -1003,7 +1003,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerManager: {fileID: 1061061030}
   hoveringCubeTracker: {fileID: 775670754}
-  aiDifficultySO: {fileID: 11400000, guid: c6cd051b0fd2e76468dd3c46a1bf1929, type: 2}
+  aiDifficultySO: {fileID: 11400000, guid: 6351800b05c4a514aa64fa178a1b2066, type: 2}
   aiDifficultySOSelector: {fileID: 877272744}
 --- !u!95 &1637767237
 Animator:

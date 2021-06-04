@@ -20,7 +20,7 @@ public class AIController : MonoBehaviour
         InitializeFSM();
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         float distance = ComputeDistanceBetweenCubes();
         bool isWithinDroppingDistance = CheckWithinDroppingDistance(distance);

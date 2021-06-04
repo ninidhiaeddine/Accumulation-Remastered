@@ -10,6 +10,9 @@ public class DroppingState : StateMachineBehaviour
         // get reference to ai controller:
         AIController aiController = animator.gameObject.GetComponent<AIController>();
         aiController.DropAIHoveringCube();
+
+        // set fsm state:
+        animator.SetBool("ShouldDrop", false);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

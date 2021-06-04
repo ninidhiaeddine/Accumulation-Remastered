@@ -7,7 +7,7 @@ public class WithinDroppingDistanceState : StateMachineBehaviour
     {
         // figure out whether it should miss:
         float missingProbability = animator.GetFloat("MissingProbability");
-        bool shouldMiss = !RandomBooleanGenerator.GenerateRandomBoolean(missingProbability);
+        bool shouldMiss = RandomBooleanGenerator.GenerateRandomBoolean(missingProbability);
 
         // set value:
         animator.SetBool("ShouldMiss", shouldMiss);
@@ -27,9 +27,12 @@ public class WithinDroppingDistanceState : StateMachineBehaviour
     {
         float distance = animator.GetFloat("Distance");
         float distanceToDrop = animator.GetFloat("DistanceToDrop");
+        bool isWithinDroppingDistance = animator.GetBool("IsWithinDroppingDistance");
 
-        if (distance <= distanceToDrop)
-            animator.SetTrigger("Drop");
+        if (isWithinDroppingDistance && distance <= distanceToDrop)
+        {
+            animator.SetBool("ShouldDrop", true);
+        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

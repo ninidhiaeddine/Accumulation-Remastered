@@ -218,7 +218,7 @@ namespace ColorManagement
             float t = 0.0f;
             Color output;
 
-            while (t < 1)
+            while (t < 1 && cubeRenderer != null)
             {
                 // lerp color:
                 output = Color.Lerp(startColor, endColor, t);
