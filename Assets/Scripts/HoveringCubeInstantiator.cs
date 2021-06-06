@@ -36,7 +36,7 @@ public class HoveringCubeInstantiator : MonoBehaviour, IEventHandler
             // only instantiate new hovering cubes when game is not over:
             if (!isGameOver)
             {
-                InstantiateHoveringCubeAndNotify(staticCube);
+                InstantiateHoveringCubeAndNotify(staticCube, sender);
             }
         }
 
@@ -49,7 +49,7 @@ public class HoveringCubeInstantiator : MonoBehaviour, IEventHandler
             // only instantiate new hovering cubes when game is not over:
             if (!isGameOver)
             {
-                InstantiateHoveringCubeAndNotify(staticCube);
+                InstantiateHoveringCubeAndNotify(staticCube, sender);
             }
         }
     }
@@ -62,9 +62,33 @@ public class HoveringCubeInstantiator : MonoBehaviour, IEventHandler
 
     // helper methods:
 
-    private void InstantiateHoveringCubeAndNotify(GameObject staticCube)
+    private void SetTag(GameObject gameObject, Player sender)
+    {
+        string tag = "";
+        switch (sender)
+        {
+            case Player.SinglePlayer:
+                tag = "Player";
+                break;
+            case Player.Player1:
+                tag = "Player1";
+                break;
+            case Player.Player2:
+                tag = "Player2";
+                break;
+            case Player.AI:
+                tag = "PlayerAI";
+                break;
+            default:
+                break;
+        }
+        gameObject.tag = tag;
+    }
+
+    private void InstantiateHoveringCubeAndNotify(GameObject staticCube, Player sender)
     {
         GameObject newHoveringCubeParent = InstantiateHoveringCubeParent(staticCube);
+        SetTag(newHoveringCubeParent, sender);
         IHoveringParentHierarchy hierarchy = newHoveringCubeParent.GetComponent<IHoveringParentHierarchy>();
         SetRandomAnimation(hierarchy);
         SetPlayerManagerReference(hierarchy);
